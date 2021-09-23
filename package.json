@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/ably-labs/fully-featured-scalable-chat-app"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/ably-labs/fully-featured-scalable-chat-app/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/ably-labs/fully-featured-scalable-chat-app#readme",
   "devDependencies": {
     "snowpack": "^3.8.8"
   }
