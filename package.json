@@ -1,0 +1,23 @@
+{
+  "name": "fully-featured-scalable-chat-app",
+  "version": "1.0.0",
+  "description": "a fully featured scalable chat app",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx snowpack dev",
+    "build": "npx snowpack build"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "snowpack": "^3.8.8"
+  }
+}

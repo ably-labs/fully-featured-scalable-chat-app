@@ -1,0 +1,12 @@
+{
+    "devOptions:": {
+        "out ": "dist"
+    },
+    "buildOptions:": {
+        "clean ": true
+    },
+    "mount": {
+        "app": "/"
+    },
+    "plugins": []
+}
