@@ -6,7 +6,11 @@
         "clean ": true
     },
     "mount": {
-        "app": "/"
+        "app/public": "/",
+        "app/src": "/dist"
     },
-    "plugins": []
+    "plugins": [
+        "@snowpack/plugin-react-refresh",
+        "@snowpack/plugin-dotenv"
+    ]
 }
