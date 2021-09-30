@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import Button from "./components/Button";
+import headerImage from "./logo.png";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const loginUser = () => {
+    console.log("login clicked");
+  };
+  const signUpUser = () => {
+    console.log("sign up clicked");
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="container">
+      <header className="header">
+        <img src={headerImage} className="header-image" alt="logo" />
       </header>
+      <div className="auth-btns">
+        <Button text={"Create an account"} onClick={signUpUser} />
+        <div className="separator">or</div>
+        <Button text={"Sign in"} onClick={loginUser} />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
