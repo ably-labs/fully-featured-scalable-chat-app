@@ -1,30 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import TypeScriptComponent from './TypeScriptComponent';
+import React from "react";
+import ReactDOM from "react-dom";
+import Button from "./components/Button";
+import headerImage from "./logo.png";
+import "./App.css";
 
-import logo from './logo.svg';
-import './App.css';
+const App = () => {
+  const loginUser = () => {
+    console.log("login clicked");
+  };
+  const signUpUser = () => {
+    console.log("sign up clicked");
+  };
 
-function App() {
-    // Create the count state.
-    const [count, setCount] = useState(0);
-    // Update the count (+1 every second).
-    useEffect(() => {
-        const timer = setTimeout(() => setCount(count + 1), 1000);
-        return () => clearTimeout(timer);
-    }, [count, setCount]);
-    // Return the App component.
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Page has been open for <code>{count}</code> seconds.
-                </p>
-                <TypeScriptComponent></TypeScriptComponent>
-
-            </header>
-        </div>
-    );
-}
+  return (
+    <div className="container">
+      <header className="header">
+        <img src={headerImage} className="header-image" alt="logo" />
+      </header>
+      <div className="auth-btns">
+        <Button text={"Create an account"} onClick={signUpUser} />
+        <div className="separator">or</div>
+        <Button text={"Sign in"} onClick={loginUser} />
+      </div>
+    </div>
+  );
+};
 
 export default App;
