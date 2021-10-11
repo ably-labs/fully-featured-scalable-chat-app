@@ -1,0 +1,20 @@
+header {
+    padding: 1rem;
+    text-align: center;
+    background-color: var(--primary);
+}
+
+h1 {
+    color: var(--primary-text);
+    font-size: 1.6rem;
+}
+
+h2 {
+    font-size: 0.8rem;
+    color: var(--primary-text);
+}
+
+img {
+    max-height: 200px;
+    margin: 1rem;
+}

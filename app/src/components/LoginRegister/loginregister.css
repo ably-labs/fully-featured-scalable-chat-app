@@ -1,0 +1,35 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+button {
+    width: 80%;
+    margin: 1rem;
+    padding: 1rem;
+    border: 0;
+    border-radius: var(--spacer);
+    font-size: 1.2rem;
+    background-color: var(--primary);
+    color: var(--primary-text);
+}
+
+span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80%;
+    margin: 1rem;
+}
+
+span::before, 
+span::after  {
+    content: "";
+    display: block;
+    height: 2px;
+    width: 42%;
+    background-color: var(--primary);
+}
