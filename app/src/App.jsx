@@ -3,14 +3,10 @@ import ReactDOM from "react-dom";
 import Button from "./components/Button";
 import headerImage from "./logo.png";
 import "./App.css";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const App = () => {
-  const loginUser = () => {
-    console.log("login clicked");
-  };
-  const signUpUser = () => {
-    console.log("sign up clicked");
-  };
+  const { loginWithRedirect } = useAuth0();
 
   return (
     <div className="container">
@@ -18,9 +14,10 @@ const App = () => {
         <img src={headerImage} className="header-image" alt="logo" />
       </header>
       <div className="auth-btns">
-        <Button text={"Create an account"} onClick={signUpUser} />
+        {/* Both the buttons do the same currently */}
+        <Button text={"Create an account"} onClick={() => loginWithRedirect()} />
         <div className="separator">or</div>
-        <Button text={"Sign in"} onClick={loginUser} />
+        <Button text={"Sign in"} onClick={() => loginWithRedirect()} />
       </div>
     </div>
   );

@@ -1,13 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-
 import App from "./App.jsx";
+import { Auth0Provider } from "@auth0/auth0-react";
+import Auth0ClientCredentials from "./clientConfig";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Auth0Provider domain={Auth0ClientCredentials.domain} clientId={Auth0ClientCredentials.clientId} redirectUri={window.location.origin}>
+    <App />,
+  </Auth0Provider>,
   document.getElementById("root")
 );
 
