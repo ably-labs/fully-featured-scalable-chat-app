@@ -1,24 +1,39 @@
-const Auth0ServerCredentials = require("./serverConfig");
-var express = require("express");
-var app = express();
-var jwt = require("express-jwt");
+const SERVER_CREDENTIALS = require("./serverConfig");
+const express = require("express");
+const app = express();
+const jwt = require("express-jwt");
+const cors = require("cors");
+const Ably = require("ably");
 
-var port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
-var jwtCheck = jwt({
-  secret: Auth0ServerCredentials.secret,
-  audience: Auth0ServerCredentials.audience,
-  issuer: Auth0ServerCredentials.issuer,
-  algorithms: Auth0ServerCredentials.alogorithms,
+const myJwt = {
+  secret: SERVER_CREDENTIALS.auth0.secret,
+  audience: SERVER_CREDENTIALS.auth0.audience,
+  issuer: SERVER_CREDENTIALS.auth0.issuer,
+  algorithms: SERVER_CREDENTIALS.auth0.algorithms,
+};
+
+const jwtCheck = jwt(myJwt);
+
+const ablyRestClient = new Ably.Rest({
+  key: SERVER_CREDENTIALS.ably.apiKey,
 });
 
-console.log(Auth0ServerCredentials);
-
-// enforce on all endpoints
+app.use(cors());
 app.use(jwtCheck);
 
 app.get("/authorized", function (req, res) {
-  res.send("Secured Resource");
+  res.header("Access-Control-Allow-Origin", "*");
+  const tokenParams = {};
+  ablyRestClient.auth.createTokenRequest(tokenParams, function (err, tokenRequest) {
+    if (err) {
+      res.status(500).send("Error requesting token: " + JSON.stringify(err));
+    } else {
+      res.setHeader("Content-Type", "application/json");
+      res.send(JSON.stringify(tokenRequest));
+    }
+  });
 });
 
 app.listen(port);

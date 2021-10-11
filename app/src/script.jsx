@@ -6,7 +6,12 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import Auth0ClientCredentials from "./clientConfig";
 
 ReactDOM.render(
-  <Auth0Provider domain={Auth0ClientCredentials.domain} clientId={Auth0ClientCredentials.clientId} redirectUri={window.location.origin}>
+  <Auth0Provider
+    domain={Auth0ClientCredentials.domain}
+    clientId={Auth0ClientCredentials.clientId}
+    redirectUri={window.location.origin}
+    audience={Auth0ClientCredentials.audience}
+  >
     <App />,
   </Auth0Provider>,
   document.getElementById("root")
