@@ -1,0 +1,1 @@
+export type Entity = { id: string; type: string; };
