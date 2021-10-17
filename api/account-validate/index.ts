@@ -10,7 +10,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     const { success, token } = validateJwt(jwtText);
 
     if (!success) {
-        context.res = { status: 401, body: JSON.stringify({ success: false, reason: "Token failed to validate" })};
+        context.res = { status: 401, body: JSON.stringify({ success: false, reason: "Token failed to validate", token })};
         return;
     }
 
