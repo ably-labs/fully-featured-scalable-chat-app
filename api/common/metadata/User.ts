@@ -1,4 +1,5 @@
 import * as bcrypt from "bcrypt";
+import { Entity } from "../dataaccess/IMetadataRepository";
 
 export interface IUser {    
     id: string;
@@ -8,15 +9,19 @@ export interface IUser {
     passwordHash: string;
 }
 
-export class User implements IUser {
+export class User implements IUser, Entity {
     
     public id: string;
+
     public username: string;
     public firstName: string;
     public lastName: string;
     public passwordHash: string;
+    
+    public readonly type: string;
 
-    constructor() {        
+    constructor() {      
+        this.type = "User";  
     }
 
     public static fromRegistrationForm(registration: any): User {

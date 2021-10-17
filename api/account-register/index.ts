@@ -1,6 +1,6 @@
 import "../startup";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions"
-import { CosmosDbMetadataRepository } from "../common/CosmosDbMetadataRepository";
+import { CosmosDbMetadataRepository } from "../common/dataaccess/CosmosDbMetadataRepository";
 import { User } from "../common/metadata/User";
 import * as Validator from 'validatorjs';
 
@@ -15,17 +15,17 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         context.res = { status: 400, body: JSON.stringify(validation.errors.all())};
         return;
     }
-
+    
     const repository = new CosmosDbMetadataRepository();
-    const existing = await repository.getByProperty("/username", data.username);
+    const existing = await repository.getByProperty<User>("User", "username", data.username);
 
-    if (existing !== null) { 
+    if (existing?.length != 0) { 
         context.res = { status: 400, body: JSON.stringify({"username":["This username is not available."]})};
         return;
     }
 
     const user = User.fromRegistrationForm(data);
-    const result = await repository.saveOrUpdate(user);
+    const result = await repository.saveOrUpdate<User>(user);
 
     context.res = { status: 200, body: "reged" + process.env.FOO };
 };
