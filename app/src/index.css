@@ -8,50 +8,11 @@
 
 body {
   font-family: "Poppins", sans-serif;
+  height: 100vh;
 }
 
-.container {
-  width: 100%;
-  margin: auto;
-  overflow: auto;
-  min-height: 300px;
-}
-
-.header {
-  width: 100%;
-  padding: 30px;
-  text-align: center;
-  background-color: #1c1018;
-}
-
-.header-image {
-  width: 70%;
-}
-
-.btn {
-  display: block;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: auto;
-  border-radius: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 18px;
-  font-family: inherit;
-  width: 60%;
-}
-
-.btn:focus {
-  outline: none;
-}
-
-.btn:active {
-  transform: scale(0.98);
-}
-
-.btn-block {
-  display: block;
-  width: 100%;
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
