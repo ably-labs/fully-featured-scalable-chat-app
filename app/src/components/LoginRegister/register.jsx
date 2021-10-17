@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import "./loginregister.css";
+import { BffApiClient } from "../../sdk/BffApiClient";
+import { useAuth } from "../../AppProviders";
 
 const Register = () => {
+
+  const { auth, onLoginSuccess } = useAuth();  
 
   const [ username, setUsername ] = useState("");
   const [ firstName, setFirstName ] = useState("");
@@ -10,24 +14,20 @@ const Register = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formSubmission = { username, firstName, lastName: surname, password };
-    const result = await fetch("/api/account/register", {  
-        method: "POST",
-        headers: {},
-        body: JSON.stringify(formSubmission)
-      }
-    );
 
-    if (result.status !== 200) {
+    const client = new BffApiClient();
+    const { success, token, userDetails } = await client.register(username, firstName, surname, password);
+
+    if (!success) {
       console.log("Oh no!");
     } else {
-      console.log("Success!");
+      onLoginSuccess(token, userDetails);
     }
   };
 
   return (
-    <main>
-      <form className="loginregister" onSubmit={handleSubmit}>
+    <main className="loginregister">
+      <form className="loginregister-form" onSubmit={handleSubmit}>
         <h2 className="loginregister-title">Create an Account</h2>
         <label className="loginregister-label">
           <span className="loginregister-label-text">username</span>

@@ -7,7 +7,6 @@ const Header = () => {
     <header>
         <img src={logo} alt="logo" />
         <h1>Fully Featured Scalable Chat</h1>
-        <h2>Powered by Ably</h2>
     </header>
   );
 };

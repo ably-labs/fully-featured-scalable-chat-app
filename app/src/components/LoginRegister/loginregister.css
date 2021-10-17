@@ -1,4 +1,4 @@
-main {
+.loginregister {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,7 +9,8 @@ main {
     flex-grow: 1;
 }
 
-a, button {
+.loginregister a, 
+.loginregister button {
     width: 100%;
     padding: 1rem;
     border: 0;
@@ -19,6 +20,11 @@ a, button {
     text-decoration: none;
     background-color: var(--primary);
     color: var(--primary-text);
+}
+
+.loginregister a:hover, 
+.loginregister button:hover {
+    background-color: var(--primary-active);
 }
 
 .hr {
@@ -38,7 +44,7 @@ a, button {
     background-color: var(--primary);
 }
 
-.loginregister {
+.loginregister-form {
     width: 100%;
     margin: 0 auto;
 }

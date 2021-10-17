@@ -1,6 +1,8 @@
 :root {
   --primary: #000;
+  --primary-active: MidnightBlue;
   --primary-text: #fff;
+  --secondary: #eee;
 
   --max-width-form: 400px;
   --spacer: .5rem;
@@ -10,3 +12,4 @@
   display: flex;
   flex-wrap: wrap;
 }
+

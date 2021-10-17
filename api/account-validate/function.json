@@ -1,14 +1,12 @@
 {
   "bindings": [
     {
+      "route": "account/validate",
       "authLevel": "function",
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": [
-        "get",
-        "post"
-      ]
+      "methods": [ "get" ]
     },
     {
       "type": "http",
@@ -16,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/hello/index.js"
+  "scriptFile": "../dist/account-validate/index.js"
 }

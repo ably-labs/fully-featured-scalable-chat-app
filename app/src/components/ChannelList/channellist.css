@@ -1,0 +1,12 @@
+.channellist {
+    background-color: var(--secondary);
+}
+
+.channellist ul {
+    margin: 0;
+    padding: 0;
+}
+
+.channellist li {
+    list-style: none;
+}

@@ -4,17 +4,17 @@ header {
     background-color: var(--primary);
 }
 
-h1 {
+header h1 {
     color: var(--primary-text);
     font-size: 1.6rem;
 }
 
-h2 {
+header h2 {
     font-size: 0.8rem;
     color: var(--primary-text);
 }
 
-img {
+header img {
     max-height: 200px;
     margin: 1rem;
 }
@@ -26,11 +26,11 @@ img {
         padding: 0;
     }
 
-    img {
+    header img {
         max-height: 50px;
     }
     
-    h2 {
+    header h2 {
         margin-left: auto;
         margin-right: 1rem;
     }

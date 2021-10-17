@@ -1,7 +1,9 @@
-import * as React from 'react'
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React, { useContext, createContext, useState } from "react";
+import { userPersistentState } from './hooks/usePersistentState';
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BffApiClient } from "./sdk/BffApiClient";
 
-const AuthContext = React.createContext();
+const AuthContext = createContext();
 
 function AppProviders({children}) {
   return (
@@ -12,25 +14,39 @@ function AppProviders({children}) {
 }
 
 function AuthProvider(props) {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
 
-  const auth = { 
-    isAuthenticated: isAuthenticated
+  const [auth, setAuthState] = userPersistentState("auth", {
+    isAuthenticated: false,
+    userDetails: null,
+    token: null,
+  });
+
+  const onLoginSuccess = (token, userDetails) => {
+    setAuthState({ isAuthenticated: true, userDetails, token });
+    window.location.href = "/"; // TODO: What's the react way to do this?
   };
 
-  const onLoginSuccess = () => {
-    setIsAuthenticated(true);
-  };
+  const logout = () => {
+    setAuthState({ isAuthenticated: false, userDetails: null, token: null });
+    window.location.href = "/"; // TODO: What's the react way to do this?
+  } 
 
-  const register = () => {} // register the user
-  const logout = () => {} // clear the token in localStorage and the user data
+  const validateToken = async () => {
+    if (auth.isAuthenticated) {
+      const client = new BffApiClient();
+      const isValid = await client.validate(auth.token);
+      if(!isValid) {
+        logout();
+      }
+    }
+  }
 
-  const ambientProperties = { auth, onLoginSuccess, logout, register };
+  validateToken();
 
   return (
-    <AuthContext.Provider value={ambientProperties} {...props} />
+    <AuthContext.Provider value={ { auth, onLoginSuccess, logout }} {...props} />
   )
 }
 
-export const useAuth = () => React.useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext);
 export default AppProviders

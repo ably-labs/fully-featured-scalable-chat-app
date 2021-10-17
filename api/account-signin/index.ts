@@ -1,27 +1,35 @@
 import "../startup";
-import { AzureFunction, Context, HttpRequest } from "@azure/functions"
+import * as bcrypt from "bcrypt";
+import { User } from "../common/metadata/User";
+import { generateJwt } from "../common/JwtGenerator";
+import { CosmosDbMetadataRepository } from "../common/dataaccess/CosmosDbMetadataRepository";
+import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
 
-    // connect to cosmos db
-    /*const cosmosClient = require('@azure/cosmos').CosmosClient;
-    const endpoint = process.env['COSMOS_ENDPOINT'];
-    const key = process.env['COSMOS_KEY'];
-    const databaseId = process.env['COSMOS_DATABASE_ID'];
-    const containerId = process.env['COSMOS_CONTAINER_ID'];
-    const client = new cosmosClient({ endpoint, key });
-    const database = await client.database(databaseId);
-    const container = await database.container(containerId);*/
+    const repository = new CosmosDbMetadataRepository();
+    const existing = await repository.getByProperty<User>("User", "username", req.body.username);
 
-    // validate the request
-        
+    const reason = "Unrecognised username / password combination.";
 
+    if (existing?.length === 0) {
+        context.res = { status: 403, body: JSON.stringify({ success: false, reason })};
+        return;
+    }
 
+    const userRecord = existing[0];
+    const existingPasswordHash = userRecord.passwordHash;
+    const match = await bcrypt.compare(req.body.password, existingPasswordHash);
 
-    context.res = {
-        status: 200,
-        body: "hi"
-    };
+    if (!match) { 
+        context.res = { status: 403, body: JSON.stringify({ success: false, reason })};
+        return;
+    }
+
+    const token = generateJwt(userRecord.id);
+    const userDetails = { username: userRecord.username, firstName: userRecord.firstName, lastName: userRecord.lastName };
+
+    context.res = { status: 200, body: JSON.stringify({ success: true, reason: "correct credentials", token, userDetails })};
 };
 
 export default httpTrigger;

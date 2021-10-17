@@ -24,6 +24,7 @@
     "bcrypt": "latest",
     "dotenv": "^10.0.0",
     "njwt": "^1.1.0",
+    "secure-random": "^1.1.2",
     "validatorjs": "^3.22.1"
   }
 }

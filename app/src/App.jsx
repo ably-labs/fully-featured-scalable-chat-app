@@ -1,7 +1,11 @@
 import React, { useContext } from "react";
 import { useAuth } from "./AppProviders";
-import Header from "./components/Header"
-import LoginRegister from "./components/LoginRegister"
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import LoginRegister from "./components/LoginRegister";
+import ChannelList from "./components/ChannelList";
+import Logout from "./components/Logout";
+import Chat from "./components/Chat";
 import "./App.css";
 
 const App = () => {
@@ -12,7 +16,15 @@ const App = () => {
 
 const AuthenticatedApp = () => {
   return (
-    <div>logged in!</div>
+    <>
+      <Header />
+      <main>
+        <ChannelList />
+        <Logout />
+        <Chat />
+      </main>
+      <Footer />
+    </>
   )
 }
 
@@ -21,6 +33,7 @@ const UnauthenticatedApp = () => {
     <>
       <Header />
       <LoginRegister />
+      <Footer />
     </>
   )
 }

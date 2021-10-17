@@ -1,19 +1,32 @@
-var nJwt = require('njwt');
-var secureRandom = require('secure-random');
+import "../startup";
+import * as nJwt from "njwt";
+import * as secureRandom from "secure-random";
 
-var signingKey = secureRandom(256, {type: 'Buffer'}); // Create a highly random byte array of 256 bytes
+//var signingKey = secureRandom(256, { type: "Buffer" }); // Create a highly random byte array of 256 bytes
+//console.log(signingKey.toString('base64'));
 
-export default function GenerateJwt(userId: string, username: string, extraClaims: any) {
+const secret = process.env.JWT_SIGNING_KEY;
+const signingKey = Buffer.from(secret, "utf8");
 
-    var claims = {
-        iss: "http://myapp.com/",  // The URL of your service
-        sub: "users/user1234",    // The UID of the user in your system
-        scope: "self, admins",
-        ... extraClaims
-    };
+export function generateJwt(userId: string, extraClaims?: any) {
+  const claims = {
+    iss: "http://ffschat.ably.dev/", // The URL of your service
+    sub: `users/${userId}`, // The UID of the user in your system
+    scope: "self, users",
+    userId,
+    ...(extraClaims || {}),
+  };
 
-    var jwt = nJwt.create(claims,signingKey);
+  const jwt = nJwt.create(claims, signingKey);
+  return jwt.compact();
+}
 
-    return jwt;
-
+export function validateJwt(packedToken: string) {
+  try {
+    const token = nJwt.verify(packedToken, signingKey);
+    return { success: true, token };
+  } catch (e) {
+    console.log(e);
+    return { success: false, token: null };
+  }
 }
