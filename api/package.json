@@ -1,7 +1,7 @@
 {
   "name": "",
   "version": "",
-  "scripts" : {
+  "scripts": {
     "build": "tsc",
     "build:production": "npm run prestart && npm prune --production",
     "watch": "tsc --w",
@@ -14,6 +14,14 @@
   "devDependencies": {
     "@azure/functions": "^1.0.1-beta1",
     "npm-run-all": "^4.1.5",
-    "typescript": "^3.3.3"
+    "typescript": "^3.3.3",
+    "jest": "latest",
+    "@types/jest": "latest",
+    "ts-jest": "latest"
+  },
+  "dependencies": {
+    "bcrypt": "latest",
+    "njwt": "^1.1.0",
+    "validatorjs": "^3.22.1"
   }
 }
