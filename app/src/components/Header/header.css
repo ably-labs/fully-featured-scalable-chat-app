@@ -18,3 +18,19 @@ img {
     max-height: 200px;
     margin: 1rem;
 }
+
+@media screen and (min-width: 800px) {
+    header {
+        display: flex;
+        align-items: center;
+        padding: 0;
+    }
+
+    img {
+        max-height: 50px;
+    }
+    
+    h2 {
+        margin-left: auto;
+        margin-right: 1rem;
+    }
