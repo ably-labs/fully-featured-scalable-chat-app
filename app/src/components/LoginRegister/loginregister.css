@@ -9,12 +9,14 @@ main {
     flex-grow: 1;
 }
 
-button {
+a, button {
     width: 100%;
     padding: 1rem;
     border: 0;
     border-radius: var(--spacer);
     font-size: 1.2rem;
+    text-align: center;
+    text-decoration: none;
     background-color: var(--primary);
     color: var(--primary-text);
 }
