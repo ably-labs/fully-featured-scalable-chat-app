@@ -1,12 +1,30 @@
+main {
+    height: 100%;
+}
+
 .channellist {
+    padding: 1rem;
     background-color: var(--secondary);
 }
 
+.channellist h2 {
+    font-size: 1em;
+}
+
 .channellist ul {
-    margin: 0;
+    margin: 0 0 1rem;
     padding: 0;
 }
 
 .channellist li {
     list-style: none;
+    border-top: 1px solid var(--primary);
+}
+
+@media screen and (min-width: 800px) {
+    main {
+        display: flex;
+        align-items: stretch;
+        height: 100%;
+    }
 }
