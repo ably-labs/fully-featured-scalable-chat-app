@@ -1,38 +1,55 @@
+import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { CosmosDbMetadataRepository } from "./dataaccess/CosmosDbMetadataRepository";
-import { validateJwt } from "./JwtGenerator";
+import { JwtGenerator } from "./JwtGenerator";
 import { IUser, User } from "./metadata/User";
 
 export class ApiRequestContext {
 
     public isAuthenticatedUser: boolean;
-    public User: IUser;
+    public user: IUser;
 
-    public static async fromRequest(request: any) {
-        const packedJwt = request?.headers?.authorization || "";
-        const jwtText = packedJwt.replace("Bearer ", "");
-        const { success, token } = validateJwt(jwtText);
+    public reason: string;
 
-        if (!success) {
-            return ApiRequestContext.invalid();
+    constructor(isAuthenicatedUser: boolean = false, user: IUser = null, reason: string = null) {
+        this.isAuthenticatedUser = isAuthenicatedUser;
+        this.user = user;
+        this.reason = reason;
+    }
+
+    public static async fromRequest(req: any, includeUser: boolean = true): Promise<ApiRequestContext> {
+        const jwtValidator = JwtGenerator.fromEnvironment();
+
+        const packedJwt = req.headers.authorization || "";
+        if (packedJwt.length === 0) {
+            return new ApiRequestContext(false, null, "Token missing from request headers");
         }
 
-        const userId = (token as any).userId;
-        const repository = new CosmosDbMetadataRepository();        
-        const existing = await repository.getByProperty<User>("User", "id", userId)[0];
-        return ApiRequestContext.knownUser(existing);
-    }
+        const jwtText = packedJwt.replace("Bearer ", "");
+        const { success, token } = jwtValidator.validate(jwtText);
 
-    public static invalid() {        
-        const ctx = new ApiRequestContext();
-        ctx.isAuthenticatedUser = false;
-        return ctx; 
-    }
+        if (!success) {
+            return new ApiRequestContext(false, null, "Token failed to validate");
+        }
 
-    public static knownUser(user: IUser) {
-        const ctx = new ApiRequestContext();
-        ctx.isAuthenticatedUser = true;
-        ctx.User = user
-        return ctx;
+        if (includeUser) {
+            const userId = token.body["userId"];
+            const repository = new CosmosDbMetadataRepository();
+            const existing = await repository.getByProperty<User>("User", "id", userId)[0];
+            return new ApiRequestContext(true, existing, "Valid");
+        }
+
+        return new ApiRequestContext(true, null, "Valid");
     }
 }
+
+export const authorized: AzureFunction = async function (context: Context, req: HttpRequest, wrappedFunction): Promise<void> {
+    const ctx = await ApiRequestContext.fromRequest(req);
+    if (!ctx.isAuthenticatedUser) {
+        context.res = { status: 401, body: JSON.stringify({ success: false, reason: ctx.reason }) };
+        return;
+    }
+
+    wrappedFunction(ctx);
+
+};
 

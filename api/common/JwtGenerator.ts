@@ -2,31 +2,47 @@ import "../startup";
 import * as nJwt from "njwt";
 import * as secureRandom from "secure-random";
 
-//var signingKey = secureRandom(256, { type: "Buffer" }); // Create a highly random byte array of 256 bytes
-//console.log(signingKey.toString('base64'));
+export class JwtGenerator {
+  public signingKey: Buffer;
 
-const secret = process.env.JWT_SIGNING_KEY;
-const signingKey = Buffer.from(secret, "utf8");
+  constructor(signingKey: Buffer) {
+    this.signingKey = signingKey;
+  }
 
-export function generateJwt(userId: string, extraClaims?: any) {
-  const claims = {
-    iss: "http://ffschat.ably.dev/", // The URL of your service
-    sub: `users/${userId}`, // The UID of the user in your system
-    scope: "self, users",
-    userId,
-    ...(extraClaims || {}),
-  };
+  public static fromEnvironment() {
+    return this.fromBase64Key(process.env.JWT_SIGNING_KEY);
+  }
 
-  const jwt = nJwt.create(claims, signingKey);
-  return jwt.compact();
-}
+  public static fromBase64Key(key: string) {
+    const signingKey = Buffer.from(key, "utf8");
+    return new JwtGenerator(signingKey);
+  }
 
-export function validateJwt(packedToken: string) {
-  try {
-    const token = nJwt.verify(packedToken, signingKey);
-    return { success: true, token };
-  } catch (e) {
-    console.log(e);
-    return { success: false, token: null };
+  public static withRandomSigningKey() {
+    var signingKey = secureRandom(256, { type: "Buffer" });
+    return new JwtGenerator(signingKey);
+  }
+
+  generate(userId: string, extraClaims?: any) {
+    const claims = {
+      iss: "http://ffschat.ably.dev/", // The URL of your service
+      sub: `users/${userId}`, // The UID of the user in your system
+      scope: "self, users",
+      userId,
+      ...(extraClaims || {}),
+    };
+
+    const jwt = nJwt.create(claims, this.signingKey);
+    return jwt.compact();
+  }
+
+  validate(packedToken: string) {
+    try {
+      const token = nJwt.verify(packedToken, this.signingKey);
+      return { success: true, token };
+    } catch (e) {
+      console.log(e);
+      return { success: false, token: null };
+    }
   }
 }
