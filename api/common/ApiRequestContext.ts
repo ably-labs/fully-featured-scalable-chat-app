@@ -48,6 +48,5 @@ export const authorized: AzureFunction = async function (context: Context, req: 
     }
 
     wrappedFunction(ctx);
-
 };
 
