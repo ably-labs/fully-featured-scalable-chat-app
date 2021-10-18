@@ -19,13 +19,11 @@ export class ApiRequestContext {
     public static async fromRequest(req: any, includeUser: boolean = true): Promise<ApiRequestContext> {
         const jwtValidator = JwtGenerator.fromEnvironment();
 
-        const packedJwt = req.headers.authorization || "";
+        const packedJwt = req.headers.jwt || "";
         if (packedJwt.length === 0) {
             return new ApiRequestContext(false, null, "Token missing from request headers");
         }
-
-        const jwtText = packedJwt.replace("Bearer ", "");
-        const { success, token } = jwtValidator.validate(jwtText);
+        const { success, token } = jwtValidator.validate(packedJwt);
 
         if (!success) {
             return new ApiRequestContext(false, null, "Token failed to validate");
