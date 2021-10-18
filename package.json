@@ -32,6 +32,7 @@
     "typescript": "^4.4.4"
   },
   "dependencies": {
+    "@ably-labs/react-hooks": "^1.1.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
