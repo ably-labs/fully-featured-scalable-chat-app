@@ -1,12 +1,10 @@
 import React from "react";
 import { useAuth } from "../../AppProviders";
-import { configureAbly, useChannel } from "@ably-labs/react-hooks";
+import { useChannel } from "@ably-labs/react-hooks";
 import { ChatHistory } from "./ChatHistory";
 import { SelectAChannel } from "./SelectAChannel";
 import { ChatInput } from "./ChatInput";
 import "./chat.css";
-
-configureAbly({ authUrl: '/api/ably/token-request' });
 
 const Chat = ({ currentChannel }) => {
 
@@ -14,7 +12,7 @@ const Chat = ({ currentChannel }) => {
     return (<SelectAChannel />);
   }
 
-  const { auth } = useAuth();
+  const { user } = useAuth();
 
   const [history, setHistory] = React.useState([]);
   const [channel, ably] = useChannel(currentChannel, (message) => {
@@ -22,7 +20,7 @@ const Chat = ({ currentChannel }) => {
   });
 
   const sendMessage = (messageText) => {
-    channel.publish("message", { text: messageText, sender: auth.userDetails.username });
+    channel.publish("message", { text: messageText, sender: user.username });
   };
 
   return (

@@ -6,7 +6,7 @@ import "./channellist.css";
 
 const ChannelList = ({ channels, onChannelSelected }) => {
 
-  const { auth } = useAuth();
+  const { user } = useAuth();
 
   const selectChannel = (evt, channel) => {
     evt.preventDefault();
@@ -27,7 +27,7 @@ const ChannelList = ({ channels, onChannelSelected }) => {
       </ul>
       <h2>DMs</h2>
       <ul>
-        <li>{auth.userDetails.username}</li>
+        <li>{user.username}</li>
       </ul>
     </section>
   );

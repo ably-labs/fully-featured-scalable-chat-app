@@ -1,16 +1,12 @@
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext, createContext } from "react";
 import { userPersistentState } from './hooks/usePersistentState';
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { BffApiClient } from "./sdk/BffApiClient";
+import { configureAbly } from "@ably-labs/react-hooks";
 
 const AuthContext = createContext();
 
-function AppProviders({children}) {
-  return (
-    <AuthProvider>
-      {children}
-    </AuthProvider>
-  )
+function AppProviders({ children }) {
+  return (<AuthProvider>{children}</AuthProvider>)
 }
 
 function AuthProvider(props) {
@@ -29,13 +25,13 @@ function AuthProvider(props) {
   const logout = () => {
     setAuthState({ isAuthenticated: false, userDetails: null, token: null });
     window.location.href = "/"; // TODO: What's the react way to do this?
-  } 
+  }
 
   const validateToken = async () => {
     if (auth.isAuthenticated) {
-      const client = new BffApiClient();
-      const isValid = await client.validate(auth.token);
-      if(!isValid) {
+      const client = new BffApiClient(auth.token);
+      const isValid = await client.validate();
+      if (!isValid) {
         logout();
       }
     }
@@ -43,8 +39,15 @@ function AuthProvider(props) {
 
   validateToken();
 
+  if (auth.isAuthenticated) {
+    configureAbly({ authUrl: '/api/ably/token-request', authHeaders: { 'jwt': auth.token } });
+  }
+
+  const api = auth.isAuthenticated ? new BffApiClient(auth.token) : null;
+  const contextObject = { ...auth, user: auth.userDetails, api, onLoginSuccess, logout };
+
   return (
-    <AuthContext.Provider value={ { auth, onLoginSuccess, logout }} {...props} />
+    <AuthContext.Provider value={contextObject} {...props} />
   )
 }
 
