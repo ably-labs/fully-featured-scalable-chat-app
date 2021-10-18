@@ -1,25 +1,21 @@
-import React, { useEffect } from "react";
-import "./channellist.css";
+import React from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../AppProviders";
-import { BffApiClient } from "../../sdk/BffApiClient";
 
-const ChannelList = () => {
+import "./channellist.css";
+
+const ChannelList = ({ channels, onChannelSelected }) => {
 
   const { auth } = useAuth();
-  const [channels, setChannels] = React.useState([]);
 
-  useEffect(() => {
-    const fetchChannels = async () => {
-      const client = new BffApiClient();
-      const response = await client.listChannels(auth.token);
-      setChannels(response.channels);
-    };
-    fetchChannels();
-  }, []);
+  const selectChannel = (evt, channel) => {
+    evt.preventDefault();
+    onChannelSelected(channel.name);
+  };
 
   const channelListItems = channels.map((channel) => (
     <li key={channel.name}>
-      <a href={`/channel/${channel.name}`}>{channel.name}</a>
+      <Link to={`/channel/${channel.name}`} onClick={(evt) => { selectChannel(evt, channel); }}>{channel.name}</Link>
     </li>
   ));
 

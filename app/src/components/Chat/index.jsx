@@ -1,17 +1,23 @@
 import React from "react";
 import "./chat.css";
 
-const Chat = () => {
+const Chat = ({ currentChannel }) => {
+
+  if (currentChannel === null) {
+    return (<div>Please select a channel.</div>);
+  }
+
   return (
-    <section class="chat">
-        <ul>
-            <li>Hello this is a chat message</li>
-            <li>This is another chat message</li>
-        </ul>
-        <div class="send">
-          <textarea></textarea>
-          <button>Send</button>
-        </div>
+    <section className="chat">
+      <h2>{currentChannel}</h2>
+      <ul>
+        <li>Hello this is a chat message</li>
+        <li>This is another chat message</li>
+      </ul>
+      <div className="send">
+        <textarea></textarea>
+        <button>Send</button>
+      </div>
     </section>
   );
 };
