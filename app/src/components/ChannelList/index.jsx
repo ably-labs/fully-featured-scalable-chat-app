@@ -1,33 +1,34 @@
 import React from "react";
-import "./channellist.css";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../AppProviders";
-import { BffApiClient } from "../../sdk/BffApiClient";
 
-const ChannelList = () => {
+import "./channellist.css";
+
+const ChannelList = ({ channels, onChannelSelected }) => {
 
   const { auth } = useAuth();
-  const [channels, setChannels] = React.useState([]);
 
-  // Bug in this :)
-  // (async () => {
-  //   console.log("auth", auth);
-  //   const client = new BffApiClient(auth.token);  
-  //  // const channels = await client.listChannels();
-  //   setChannels(channels);
-  // })();
+  const selectChannel = (evt, channel) => {
+    evt.preventDefault();
+    onChannelSelected(channel.name);
+  };
 
-  // console.log(channels);
+  const channelListItems = channels.map((channel) => (
+    <li key={channel.name}>
+      <Link to={`/channel/${channel.name}`} onClick={(evt) => { selectChannel(evt, channel); }}>{channel.name}</Link>
+    </li>
+  ));
 
   return (
     <section className="channellist">
-        <h2>Channels</h2>
-        <ul>
-            <li>Welcome Channel</li>
-        </ul>
-        <h2>DMs</h2>
-       <ul>
-           <li>{auth.userDetails.username}</li>
-       </ul>
+      <h2>Channels</h2>
+      <ul>
+        {channelListItems}
+      </ul>
+      <h2>DMs</h2>
+      <ul>
+        <li>{auth.userDetails.username}</li>
+      </ul>
     </section>
   );
 };

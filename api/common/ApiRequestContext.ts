@@ -40,14 +40,13 @@ export class ApiRequestContext {
     }
 }
 
-export const authorized: AzureFunction = async function (context: Context, req: HttpRequest, wrappedFunction): Promise<void> {
-    const ctx = await ApiRequestContext.fromRequest(req);
+export const authorized: AzureFunction = async function (context: Context, req: HttpRequest, wrappedFunction, includeUser: boolean = true): Promise<void> {
+    const ctx = await ApiRequestContext.fromRequest(req, includeUser);
     if (!ctx.isAuthenticatedUser) {
         context.res = { status: 401, body: JSON.stringify({ success: false, reason: ctx.reason }) };
         return;
     }
 
-    wrappedFunction(ctx);
-
+    await wrappedFunction(ctx);
 };
 
