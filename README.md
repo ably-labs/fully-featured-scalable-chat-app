@@ -9,7 +9,7 @@ If you have any questions, ideas or want to contribute, please raise an issue or
 ## Things you will need to make this run locally!
 
 1. Node
-2. The Azure Functions Runtime from NPM
+2. [The Azure Functions Runtime from NPM](https://www.npmjs.com/package/azure-functions-core-tools)
 3. an `.env` file in ./api
 
 ```[text]
@@ -17,6 +17,7 @@ COSMOS_ENDPOINT=https://ffschatmetadata.documents.azure.com
 COSMOS_KEY=ASK FOR THIS OR MAKE YOUR OWN
 COSMOS_DATABASE_ID=metadata
 JWT_SIGNING_KEY=ASK FOR THIS OR MAKE YOUR OWN
+ABLY_API_KEY=YOURKEY:HERE
 ```
 
 4. `npm run start` in the root.
