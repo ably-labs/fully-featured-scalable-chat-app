@@ -4,6 +4,7 @@
   "description": "a fully featured scalable chat app",
   "main": "index.js",
   "scripts": {
+    "init": "npm clean-install && cd api && npm clean-install",
     "start": "run-p dev:api dev:server",
     "build": "npx snowpack build",
     "dev:server": "npx snowpack dev",
