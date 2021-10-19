@@ -45,7 +45,7 @@ We're using *snowpack* as our development server, which will transparently build
 
 ## The BFF API
 
-The BFF (Backend-for-Frontend) is an *application specific** API that contains all the serverside logic for our chat app.
+The BFF (Backend-for-Frontend) is an *application specific* API that contains all the serverside logic for our chat app.
 Because we're hosting this on **Azure Static Web Apps**, we can use the `azure-functions-core-tools` run our API server.
 
 In addition to this, the **Azure Static Web Apps** runtime will *auto-host* our APIs for us - so we don't need to worry about configuring hosting.
@@ -138,6 +138,75 @@ export default async function (context: Context, req: HttpRequest): Promise<void
     }, true); // <- true to include the userDetails object in the ApiRequestContext
 };
 ```
+
+## Accessing user data in the React application
+
+Our in-app authentication is implemented in `AppProviders.jsx`.
+
+It provides a **react hook** that will return the userDetails object if the user is authenticated, along with ensuring that the user is authenticated at all.
+If a given user is not authenticated, they will be redirected to the login page in all cases.
+
+Because the `AppProvider` takes care of authentication, you'll need to use our hooks to access user data, and to make authenticated API calls in your components.
+
+Here is an example of accessing the `userDetails` object of the currently authenticated user.
+
+```jsx
+import { useAuth } from "../../AppProviders";
+
+const MyComponent = () => {
+
+  const { user } = useAuth();
+
+  return (
+    <div>{user.username}</div>
+  );
+};
+
+export default MyComponent;
+```
+
+You can also access an instance of our `BffApiClient` class, which will allow you to make authenticated API calls and already contains the currently logged in users `JWT token`.
+
+```jsx
+import { useAuth } from "../../AppProviders";
+
+const MyComponent = () => {
+
+    const { api } = useAuth();
+    const [channels, setChannels] = useState([]);
+
+    useEffect(() => {
+        const fetchChannels = async () => {
+            const response = await api.listChannels();
+            setChannels(response.channels);
+        };
+        fetchChannels();
+    }, []);
+
+  return (
+    <div>... bind channel data here</div>
+  );
+};
+
+export default MyComponent;
+```
+
+In the above example, we're using the `useEffect` hook to fetch the channels when the component mounts - and we're making the API request using our `api` instance, provided by the `useAuth` hook.
+
+This is the only way you should make `API` calls to the BFF from your components, as it'll ensure the `JWT` token is valid and present.
+
+If you're adding new `BFF APIs` to the application, you'll need to implement a new function in `/app/src/sdk/BffApiClient.js` to make it available to your components.
+
+These `BffApiClient` calls are simple, and look like this:
+
+```js
+async listChannels() {
+    const result = await this.get("/api/channels");
+    return await result.json();
+}
+```
+
+Some utility code in the client will make sure the correct `JWT token` is present when the request is made.
 
 # The CosmosDb datastore
 
