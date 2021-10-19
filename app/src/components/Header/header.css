@@ -19,6 +19,22 @@ header img {
     margin: 1rem;
 }
 
+.authed {
+    display: flex;
+    align-items: center;
+    padding: 0;
+}
+
+.authed img {
+    max-height: 2rem;
+}
+
+.authed h2 {
+    margin-left: auto;
+    margin-right: 1rem;
+
+}
+
 @media screen and (min-width: 800px) {
     header {
         display: flex;
