@@ -8,7 +8,9 @@ const client = new Ably.Realtime(process.env.ABLY_API_KEY);
 export default async function (context: Context, req: HttpRequest): Promise<void> {
     await authorized(context, req, async ({ user }: ApiRequestContext) => {
 
-        const tokenRequestData = await client.auth.createTokenRequest({ clientId: user.id });
+        const clientId = `${user.id}:${user.username}`;
+
+        const tokenRequestData = await client.auth.createTokenRequest({ clientId: clientId });
         context.res = {
             headers: { "content-type": "application/json" },
             body: JSON.stringify(tokenRequestData)

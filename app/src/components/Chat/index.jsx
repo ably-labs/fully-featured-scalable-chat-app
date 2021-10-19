@@ -20,7 +20,7 @@ const Chat = ({ currentChannel }) => {
   });
 
   const sendMessage = (messageText) => {
-    channel.publish("message", { text: messageText, sender: user.username });
+    channel.publish("message", { text: messageText });
   };
 
   return (
