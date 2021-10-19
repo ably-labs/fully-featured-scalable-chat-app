@@ -13,7 +13,7 @@
   "description": "",
   "devDependencies": {
     "@azure/functions": "^1.0.1-beta1",
-    "@types/jest": "latest",
+    "@types/jest": "^27.0.2",
     "jest": "^27.3.0",
     "jest-cli": "^27.3.0",
     "npm-run-all": "^4.1.5",
@@ -28,5 +28,19 @@
     "njwt": "^1.1.0",
     "secure-random": "^1.1.2",
     "validatorjs": "^3.22.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": false,
+    "testPathIgnorePatterns": [
+      "/node_modules",
+      "/dist"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
   }
 }

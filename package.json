@@ -23,6 +23,7 @@
   "devDependencies": {
     "@snowpack/plugin-dotenv": "^2.2.0",
     "@snowpack/plugin-react-refresh": "^2.5.0",
+    "@types/jest": "^27.0.2",
     "http2-proxy": "^5.0.53",
     "jest": "^27.3.0",
     "jest-cli": "^27.3.0",

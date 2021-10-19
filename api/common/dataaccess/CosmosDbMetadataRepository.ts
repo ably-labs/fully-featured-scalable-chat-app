@@ -1,7 +1,7 @@
 import { CosmosClient, Container } from "@azure/cosmos";
-import { Entity } from "./IMetadataRepository";
+import { Entity, IMetadataRepository } from "./IMetadataRepository";
 
-export class CosmosDbMetadataRepository {
+export class CosmosDbMetadataRepository implements IMetadataRepository {
 
     private _client: CosmosClient;
     private _databaseId: string;
@@ -13,7 +13,7 @@ export class CosmosDbMetadataRepository {
         this._client = new CosmosClient({ endpoint, key });
     }
 
-    public async getById<TEntityType extends Entity>(typeName: string, id: string): Promise<TEntityType> {        
+    public async getById<TEntityType extends Entity>(typeName: string, id: string): Promise<TEntityType> {
         const container = await this.getContainer(typeName);
         const allMatchingItems = await container.items.query(`SELECT * FROM c WHERE c.id = '${id}'`).fetchAll();
         return allMatchingItems[0];
@@ -22,7 +22,7 @@ export class CosmosDbMetadataRepository {
     public async getByProperty<TEntityType extends Entity>(typeName: string, propertyName: string, value: any): Promise<TEntityType[]> {
         const container = await this.getContainer(typeName);
         const results = await container.items.query(`SELECT * FROM c WHERE c.${propertyName} = '${value}'`).fetchAll();
-        return results.resources as TEntityType[];        
+        return results.resources as TEntityType[];
     }
 
     public async saveOrUpdate<TEntityType extends Entity>(entity: TEntityType): Promise<void> {
