@@ -11,8 +11,7 @@
 	},
 	"forwardPorts": [
 		8080,
-		7071,
-		4280
+		7071
 	],
 	"portsAttributes": {
 		"8080": {
@@ -21,10 +20,6 @@
 		},
 		"7071": {
 			"label": "Azure Functions Runtime",
-			"onAutoForward": "ignore",
-		},
-		"4280": {
-			"label": "Application",
 			"onAutoForward": "ignore",
 		}
 	},
@@ -37,6 +32,5 @@
 		"dbaeumer.vscode-eslint"
 	],
 	"postCreateCommand": "npm clean-install && cd api && npm clean-install",
-	"postStartCommand": "npm run start",
 	"remoteUser": "vscode"
 }
