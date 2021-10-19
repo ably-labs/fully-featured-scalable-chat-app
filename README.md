@@ -31,8 +31,8 @@ The chat app is made up of the following:
 - A "BFF" API built to run in Azure Functions (Node.js)
 - A CosmosDB database to store metadata (user accounts, chat channel metadata)
 - An [Ably Realtime](https://ably.com/) account to send and receive chat messages
-- An API to receive events from Ably Reactor
-- A Storage bucket to store chat archive data.
+- A `Archive API` to receive events from Ably Reactor and maintain a chat history
+- A Storage bucket to store `Chat Archive`.
 
 ## The React Application
 
@@ -130,11 +130,49 @@ import { Context, HttpRequest } from "@azure/functions";
 import { authorized, ApiRequestContext } from "../common/ApiRequestContext";
 
 export default async function (context: Context, req: HttpRequest): Promise<void> {
-    await authorized(context, req, ({ user }) => {
+    await authorized(context, req, ({ user }: ApiRequestContext) => {
 
         // user is the userDetails object retrieved from CosmosDb
 
         context.res = { status: 200, body: JSON.stringify("I am validated and authenticated") };
-    }, true);
+    }, true); // <- true to include the userDetails object in the ApiRequestContext
 };
 ```
+
+# The CosmosDb datastore
+
+We're using CosmosDb to store our application metadata because it is a scalable, highly available, managed database that we don't have to administer ourselves.
+It can run in a pre-provisioned or serverless mode, helping keep costs low when the application isn't in use (at the cost of some performance).
+
+We've created a single CosmosDb database to store all our metadata, and inside, we've created a collection for each type of Entity we're storing.
+
+For example: The `User` collection, stores our User records - and can be queried using SQL-like syntax. CosmosDb makes this easy by automatically indexing our json documents for us.
+
+Each of our stored metadata entities have an `id` and a `type` field, and we're using a `generic repository` class (`/api/common/dataaccess/CosmosDbMetadataRepository`) to load and save these entities.
+
+For local development, you can either use the cloud hosted version of Cosmos, or use one of the available `docker container images` to run a local copy of the database.
+
+# Ably for Chat
+
+We're using `Ably channels` to store our chat messages and to push events to our React application.
+Each connected user will receive messages for channels that they are actively viewing in real-time, and we're using `Channel rewind` to populate the most recently sent messages.
+
+Messages may be `corrected` asyncronously after they have been received - for instance, to apply profanity filtering, or to correct spelling errors.
+These correction messages will be part of the stream, and applied retroactively in the react application.
+
+This design allows us to stand up extra APIs that consume these events, and publish their own elaborations on the channels for clients to respond to.
+
+# The Chat Archive API
+
+Because Ably events will vanish over time, we're going to store copies of inbound events on each channel into our `Chat Archive` via the `Archive API`.
+
+The `Archive API` will receieve reactor messages for all of our channels, and append them to channel-specific `Azure Storage Blobs`.
+The API will append to a single file until it reaches a size threshold (~500kb) and then create a new file for subsequent messages.
+
+The `Archive API` will maintain a record of the currently active archive file in the `Metadata database` for each channel.
+
+The `Archive API` will be able to update a search index as messages are received and archived to later expose them in search.
+
+# Testing
+
+Tests are written in `jest` with `ts-jest` used to execute the APIs `TypeScript` tests.
