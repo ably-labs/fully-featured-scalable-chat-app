@@ -1,19 +1,34 @@
 {
-	"name": "Azure Static Web Apps",
-	"runArgs": ["--init"],
+	"name": "Snowpack and Azure Functions",
+	"runArgs": [
+		"--init"
+	],
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
-			// Options
 			"NODE_VERSION": "lts/*"
 		}
 	},
-	"forwardPorts": [ 8080, 7071, 4280 ],
-
-	// Set *default* container specific settings.json values on container create.
+	"forwardPorts": [
+		8080,
+		7071,
+		4280
+	],
+	"portsAttributes": {
+		"8080": {
+			"label": "Snowpack dev server",
+			"onAutoForward": "openBrowserOnce",
+		},
+		"7071": {
+			"label": "Azure Functions Runtime",
+			"onAutoForward": "ignore",
+		},
+		"4280": {
+			"label": "Application",
+			"onAutoForward": "ignore",
+		}
+	},
 	"settings": {},
-
-	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"ms-azuretools.vscode-azurefunctions",
 		"ms-azuretools.vscode-azurestaticwebapps",
@@ -21,10 +36,7 @@
 		"ms-python.python",
 		"dbaeumer.vscode-eslint"
 	],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "node --version",
-
-	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"postCreateCommand": "npm clean-install && cd api && npm clean-install",
+	"postStartCommand": "npm run start",
 	"remoteUser": "vscode"
 }
