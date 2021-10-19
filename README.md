@@ -31,7 +31,7 @@ The chat app is made up of the following:
 - A "BFF" API built to run in Azure Functions (Node.js)
 - A CosmosDB database to store metadata (user accounts, chat channel metadata)
 - An [Ably Realtime](https://ably.com/) account to send and receive chat messages
-- A `Archive API` to receive events from Ably Reactor and maintain a chat history
+- An `Archive API` to receive events from Ably Reactor and maintain a chat history
 - A Storage bucket to store `Chat Archive`.
 
 ## The React Application
