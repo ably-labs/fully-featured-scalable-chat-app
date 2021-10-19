@@ -1,5 +1,4 @@
-import React from "react";
-import { useAuth } from "../../AppProviders";
+import React, { useState, useEffect } from "react";
 import { useChannel } from "@ably-labs/react-hooks";
 import { ChatHistory } from "./ChatHistory";
 import { SelectAChannel } from "./SelectAChannel";
@@ -12,10 +11,16 @@ const Chat = ({ currentChannel }) => {
     return (<SelectAChannel />);
   }
 
-  const { user } = useAuth();
+  const rewindParameters = "[?rewind=100]";
+  const channelSubscription = rewindParameters + currentChannel;
 
-  const [history, setHistory] = React.useState([]);
-  const [channel, ably] = useChannel(currentChannel, (message) => {
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    setHistory([]); // Reset history on channel change
+  }, [currentChannel]);
+
+  const [channel, ably] = useChannel(channelSubscription, (message) => {
     setHistory(prev => [...prev.slice(-199), message]);
   });
 
@@ -33,5 +38,4 @@ const Chat = ({ currentChannel }) => {
     </section>
   );
 };
-
 export default Chat;
