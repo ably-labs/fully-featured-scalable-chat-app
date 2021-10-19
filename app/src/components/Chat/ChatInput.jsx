@@ -10,12 +10,12 @@ export const ChatInput = ({ sendMessage }) => {
         setMessage("");
     };
 
-    return (<>
+    return (
         <form className="send" onSubmit={handleSubmit}>
             <textarea onChange={(e) => { setMessage(e.target.value) }} value={message}></textarea>
             <button>Send</button>
         </form>
-    </>);
+    );
 }
 
 export default ChatInput;

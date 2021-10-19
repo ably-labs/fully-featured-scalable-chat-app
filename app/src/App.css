@@ -2,7 +2,10 @@
   --primary: #000;
   --primary-active: MidnightBlue;
   --primary-text: #fff;
-  --secondary: #eee;
+  --secondary: #ccc;
+
+  --negative: white;
+  --negative-active: #eee;
 
   --max-width-form: 400px;
   --spacer: .5rem;
