@@ -13,9 +13,13 @@ const Nav = () => {
   };
 
   return (
-    <nav className="main-nav">
-      <button onClick={processLogout}>Logout</button>
-    </nav>
+    <div className="main-menu">
+      <input type="checkbox" id="checkbox-toggle" />
+      <label class="menu-title" for="checkbox-toggle">Menu</label>
+      <nav className="main-nav">
+        <button onClick={processLogout}>Logout</button>
+      </nav>
+    </div>
   );
 };
 
