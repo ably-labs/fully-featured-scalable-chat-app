@@ -6,7 +6,10 @@
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
-			"NODE_VERSION": "lts/*"
+			// Update 'VARIANT' to pick a Node version: 16, 14, 12.
+			// Append -bullseye or -buster to pin to an OS version.
+			// Use -bullseye variants on local arm64/Apple Silicon.
+			"VARIANT": "14"
 		}
 	},
 	"forwardPorts": [
@@ -15,11 +18,11 @@
 	],
 	"portsAttributes": {
 		"8080": {
-			"label": "Snowpack dev server",
-			"onAutoForward": "openBrowserOnce",
+			"label": "Website",
+			"onAutoForward": "ignore",
 		},
 		"7071": {
-			"label": "Azure Functions Runtime",
+			"label": "API",
 			"onAutoForward": "ignore",
 		}
 	},
@@ -27,10 +30,8 @@
 	"extensions": [
 		"ms-azuretools.vscode-azurefunctions",
 		"ms-azuretools.vscode-azurestaticwebapps",
-		"ms-dotnettools.csharp",
-		"ms-python.python",
 		"dbaeumer.vscode-eslint"
 	],
-	"postCreateCommand": "npm clean-install && cd api && npm clean-install",
-	"remoteUser": "vscode"
+	"postCreateCommand": "npm run init",
+	"remoteUser": "node"
 }
