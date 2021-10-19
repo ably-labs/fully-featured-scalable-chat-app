@@ -16,7 +16,7 @@ export class ApiRequestContext {
         this.reason = reason;
     }
 
-    public static async fromRequest(req: any, includeUser: boolean = true): Promise<ApiRequestContext> {
+    public static async fromRequest(req: any, includeUser: boolean = false): Promise<ApiRequestContext> {
         const jwtValidator = JwtGenerator.fromEnvironment();
 
         const packedJwt = req.headers.jwt || "";
