@@ -1,19 +1,18 @@
 export class BffApiClient {
 
-    private _jwtToken: string;
-
-    constructor(jwtToken: string) {
+    constructor(jwtToken, fetchFunc = null) {
         this._jwtToken = jwtToken;
+        this._fetch = fetchFunc || fetch;
     }
 
-    public async signIn(username: string, password: string): Promise<any> {
+    async signIn(username, password) {
 
-        const result = await fetch("/api/account/signin", {
+        const result = await this._fetch("/api/account/signin", {
             method: "POST",
             headers: {},
             body: JSON.stringify({ username, password })
         });
-
+        
         if (result.status !== 200) {
             return { success: false, token: null, userDetails: null };
         }
@@ -22,8 +21,8 @@ export class BffApiClient {
         return { success: true, token, userDetails };
     }
 
-    public async register(username, firstName, lastName, password): Promise<any> {
-        const result = await fetch("/api/account/register", {
+    async register(username, firstName, lastName, password) {
+        const result = await this._fetch("/api/account/register", {
             method: "POST",
             headers: {},
             body: JSON.stringify({ username, firstName, lastName, password })
@@ -37,8 +36,8 @@ export class BffApiClient {
         return { success: true, token, userDetails };
     }
 
-    public async validate(): Promise<any> {
-        const result = await fetch("/api/account/validate", {
+    async validate() {
+        const result = await this._fetch("/api/account/validate", {
             method: "GET",
             headers: { "jwt": this._jwtToken }
         });
@@ -46,8 +45,8 @@ export class BffApiClient {
         return result.status === 200;
     }
 
-    public async listChannels(): Promise<any> {
-        const result = await fetch("/api/channels", {
+    async listChannels() {
+        const result = await this._fetch("/api/channels", {
             method: "GET",
             headers: { "jwt": this._jwtToken }
         });

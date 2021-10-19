@@ -6,7 +6,7 @@
   "scripts": {
     "start": "run-p dev:api dev:server",
     "build": "npx snowpack build",
-    "test": "jest --runInBand",
+    "test": "jest --runInBand && npm run test --prefix api",
     "dev:api": "npm run start --prefix api",
     "dev:server": "npx snowpack dev"
   },
@@ -44,17 +44,13 @@
     "verbose": false,
     "testPathIgnorePatterns": [
       "/node_modules",
-      "/test/acceptance"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "js"
+      "/api"
     ],
     "extensionsToTreatAsEsm": [
       ".ts"
     ],
     "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
+      "^.+\\.(js|jsx|ts|tsx)$": "ts-jest"
     }
   }
 }

@@ -8,7 +8,7 @@
     "prestart": "npm run build && func extensions install",
     "start:host": "func start",
     "start": "npm-run-all --parallel start:host watch",
-    "test": "echo \"No tests yet...\""
+    "test": "jest"
   },
   "description": "",
   "devDependencies": {
