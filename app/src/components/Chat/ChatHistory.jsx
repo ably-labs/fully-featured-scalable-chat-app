@@ -12,7 +12,7 @@ export const ChatHistory = ({ history }) => {
         );
     });
 
-    return (<>{messageElements}</>);
+    return ({messageElements});
 }
 
 export default ChatHistory;
