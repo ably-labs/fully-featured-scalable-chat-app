@@ -3,15 +3,18 @@ import { Context, HttpRequest } from "@azure/functions";
 import { authorized, ApiRequestContext } from "../common/ApiRequestContext";
 import * as Ably from "ably/promises";
 
+const client = new Ably.Realtime(process.env.ABLY_API_KEY);
+
 export default async function (context: Context, req: HttpRequest): Promise<void> {
-    //await authorized(context, req, async (authContext: ApiRequestContext) => {
+    await authorized(context, req, async ({ user }: ApiRequestContext) => {
 
-    const client = new Ably.Realtime(process.env.ABLY_API_KEY);
-    const tokenRequestData = await client.auth.createTokenRequest({ clientId: 'temp' });
-    context.res = {
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(tokenRequestData)
-    };
+        const clientId = `${user.id}:${user.username}`;
 
-    //}, false);
+        const tokenRequestData = await client.auth.createTokenRequest({ clientId: clientId });
+        context.res = {
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(tokenRequestData)
+        };
+
+    }, true);
 };

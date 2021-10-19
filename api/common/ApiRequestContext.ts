@@ -16,7 +16,7 @@ export class ApiRequestContext {
         this.reason = reason;
     }
 
-    public static async fromRequest(req: any, includeUser: boolean = true): Promise<ApiRequestContext> {
+    public static async fromRequest(req: any, includeUser: boolean = false): Promise<ApiRequestContext> {
         const jwtValidator = JwtGenerator.fromEnvironment();
 
         const packedJwt = req.headers.jwt || "";
@@ -31,9 +31,10 @@ export class ApiRequestContext {
 
         if (includeUser) {
             const userId = token.body["userId"];
+
             const repository = new CosmosDbMetadataRepository();
-            const existing = await repository.getByProperty<User>("User", "id", userId)[0];
-            return new ApiRequestContext(true, existing, "Valid");
+            const existing = await repository.getByProperty<User>("User", "id", userId);
+            return new ApiRequestContext(true, existing[0], "Valid");
         }
 
         return new ApiRequestContext(true, null, "Valid");

@@ -6,9 +6,10 @@
   "scripts": {
     "start": "run-p dev:api dev:server",
     "build": "npx snowpack build",
-    "test": "jest --runInBand",
+    "dev:server": "npx snowpack dev",
+    "test": "jest --runInBand && npm run test:api",
     "dev:api": "npm run start --prefix api",
-    "dev:server": "npx snowpack dev"
+    "test:api": "npm run test --prefix api"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@snowpack/plugin-dotenv": "^2.2.0",
     "@snowpack/plugin-react-refresh": "^2.5.0",
+    "@types/jest": "^27.0.2",
     "http2-proxy": "^5.0.53",
     "jest": "^27.3.0",
     "jest-cli": "^27.3.0",
@@ -39,21 +41,17 @@
     "react-router-dom": "^5.3.0"
   },
   "jest": {
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "verbose": false,
     "testPathIgnorePatterns": [
       "/node_modules",
-      "/test/acceptance"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "js"
+      "/api"
     ],
     "extensionsToTreatAsEsm": [
       ".ts"
     ],
     "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
+      "^.+\\.(js|jsx|ts|tsx)$": "ts-jest"
     }
   }
 }
