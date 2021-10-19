@@ -12,7 +12,7 @@ export class BffApiClient {
     }
 
     async get(input) { return await this.fetch(input, { method: "GET", headers: {} }); }
-    async post(input, body = "") { return await this.fetch(input, { method: "POST", headers: {}, body: JSON.stringify(body) }); }
+    async post(input, body) { return await this.fetch(input, { method: "POST", headers: {}, body: JSON.stringify(body) }); }
 
     async signIn(username, password) {
         const result = await this.post("/api/account/signin", { username, password });
