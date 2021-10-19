@@ -6,9 +6,10 @@
   "scripts": {
     "start": "run-p dev:api dev:server",
     "build": "npx snowpack build",
-    "test": "jest --runInBand && npm run test --prefix api",
+    "dev:server": "npx snowpack dev",
+    "test": "jest --runInBand && npm run test:api",
     "dev:api": "npm run start --prefix api",
-    "dev:server": "npx snowpack dev"
+    "test:api": "npm run test --prefix api"
   },
   "repository": {
     "type": "git",
