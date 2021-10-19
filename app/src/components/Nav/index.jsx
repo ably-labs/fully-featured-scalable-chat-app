@@ -1,9 +1,9 @@
 import React from "react";
-import "./logout.css";
+import "./nav.css";
 import { useAuth } from "../../AppProviders";
  
 
-const Logout = () => {
+const Nav = () => {
 
   const { _, __, logout } = useAuth();
 
@@ -13,8 +13,10 @@ const Logout = () => {
   };
 
   return (
-    <button className="logout" onClick={processLogout}>Logout</button>
+    <nav className="main-nav">
+      <button onClick={processLogout}>Logout</button>
+    </nav>
   );
 };
 
-export default Logout;
+export default Nav;

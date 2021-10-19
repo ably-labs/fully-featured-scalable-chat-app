@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "./Header";
+import Header from "./Header/AuthHeader";
 import Footer from "./Footer";
-import Logout from "./Logout";
+import Nav from "./Nav";
 import ChannelBrowser from "./ChannelBrowser";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const AuthenticatedApp = () => {
     return (
         <>
             <Header />
-            <Logout />
+            <Nav />
             <main>
                 <BrowserRouter>
                     <Switch>

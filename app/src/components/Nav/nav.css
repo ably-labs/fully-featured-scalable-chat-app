@@ -1,7 +1,11 @@
-.logout {
+.main-nav {
     position: absolute;
+    background: url("images/nav.svg") right center no-repeat;
     top: 1rem;
     right: 1rem;
+}
+
+.main-nav button {
     width: max-content;
     border: 0;
     background-color: transparent;
