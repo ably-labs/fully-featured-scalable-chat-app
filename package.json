@@ -40,7 +40,7 @@
     "react-router-dom": "^5.3.0"
   },
   "jest": {
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "verbose": false,
     "testPathIgnorePatterns": [
       "/node_modules",
