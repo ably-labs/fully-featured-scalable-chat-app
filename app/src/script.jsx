@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import AppProviders from "./AppProviders"
+import AppProviders from "./AppProviders";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 
 import App from "./App.jsx";
@@ -8,7 +9,9 @@ import App from "./App.jsx";
 ReactDOM.render(
   <React.StrictMode>
     <AppProviders>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </AppProviders>
   </React.StrictMode>,
   document.getElementById("root")
