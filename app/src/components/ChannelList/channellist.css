@@ -1,57 +1,56 @@
 main {
-    height: 100%;
+  height: 100%;
 }
 
 .channellist h2 {
-    padding: 1rem;
-    font-size: 1em;
-    background-color: var(--secondary);
+  padding: 1rem;
+  font-size: 1em;
+  background-color: var(--secondary);
 }
 
 .channellist h2:first-of-type {
-    border-top: 0;
+  border-top: 0;
 }
 
 .channellist ul {
-    padding: var(--spacer) 0;
-    background-color: var(--primary-text);
-    border-top: 1px solid var(--primary);
-    border-bottom: 1px solid var(--primary);
+  padding: var(--spacer) 0;
+  background-color: var(--primary-text);
+  border-top: 1px solid var(--primary);
+  border-bottom: 1px solid var(--primary);
 }
 
 .channellist li {
-    list-style: none;
+  list-style: none;
 }
 
 .channellist a {
-    display: block;
-    padding: var(--spacer);
-    padding-left: 3rem;
-    text-decoration: none;
-    color: var(--primary);
-    background: url("images/group.svg") no-repeat 1rem center;
-    background-size: 1rem;
+  display: block;
+  padding: var(--spacer);
+  padding-left: 3rem;
+  text-decoration: none;
+  color: var(--primary);
+  background: url("images/group.svg") no-repeat 1rem center;
+  background-size: 1rem;
 }
 
 .channellist a:hover {
-    background-color: var(--negative-active);
+  background-color: var(--negative-active);
 }
 
 @media screen and (min-width: 800px) {
-    main {
-        display: flex;
-        align-items: stretch;
-        height: 100%;
-    }
+  main {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+  }
 
-    .channellist {
-        padding-left: 1rem;
-        background-color: var(--secondary);
-        border: 1px solid var(--primary)
-    }
+  .channellist {
+    padding-left: 1rem;
+    background-color: var(--secondary);
+    border: 1px solid var(--primary);
+  }
 
-    .channellist ul {
-        border-left: 1px solid var(--primary);
-    }
-
+  .channellist ul {
+    border-left: 1px solid var(--primary);
+  }
 }

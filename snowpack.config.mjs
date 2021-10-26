@@ -1,4 +1,4 @@
-import proxy from 'http2-proxy';
+import proxy from "http2-proxy";
 
 export default {
   "devOptions:": {
@@ -7,20 +7,17 @@ export default {
   "buildOptions:": {
     "clean ": true
   },
-  "mount": {
+  mount: {
     "app/public": "/",
     "app/src": "/dist"
   },
-  "plugins": [
-    "@snowpack/plugin-react-refresh",
-    "@snowpack/plugin-dotenv"
-  ],
+  plugins: ["@snowpack/plugin-react-refresh", "@snowpack/plugin-dotenv"],
   routes: [
     {
-      src: '/api/.*',
+      src: "/api/.*",
       dest: (req, res) => {
-        return proxy.web(req, res, { hostname: 'localhost', port: 7071 });
+        return proxy.web(req, res, { hostname: "localhost", port: 7071 });
       }
-    },
-  ],
+    }
+  ]
 };
