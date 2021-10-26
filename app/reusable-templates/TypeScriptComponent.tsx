@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function TypeScriptComponent() {
+  const someValue: string = "yay";
 
-    const someValue: string = "yay";
-
-    return (
-        <div className="tscomp">
-            I was written in typescript {someValue}
-        </div>
-    );
+  return <div className="tscomp">I was written in typescript {someValue}</div>;
 }
 
 export default TypeScriptComponent;

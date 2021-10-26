@@ -8,11 +8,10 @@
   --negative-active: #eee;
 
   --max-width-form: 400px;
-  --spacer: .5rem;
+  --spacer: 0.5rem;
 }
 
 .container {
   display: flex;
   flex-wrap: wrap;
 }
-

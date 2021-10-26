@@ -1,59 +1,58 @@
 .main-menu {
-    position: absolute;
-    top: 0;
-    right: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 #checkbox-toggle {
-    display: none;
+  display: none;
 }
 
 .menu-title {
-    display: block;
-    color: transparent;
-    height: 4rem;
-    width: 4rem;
-    padding: 1rem;
-    background: url("images/nav.svg") 1rem center no-repeat;
-    background-size: 2rem;
-    font-size: 0;
+  display: block;
+  color: transparent;
+  height: 4rem;
+  width: 4rem;
+  padding: 1rem;
+  background: url("images/nav.svg") 1rem center no-repeat;
+  background-size: 2rem;
+  font-size: 0;
 }
 
 .main-nav {
-    position: absolute;
-    right: 0;
-    width: 100%;
-    min-width: 200px;
-    text-align: right;
-    background-color: var(--primary);
-    z-index: 1;
-    transform: scaleY(0);
-    transform-origin:top;
-    transition: transform 0.2s ease-in-out;
+  position: absolute;
+  right: 0;
+  width: 100%;
+  min-width: 200px;
+  text-align: right;
+  background-color: var(--primary);
+  z-index: 1;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.2s ease-in-out;
 }
 
 #checkbox-toggle:checked ~ .main-nav {
-    transform: scaleY(1);
+  transform: scaleY(1);
 }
 
 #checkbox-toggle:checked ~ .menu-title {
-    background: url("images/close.svg") 1rem center no-repeat;
-    background-size: 2rem;
+  background: url("images/close.svg") 1rem center no-repeat;
+  background-size: 2rem;
 }
 
 .main-nav button {
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    border: 0;
-    text-align: right;
-    font-size: 1rem;
-    color: white;
-    background-color: transparent;
-    cursor: pointer;
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  border: 0;
+  text-align: right;
+  font-size: 1rem;
+  color: white;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .main-nav button:hover {
-    background-color: var(--primary-active);
-
+  background-color: var(--primary-active);
 }

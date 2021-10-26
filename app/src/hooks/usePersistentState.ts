@@ -1,19 +1,19 @@
 import { useState } from "react";
 
-export function userPersistentState(storageKey: string, stateObject: any) {    
-    let storedData = localStorage.getItem(storageKey) || JSON.stringify(stateObject);
-    
-    const initialData = JSON.parse(storedData);    
-    const [ state, setState ] = useState(initialData);
+export function userPersistentState(storageKey: string, stateObject: any) {
+  let storedData = localStorage.getItem(storageKey) || JSON.stringify(stateObject);
 
-    if (!state) {
-        setState(stateObject);
-    }
+  const initialData = JSON.parse(storedData);
+  const [state, setState] = useState(initialData);
 
-    const setAndPersistState = (newState: any) => {
-        setState(newState);
-        localStorage.setItem(storageKey, JSON.stringify(newState));        
-    };
+  if (!state) {
+    setState(stateObject);
+  }
 
-    return [ state, setAndPersistState];
+  const setAndPersistState = (newState: any) => {
+    setState(newState);
+    localStorage.setItem(storageKey, JSON.stringify(newState));
+  };
+
+  return [state, setAndPersistState];
 }
