@@ -1,10 +1,10 @@
 footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 footer img {
-    max-height: 2rem;
-    margin: var(--spacer) 1rem var(--spacer) var(--spacer);
+  max-height: 2rem;
+  margin: var(--spacer) 1rem var(--spacer) var(--spacer);
 }

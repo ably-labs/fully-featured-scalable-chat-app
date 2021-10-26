@@ -1,9 +1,10 @@
 {
-    "azureFunctions.deploySubpath": "api",
-    "azureFunctions.postDeployTask": "npm install (functions)",
-    "azureFunctions.projectLanguage": "TypeScript",
-    "azureFunctions.projectRuntime": "~2",
-    "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.preDeployTask": "npm prune (functions)",
-    "typescript.tsdk": "node_modules\\typescript\\lib"
+  "azureFunctions.deploySubpath": "api",
+  "azureFunctions.postDeployTask": "npm install (functions)",
+  "azureFunctions.projectLanguage": "TypeScript",
+  "azureFunctions.projectRuntime": "~2",
+  "debug.internalConsoleOptions": "neverOpen",
+  "azureFunctions.preDeployTask": "npm prune (functions)",
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "prettier.printWidth": 180
 }

@@ -1,16 +1,16 @@
 .chat {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 .chat ul {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .chat li {
-    list-style: none;
+  list-style: none;
 }
 
 .send {
- display: flex;
+  display: flex;
 }

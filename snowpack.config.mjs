@@ -17,12 +17,12 @@ export default {
       src: "/api/.*",
       dest: (req, res) => {
         return proxy.web(req, res, { hostname: "localhost", port: 7071 });
-      },
+      }
     },
     {
       match: "routes",
       src: ".*",
       dest: "/index.html"
-    },
+    }
   ]
 };

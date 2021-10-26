@@ -6,9 +6,8 @@ import { ChatInput } from "./ChatInput";
 import "./chat.css";
 
 const Chat = ({ currentChannel }) => {
-
   if (currentChannel === null) {
-    return (<SelectAChannel />);
+    return <SelectAChannel />;
   }
 
   const rewindParameters = "[?rewind=100]";
@@ -21,7 +20,7 @@ const Chat = ({ currentChannel }) => {
   }, [currentChannel]);
 
   const [channel, ably] = useChannel(channelSubscription, (message) => {
-    setHistory(prev => [...prev.slice(-199), message]);
+    setHistory((prev) => [...prev.slice(-199), message]);
   });
 
   const sendMessage = (messageText) => {

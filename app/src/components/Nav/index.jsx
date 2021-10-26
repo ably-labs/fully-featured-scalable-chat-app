@@ -13,7 +13,9 @@ const Nav = () => {
   return (
     <div className="main-menu">
       <input type="checkbox" id="checkbox-toggle" />
-      <label className="menu-title" htmlFor="checkbox-toggle">Menu</label>
+      <label className="menu-title" htmlFor="checkbox-toggle">
+        Menu
+      </label>
       <nav className="main-nav">
         <button onClick={processLogout}>Logout</button>
       </nav>

@@ -1,76 +1,76 @@
 .loginregister {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: var(--max-width-form);
-    margin: 0 auto;
-    padding: 0 1rem;
-    flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--max-width-form);
+  margin: 0 auto;
+  padding: 0 1rem;
+  flex-grow: 1;
 }
 
-.loginregister a, 
+.loginregister a,
 .loginregister button {
-    width: 100%;
-    padding: 1rem;
-    border: 0;
-    border-radius: var(--spacer);
-    font-size: 1.2rem;
-    text-align: center;
-    text-decoration: none;
-    background-color: var(--primary);
-    color: var(--primary-text);
+  width: 100%;
+  padding: 1rem;
+  border: 0;
+  border-radius: var(--spacer);
+  font-size: 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--primary);
+  color: var(--primary-text);
 }
 
-.loginregister a:hover, 
+.loginregister a:hover,
 .loginregister button:hover {
-    background-color: var(--primary-active);
+  background-color: var(--primary-active);
 }
 
 .hr {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 1rem;
 }
 
-.hr::before, 
-.hr::after  {
-    content: "";
-    display: block;
-    height: 2px;
-    width: 42%;
-    background-color: var(--primary);
+.hr::before,
+.hr::after {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 42%;
+  background-color: var(--primary);
 }
 
 .loginregister-form {
-    width: 100%;
-    margin: 0 auto;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .loginregister-title {
-    display: none;
+  display: none;
 }
 
 .loginregister-label {
-    display: block;
+  display: block;
 }
 
 .loginregister-label-text {
-    display: none;
+  display: none;
 }
 
 .loginregister input {
-    width: 100%;
-    margin-bottom: 1rem;
-    padding: var(--spacer);
-    font-size: 1.2rem;
-    border: 2px solid var(--primary);
-    border-radius: 4px;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: var(--spacer);
+  font-size: 1.2rem;
+  border: 2px solid var(--primary);
+  border-radius: 4px;
 }
 
 .login-register-button {
-    margin-top: 1rem;
+  margin-top: 1rem;
 }
