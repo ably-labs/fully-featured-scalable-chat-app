@@ -47,7 +47,7 @@ main {
   .channellist {
     padding-left: 1rem;
     background-color: var(--secondary);
-    border: 1px solid var(--primary);
+    border-right: 1px solid var(--primary);
   }
 
   .channellist ul {
