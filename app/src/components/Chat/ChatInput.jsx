@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 export const ChatInput = ({ sendMessage }) => {
   const [message, setMessage] = React.useState("");
