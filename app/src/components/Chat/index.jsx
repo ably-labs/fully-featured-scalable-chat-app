@@ -10,6 +10,8 @@ const Chat = ({ currentChannel }) => {
     return <SelectAChannel />;
   }
 
+  let messageEnd = null;
+
   const rewindParameters = "[?rewind=100]";
   const channelSubscription = rewindParameters + currentChannel;
 
@@ -18,6 +20,10 @@ const Chat = ({ currentChannel }) => {
   useEffect(() => {
     setHistory([]); // Reset history on channel change
   }, [currentChannel]);
+
+  useEffect(() => {
+    messageEnd.scrollIntoView({ behaviour: "smooth" }); // scroll page to bottom
+  }, [history]);
 
   const [channel, ably] = useChannel(channelSubscription, (message) => {
     setHistory((prev) => [...prev.slice(-199), message]);
@@ -32,6 +38,11 @@ const Chat = ({ currentChannel }) => {
       <h2>{currentChannel}</h2>
       <ul className="messages">
         <ChatHistory history={history} />
+        <li
+          ref={(element) => {
+            messageEnd = element;
+          }}
+        ></li>
       </ul>
       <ChatInput sendMessage={sendMessage} />
     </section>

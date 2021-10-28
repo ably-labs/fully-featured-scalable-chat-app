@@ -8,6 +8,7 @@ export const ChatHistory = ({ history }) => {
         <span className="sender">{user}</span>
         <span className="text">{item.data.text}</span>
       </li>
+  
     );
   });
 

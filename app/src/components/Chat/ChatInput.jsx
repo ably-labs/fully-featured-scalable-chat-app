@@ -6,6 +6,9 @@ export const ChatInput = ({ sendMessage }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (message === "") {
+      return 
+    }
     sendMessage(message);
     setMessage("");
   };
