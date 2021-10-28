@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export const ChatInput = ({ sendMessage }) => {
   const [message, setMessage] = React.useState("");
@@ -12,12 +12,13 @@ export const ChatInput = ({ sendMessage }) => {
   return (
     <form className="send" onSubmit={handleSubmit}>
       <textarea
+        className="send-input"
         onChange={(e) => {
           setMessage(e.target.value);
         }}
         value={message}
       ></textarea>
-      <button>Send</button>
+      <button className="send-button">Send</button>
     </form>
   );
 };

@@ -1,16 +1,59 @@
 .chat {
+  width: 100%;
   padding: 1rem;
-}
-
-.chat ul {
-  padding: 0;
-  margin: 0;
-}
-
-.chat li {
-  list-style: none;
 }
 
 .send {
   display: flex;
+}
+
+.send-input {
+  width: 100%;
+  padding: var(--spacer);
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.send-button {
+  padding: 1rem 2rem;
+  border: 0;
+  font-family: inherit;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: var(--primary);
+  color: var(--primary-text);
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: var(--primary-active);
+}
+
+.messages {
+  height: calc( 100vh - 18rem);
+  overflow-y: auto;
+  margin: 1rem 0;
+  padding: 0;
+}
+
+.message {
+  position: relative;
+  margin-bottom: 1rem;
+  padding-left: 4rem;
+  list-style: none;
+}
+
+.message::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  background-color: black;
+}
+
+.sender {
+  display: block;
+  font-weight: bold;
 }

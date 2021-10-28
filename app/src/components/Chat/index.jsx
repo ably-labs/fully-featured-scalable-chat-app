@@ -30,7 +30,7 @@ const Chat = ({ currentChannel }) => {
   return (
     <section className="chat">
       <h2>{currentChannel}</h2>
-      <ul>
+      <ul className="messages">
         <ChatHistory history={history} />
       </ul>
       <ChatInput sendMessage={sendMessage} />
