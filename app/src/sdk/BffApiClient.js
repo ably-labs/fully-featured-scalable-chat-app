@@ -19,13 +19,19 @@ export class BffApiClient {
 
   async signIn(username, password) {
     const result = await this.post("/api/account/signin", { username, password });
-
     if (result.status !== 200) {
       return { success: false, token: null, userDetails: null };
     }
 
     const body = await result.json();
     return { success: true, ...body };
+  }
+
+  async signInWithAuth0() {
+    const result = await this.get("/api/ably/auth0");
+    const { tokenRequestData } = await result.json();
+
+    return { success: true, tokenRequestData: tokenRequestData };
   }
 
   async register(username, firstName, lastName, password) {
