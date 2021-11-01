@@ -1,25 +1,13 @@
 import React, { useState } from "react";
-import { useAuth } from "../../AppProviders";
 import "./loginregister.css";
 import { BffApiClient } from "../../sdk/BffApiClient";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Login = () => {
-  const { auth, onLoginSuccess } = useAuth();
+  // const { auth, onLoginSuccess } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const doLogin = async (event) => {
-    event.preventDefault();
-
-    const client = new BffApiClient();
-    const { success, token, userDetails } = await client.signIn(username, password);
-
-    if (!success) {
-      console.log("Oh no!", result.body); // Add UI feedback for bad creds here
-    } else {
-      onLoginSuccess(token, userDetails);
-    }
-  };
+  const { loginWithPopup } = useAuth0();
 
   return (
     <main className="loginregister">
@@ -33,7 +21,7 @@ const Login = () => {
           <span className="loginregister-label-text">password</span>
           <input type="password" placeholder="password" value={password} onChange={(ele) => setPassword(ele.target.value)}></input>
         </label>
-        <button className="login-register-button" onClick={doLogin}>
+        <button className="login-register-button" onClick={() => loginWithPopup()}>
           Sign In
         </button>
       </form>

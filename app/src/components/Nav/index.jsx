@@ -1,14 +1,9 @@
 import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import "./nav.css";
-import { useAuth } from "../../AppProviders";
 
 const Nav = () => {
-  const { _, __, logout } = useAuth();
-
-  const processLogout = (event) => {
-    event.preventDefault();
-    logout();
-  };
+  const { logout } = useAuth0();
 
   return (
     <div className="main-menu">
@@ -17,7 +12,7 @@ const Nav = () => {
         Menu
       </label>
       <nav className="main-nav">
-        <button onClick={processLogout}>Logout</button>
+        <button onClick={logout}>Logout</button>
       </nav>
     </div>
   );

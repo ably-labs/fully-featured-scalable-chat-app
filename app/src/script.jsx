@@ -1,18 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import AppProviders from "./AppProviders";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
+import { Auth0Provider } from "@auth0/auth0-react";
+import Auth0Credentials from "./clientConfig";
 
 import App from "./App.jsx";
 
 ReactDOM.render(
   <React.StrictMode>
-    <AppProviders>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Auth0Provider domain={Auth0Credentials.domain} clientId={Auth0Credentials.clientId} redirectUri={"http://localhost:8080/"} audience={Auth0Credentials.audience}>
         <App />
-      </BrowserRouter>
-    </AppProviders>
+      </Auth0Provider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

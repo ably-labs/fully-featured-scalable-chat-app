@@ -17,31 +17,11 @@ export class BffApiClient {
     return await this.fetch(input, { method: "POST", headers: {}, body: JSON.stringify(body) });
   }
 
-  async signIn(username, password) {
-    const result = await this.post("/api/account/signin", { username, password });
-
-    if (result.status !== 200) {
-      return { success: false, token: null, userDetails: null };
-    }
-
-    const body = await result.json();
-    return { success: true, ...body };
-  }
-
-  async register(username, firstName, lastName, password) {
-    const result = await this.post("/api/account/register", { username, firstName, lastName, password });
-
-    if (result.status !== 200) {
-      return { success: false, token: null, userDetails: null };
-    }
-
-    const { token, userDetails } = await result.json();
-    return { success: true, token, userDetails };
-  }
-
-  async validate() {
-    const result = await this.get("/api/account/validate");
-    return result.status === 200;
+  async getAblyToken() {
+    const result = await this.get("ably/token-request");
+    const processedResult = await result.json();
+    console.log(processedResult, "processedResult");
+    return processedResult;
   }
 
   async listChannels() {

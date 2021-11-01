@@ -1,20 +1,17 @@
-import React, { useState } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Choose from "./choose";
-import CreateAccount from "./register";
-import SignIn from "./login";
+import React from "react";
+import { Link } from "react-router-dom";
 import "./loginregister.css";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const LoginRegister = () => {
+const Choose = () => {
+  const { loginWithPopup } = useAuth0();
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route path="/register" component={CreateAccount} />
-        <Route path="/login" component={SignIn} />
-        <Route exact path="/" component={Choose} />
-      </Switch>
-    </BrowserRouter>
+    <main className="loginregister">
+      <button onClick={loginWithPopup}>Create Account</button>
+      <span className="hr">or</span>
+      <button onClick={loginWithPopup}>Sign In</button>
+    </main>
   );
 };
 
-export default LoginRegister;
+export default Choose;
