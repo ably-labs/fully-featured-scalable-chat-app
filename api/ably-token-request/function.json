@@ -1,14 +1,12 @@
 {
   "bindings": [
     {
-      "route": "ably/token-request",
+      "route": "ably-token-request/",
       "authLevel": "function",
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": [
-        "get"
-      ]
+      "methods": ["get"]
     },
     {
       "type": "http",

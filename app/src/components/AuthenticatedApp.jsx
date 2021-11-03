@@ -6,10 +6,16 @@ import ChannelBrowser from "../pages/ChannelBrowser";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { configureAbly } from "@ably-labs/react-hooks";
 import { BffApiClient } from "../sdk/BffApiClient";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const AuthenticatedApp = () => {
-  const bffClient = new BffApiClient();
-  bffClient.getAblyToken();
+  const { getAccessTokenSilently } = useAuth0();
+  getAccessTokenSilently().then((auth0Token) => {
+    const bffClient = new BffApiClient(auth0Token);
+    bffClient.getAblyToken().then((token) => {
+      console.log(token);
+    });
+  });
   return (
     <>
       <Header />

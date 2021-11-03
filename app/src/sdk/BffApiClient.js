@@ -4,28 +4,27 @@ export class BffApiClient {
     this._fetchFunc = fetchFunc;
   }
 
-  async fetch(input, init) {
+  async fetchFromAzureFunctions(input, init) {
     init.headers = this._jwtToken ? { ...init.headers, jwt: this._jwtToken } : init.headers;
-    const func = this._fetchFunc || fetch;
-    return await func(input, init);
+    input = "/api/" + input;
+    return await fetch(input, init);
   }
 
   async get(input) {
-    return await this.fetch(input, { method: "GET", headers: {} });
+    return await this.fetchFromAzureFunctions(input, { method: "GET", headers: {} });
   }
   async post(input, body) {
-    return await this.fetch(input, { method: "POST", headers: {}, body: JSON.stringify(body) });
+    return await this.fetchFromAzureFunctions(input, { method: "POST", headers: {}, body: JSON.stringify(body) });
   }
 
   async getAblyToken() {
-    const result = await this.get("ably/token-request");
-    const processedResult = await result.json();
-    console.log(processedResult, "processedResult");
-    return processedResult;
+    const result = await this.get("ably-token-request");
+    console.log(result);
+    return await result.json();
   }
 
   async listChannels() {
-    const result = await this.get("/api/channels");
+    const result = await this.get("channels");
     return await result.json();
   }
 }
