@@ -19,7 +19,6 @@ export class BffApiClient {
 
   async getAblyToken() {
     const result = await this.get("ably-token-request");
-    console.log(result);
     return await result.json();
   }
 

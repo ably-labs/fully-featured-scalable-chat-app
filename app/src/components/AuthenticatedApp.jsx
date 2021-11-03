@@ -12,8 +12,12 @@ const AuthenticatedApp = () => {
   const { getAccessTokenSilently } = useAuth0();
   getAccessTokenSilently().then((auth0Token) => {
     const bffClient = new BffApiClient(auth0Token);
-    bffClient.getAblyToken().then((token) => {
-      console.log(token);
+    configureAbly({
+      authCallback: (tokenParams, callback) => {
+        bffClient.getAblyToken().then((token) => {
+          callback(null, token);
+        });
+      }
     });
   });
   return (
