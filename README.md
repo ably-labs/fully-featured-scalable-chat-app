@@ -6,49 +6,70 @@ The goal is to build a chat app with a complete feature set using [Ably Realtime
 
 If you have any questions, ideas or want to contribute, please raise an issue or [reach out to us](devrel@ably.com).
 
-## Things you will need to make this run locally!
+## How to make this work locally
 
-1. Node
-2. [The Azure Functions Runtime from NPM](https://www.npmjs.com/package/azure-functions-core-tools)
-3. an `.env` file in ./api
+### Step 1 - Pre-requisites
+
+1. Install [Node JavaScript runtime](https://nodejs.org/en/) on your system
+2. Install [Azure Functions Runtime from NPM](https://www.npmjs.com/package/azure-functions-core-tools) on your system
+3. Create an [Ably](https://ably.com/) account
+4. Create an [Auth0](https://auth0.com/) account
+
+### Step 2 - Add the following environment variables
+
+1. a `.env` file in the root
+
+You can find your auth0 credentials on your [account dashboard](https://auth0.com/docs/configure/applications/application-settings)
 
 ```[text]
-COSMOS_ENDPOINT=https://ffschatmetadata.documents.azure.com
-COSMOS_KEY=ASK FOR THIS OR MAKE YOUR OWN
-COSMOS_DATABASE_ID=metadata
-JWT_SIGNING_KEY=ASK FOR THIS OR MAKE YOUR OWN
-ABLY_API_KEY=YOURKEY:HERE
+SNOWPACK_PUBLIC_AUTH0_DOMAIN=<YOUR AUTH0 DOMAIN>
+SNOWPACK_PUBLIC_AUTH0_CLIENT_ID=<YOUR AUTH0 CLIENTID>
+SNOWPACK_PUBLIC_AUTH0_AUDIENCE=<YOUR AUTH0 AUDIENCE>
 ```
 
-4. `npm run start` in the root.
+2. a `.env` file in ./api
 
-# Design
+```[text]
+JWT_SIGNING_KEY=<YOUR_JWT_KEY_FROM_AUTH0>
+ABLY_API_KEY=<YOUR_ABLY_API_KEY>
+```
+
+### Step 3 - Run the app
+
+Run the following command from the root
+
+```sh
+npm run start
+```
+
+## Design
 
 The chat app is made up of the following:
 
-- A Web Application that is hosted in Azure Static Web Apps (React)
-- A "BFF" API built to run in Azure Functions (Node.js)
-- A CosmosDB database to store metadata (user accounts, chat channel metadata)
-- An [Ably Realtime](https://ably.com/) account to send and receive chat messages
-- An `Archive API` to receive events from Ably Reactor and maintain a chat history
-- A Storage bucket to store `Chat Archive`.
+- User authentication is enabled using a third party API, [Auth0](https://auth0.com/). The library is instanced via [@auth0/auth0-react](@https://www.npmjs.com/package/@auth0/auth0-react) NPM package
+- The SPA (Single Page Application) is written in React and in Azure Static Web Apps
+- The "BFF" API is written in Node.js and built to run in Azure Functions
+- An [Ably Realtime](https://ably.com/documentation/realtime/usage) instance is used to send and receive chat messages used. The library is instanced using the [@ably-labs/react-hooks](https://www.npmjs.com/package/@ably-labs/react-hooks) NPM package.
 
-## The React Application
+### The React Application
 
-The React application is a default, single page application.
-It uses a mixture of `react-router-dom` and a custom `AppProvider` to provide the security context for the application.
+The React application is a default single page application.
+It uses a mixture of `react-router-dom` and an auth context exposed by Auth0 to ultimately provide the security context for the application.
 
-The app uses [@ably-labs/react-hooks](https://www.npmjs.com/package/@ably-labs/react-hooks) to interact with **Ably Channels**, and the application is composed of modern *React Functional Components*.
+The app uses [@ably-labs/react-hooks](https://www.npmjs.com/package/@ably-labs/react-hooks) to interact with **Ably Channels**, and the application is composed of modern **React Functional Components**.
 
-*snowpack* is the development server, which will transparently build ES6 code for production.
+[Snowpack](https://www.snowpack.dev/) is the development server, which will transparently build ES6 code for production.
 
-## The BFF (Backend-for-Frontend) API
+### The BFF (Backend-for-Frontend) API
 
-The BFF is an *application specific* API that contains all of the serverside logic for the chat app.
+The BFF is an **application specific** API that contains all of the serverside logic for the chat app.
 Because it is hosted on **Azure Static Web Apps**, we can use the `azure-functions-core-tools` run the API server.
 
-In addition to this, the **Azure Static Web Apps** runtime will *auto-host* the APIs for us - so we don't need to worry about configuring hosting.
-The BFF is executed on serverless infrastrucutre, and Azure SWA will auto-scale it to meet demand.
+In addition to this, the **Azure Static Web Apps** runtime will **auto-host** the APIs for us - so we don't need to worry about configuring hosting.
+
+The BFF is executed on serverless infrastructure, and Azure SWA will auto-scale it to meet demand.
+
+#### Extending the API
 
 To add new API endpoints, you will need to add a new directory to the `api` folder.
 
@@ -64,7 +85,7 @@ Then, create a `function.json` file in the new directory.
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": [ "get", "post" ]
+      "methods": ["get", "post"]
     },
     {
       "type": "http",
@@ -83,118 +104,58 @@ import "../startup";
 import { Context, HttpRequest } from "@azure/functions";
 
 export default async function (context: Context, req: HttpRequest): Promise<void> {
-    context.res = { status: 200, body: "I'm an API" };
-};
+  context.res = { status: 200, body: "I'm an API" };
+}
 ```
 
 This API will now be mounted at `http://localhost:8080/api/messages`.
 
 And that's it! The tooling and SDK will auto-detect your code as you change it and rebuild your functions for you.
 
-# Authentication and Security
+## Authentication and Security
 
-The app uses JWT token authentication between the Web application and the BFF.
-We store user credentials and salted, one way hashed passwords (done with bcrypt) in the CosmosDB database.
+The app uses a third-party service, [Auth0](https://auth0.com/), to enable authentication. Auth0 exposes a custom hook `useAuth0()` to login, logout or retrieve various user details, including a JWT.
 
-When a user authenticates, the app signs a JWT token with the user's id and username that is then sent to the BFF in subsequent requests for authenticated data.
-This means, with a small amount of code in the  APIs, we can ensure that the user is who they claim to be, and that they are entitled to access API data.
+When a user authenticates, the JWT signed by Auth0 is then sent to the BFF in subsequent requests for authenticated data. This means, with a small amount of code in the APIs, we can ensure that the user is who they claim to be, and that they are entitled to access API data.
 
-We can expand this model to include a collection of `roles` for claims-based authentication to resources in the application.
+As part of the upcoming work, we'll expand this model to include a collection of roles for claims-based authentication to resources in the application.
 
-## Creating an `Authenticated User Only` API call
+### Accessing user data in the React application
 
-We can create a `JWT token` authenticated API call by using the following convenience methods in the `BFF API`.
-
-```typescript
-import "../startup";
-import { Context, HttpRequest } from "@azure/functions";
-import { authorized, ApiRequestContext } from "../common/ApiRequestContext";
-
-export default async function (context: Context, req: HttpRequest): Promise<void> {
-    await authorized(context, req, () => {
-
-        // This code will only run if the user is authenticated
-
-        context.res = { status: 200, body: JSON.stringify("I am validated and authenticated") };
-    });
-};
-```
-
-If you want to access the authenticated users information as part of one of these API calls, you can do the following:
-
-
-```typescript
-import "../startup";
-import { Context, HttpRequest } from "@azure/functions";
-import { authorized, ApiRequestContext } from "../common/ApiRequestContext";
-
-export default async function (context: Context, req: HttpRequest): Promise<void> {
-    await authorized(context, req, ({ user }: ApiRequestContext) => {
-
-        // user is the userDetails object retrieved from CosmosDb
-
-        context.res = { status: 200, body: JSON.stringify("I am validated and authenticated") };
-    }, true); // <- true to include the userDetails object in the ApiRequestContext
-};
-```
-
-## Accessing user data in the React application
-
-The in-app authentication is implemented in `AppProviders.jsx`.
-
-It provides a React Hook that will return the `userDetails` object if the user is authenticated (along with ensuring that the user is authenticated at all).
-If a given user is not authenticated, they will be redirected to the login page in all cases.
-
-Because the `AppProvider` takes care of authentication, you'll need to use hooks to access user data, and to make authenticated API calls in any components.
-
-Here is an example of accessing the `userDetails` object of the currently authenticated user.
+The `user` object from the `useAuth0` hook provided by Auth0 can be directly used to retrieve details of the authenticated user.
 
 ```jsx
-import { useAuth } from "../../AppProviders";
-
-const MyComponent = () => {
-
-  const { user } = useAuth();
-
-  return (
-    <div>{user.username}</div>
-  );
-};
-
-export default MyComponent;
+const { user } = useAuth0();
 ```
 
-You can also access an instance of the `BffApiClient` class, which will allow you to make authenticated API calls and already contains the currently logged in users `JWT token`.
+### Invoking the Azure functions from the React application
+
+The `BFFApiClient` in the `sdk` folder allows the React application to invoke any Azure function, provided the app has the right authorization.
+
+As part of future work, we'll create a shared context to access an instance of the `BffApiClient` class from various components. For now, it is instantiated in any component that needs to access it.
 
 ```jsx
-import { useAuth } from "../../AppProviders";
+import { BffApiClient } from "../../sdk/BffApiClient";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const MyComponent = () => {
+export default () => {
+  const params = useParams();
+  const { getAccessTokenSilently } = useAuth0();
+  useEffect(() => {
+    const fetchChannels = async () => {
+      const auth0Token = await getAccessTokenSilently();
+      const bffClient = new BffApiClient(auth0Token);
+      const response = await bffClient.listChannels();
+      setChannels(response.channels);
+    };
+    fetchChannels();
+  }, []);
 
-    const { api } = useAuth();
-    const [channels, setChannels] = useState([]);
-
-    useEffect(() => {
-        const fetchChannels = async () => {
-            const response = await api.listChannels();
-            setChannels(response.channels);
-        };
-        fetchChannels();
-    }, []);
-
-  return (
-    <div>... bind channel data here</div>
-  );
+  return <div>... bind channel data here</div>;
 };
-
-export default MyComponent;
 ```
 
-The above example uses the `useEffect` hook to fetch the channels when the component mounts - the API request is made using the `api` instance, provided by the `useAuth` hook.
-
-This is the only way you should make `API` calls to the BFF from a component, as it'll ensure the `JWT` token is valid and present.
-
-If you're adding new `BFF APIs` to the application, you'll need to implement a new function in `/app/src/sdk/BffApiClient.js` to make it available to your components.
+The above example uses the `useEffect` hook to fetch the channels when the component mounts. The API request is made on a newly created instance of the `BffApiClient` and passing it the token returned by the `useAuth0` hook.
 
 These `BffApiClient` calls are simple, and look like this:
 
@@ -207,42 +168,31 @@ async listChannels() {
 
 Some utility code in the client will make sure the correct `JWT token` is present when the request is made.
 
-# The CosmosDb datastore
-
-We're using CosmosDb to store our application metadata because it is a scalable, highly available, managed database that we don't have to administer ourselves.
-It can run in a pre-provisioned or serverless mode, helping keep costs low when the application isn't in use (at the cost of some performance).
-
-We use a single CosmosDb database to store all of the metadata, and inside, we've created a collection for each type of Entity we're storing.
-
-For example: The `User` collection, stores our User records - and can be queried using SQL-like syntax. CosmosDb makes this easy by automatically indexing json documents.
-
-Each of the stored metadata entities have an `id` and a `type` field, and we're using a `generic repository` class (`/api/common/dataaccess/CosmosDbMetadataRepository`) to load and save these entities.
-
-For local development, you can either use the cloud hosted version of Cosmos, or use one of the available `docker container images` to run a local copy of the database.
-
-# Ably for Chat
+## Ably for Chat
 
 We're using `Ably channels` to store our chat messages and to push events to our React application.
 Each connected user will receive messages for channels that they are actively viewing in real-time, and we're using `Channel rewind` to populate the most recently sent messages.
 
-### Future work
+#### Future work
+
 Messages may be `corrected` asyncronously after they have been received - for instance, to apply profanity filtering, or to correct spelling errors.
 These correction messages will be part of the stream, and applied retroactively in the react application. (Further development on this in later epics)
 
 This design allows us to stand up extra APIs that consume these events, and publish their own elaborations on the channels for clients to respond to.
 
-# Suggested Chat Archiving
-## The Chat Archive API
+## Suggested Chat Archiving
+
+### The Chat Archive API
 
 Because Ably events will vanish over time, we're going to store copies of inbound events on each channel into our `Chat Archive` via the `Archive API`.
 
-The `Archive API` will receieve reactor messages for all of our channels, and append them to channel-specific `Azure Storage Blobs`.
+The `Archive API` will receive reactor messages for all of our channels, and append them to channel-specific `Azure Storage Blobs`.
 The API will append to a single file until it reaches a size threshold (~500kb) and then create a new file for subsequent messages.
 
 The `Archive API` will maintain a record of the currently active archive file in the `Metadata database` for each channel.
 
 The `Archive API` will be able to update a search index as messages are received and archived to later expose them in search.
 
-# Testing
+## Testing
 
 Tests are written in `jest` with `ts-jest` used to execute the APIs `TypeScript` tests.
