@@ -3,14 +3,17 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
-import Auth0Credentials from "./clientConfig";
 
 import App from "./App.jsx";
-
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Auth0Provider domain={Auth0Credentials.domain} clientId={Auth0Credentials.clientId} redirectUri={"http://localhost:8080/"} audience={Auth0Credentials.audience}>
+      <Auth0Provider
+        domain={import.meta.env.SNOWPACK_PUBLIC_AUTH0_DOMAIN}
+        clientId={import.meta.env.SNOWPACK_PUBLIC_AUTH0_CLIENT_ID}
+        redirectUri={window.location.origin}
+        audience={import.meta.env.SNOWPACK_PUBLIC_AUTH0_AUDIENCE}
+      >
         <App />
       </Auth0Provider>
     </BrowserRouter>
