@@ -3,6 +3,7 @@ import { useChannel } from "@ably-labs/react-hooks";
 import { ChatHistory } from "./ChatHistory";
 import { SelectAChannel } from "./SelectAChannel";
 import { ChatInput } from "./ChatInput";
+import { useAuth0 } from "@auth0/auth0-react";
 import "./chat.css";
 
 const Chat = ({ currentChannel }) => {
@@ -14,6 +15,7 @@ const Chat = ({ currentChannel }) => {
   const channelSubscription = rewindParameters + currentChannel;
 
   const [history, setHistory] = useState([]);
+  const { user } = useAuth0();
 
   useEffect(() => {
     setHistory([]); // Reset history on channel change
@@ -24,7 +26,7 @@ const Chat = ({ currentChannel }) => {
   });
 
   const sendMessage = (messageText) => {
-    channel.publish("message", { text: messageText });
+    channel.publish("message", { name: user.nickname, text: messageText });
   };
 
   return (
