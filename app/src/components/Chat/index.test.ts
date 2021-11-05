@@ -1,11 +1,9 @@
-import { default as Chat } from './index';
+import { default as Chat } from "./index";
 
 describe("A", () => {
+  it("Chat", () => {
+    const result = Chat();
 
-    it("Chat", () => {
-        const result = Chat();
-
-        expect(result).toBeDefined();
-    });
-
+    expect(result).toBeDefined();
+  });
 });
