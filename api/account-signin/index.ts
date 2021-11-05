@@ -11,7 +11,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
     const reason = "Unrecognised username / password combination.";
 
-    if (existing?.length === 0) {
+    if (existing?.length === 0 || req.body.password == "") {
         context.res = { status: 403, body: JSON.stringify({ success: false, reason }) };
         return;
     }

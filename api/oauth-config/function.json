@@ -1,0 +1,21 @@
+{
+  "bindings": [
+    {
+      "route": "oauth/config",
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "post",
+        "get"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    }
+  ],
+  "scriptFile": "../dist/oauth-config/index.js"
+}

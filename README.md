@@ -59,7 +59,7 @@ Then, create a `function.json` file in the new directory.
 {
   "bindings": [
     {
-      "route": "path/to/your/api",
+      "route": "messages",
       "authLevel": "function",
       "type": "httpTrigger",
       "direction": "in",

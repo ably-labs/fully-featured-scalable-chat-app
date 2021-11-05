@@ -1,0 +1,21 @@
+{
+  "bindings": [
+    {
+      "route": "oauth/login",
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "post",
+        "get"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    }
+  ],
+  "scriptFile": "../dist/oauth-login/index.js"
+}

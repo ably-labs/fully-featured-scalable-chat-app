@@ -28,6 +28,18 @@ export class BffApiClient {
     return { success: true, ...body };
   }
 
+  async auth0Authenticate(token) {
+    
+    const result = await this.post('/api/oauth/login', { token });
+
+    if (result.status !== 200) {
+      return { success: false, token: null, userDetails: null };
+    }
+
+    const body = await result.json();
+    return { success: true, ...body };
+  }
+
   async register(username, firstName, lastName, password) {
     const result = await this.post("/api/account/register", { username, firstName, lastName, password });
 

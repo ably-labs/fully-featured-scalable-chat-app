@@ -1,6 +1,7 @@
 import { Entity } from "../common/dataaccess/IMetadataRepository";
 
 const fakeCalls = {};
+export const saveOrUpdateCalls = [];
 
 export function mockCall(name: string, callback: (...args: any[]) => any) {
     fakeCalls[name] = callback;
@@ -15,6 +16,7 @@ class FakeCosmosDbMetadataRepository {
     }
 
     saveOrUpdate<TEntityType extends Entity>(entity: TEntityType): Promise<void> {
+        saveOrUpdateCalls.push(entity);
         return fakeCalls['saveOrUpdate']?.apply(this, arguments);
     }
 }
