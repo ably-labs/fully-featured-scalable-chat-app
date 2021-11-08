@@ -29,8 +29,7 @@ export class BffApiClient {
   }
 
   async auth0Authenticate(token) {
-    
-    const result = await this.post('/api/oauth/login', { token });
+    const result = await this.post("/api/oauth/login", { token });
 
     if (result.status !== 200) {
       return { success: false, token: null, userDetails: null };

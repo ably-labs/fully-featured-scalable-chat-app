@@ -2,11 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../AppProviders";
 import ChannelList from "../../components/ChannelList";
 import Chat from "../../components/Chat";
-import { useParams } from "react-router-dom";
 
 export default () => {
-  const params = useParams();
-  console.log(params[0]); // gives channel param
   const { api } = useAuth();
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState(null);
