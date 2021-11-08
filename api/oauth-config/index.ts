@@ -1,7 +1,7 @@
 import "../startup";
-import { AzureFunction, Context, HttpRequest } from "@azure/functions";
+import { Context, HttpRequest } from "@azure/functions";
 
-const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
+export default async function (context: Context, req: HttpRequest): Promise<void> {
   context.res = {
     status: 200,
     body: JSON.stringify({
@@ -11,6 +11,4 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       redirect_uri: process.env.AUTH0_REDIRECT_URI,
     }),
   };
-};
-
-export default httpTrigger;
+}

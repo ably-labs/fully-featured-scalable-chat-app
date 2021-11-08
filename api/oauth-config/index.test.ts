@@ -11,7 +11,7 @@ describe("OAuth Configuration API", () => {
     process.env.AUTH0_CLIENTID = "b";
     process.env.AUTH0_REDIRECT_URI = "c";
 
-    await sut(context, { body: { token: "some-valid-auth0-token" } });
+    await sut(context, { body: { token: "some-valid-auth0-token" } } as any);
     const responseBody = JSON.parse(context.res.body);
 
     expect(context.res.status).toBe(200);
