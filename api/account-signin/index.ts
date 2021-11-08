@@ -1,35 +1,28 @@
 import "../startup";
-import * as bcrypt from "bcrypt";
-import { User } from "../common/metadata/User";
-import { JwtGenerator } from "../common/JwtGenerator";
-import { CosmosDbMetadataRepository } from "../common/dataaccess/CosmosDbMetadataRepository";
+import * as Validator from "validatorjs";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
+import { UserService } from "../common/services/UserService";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  const repository = new CosmosDbMetadataRepository();
-  const existing = await repository.getByProperty<User>("User", "username", req.body.username);
+  const validation = new Validator(req.body, { username: "required|min:1", password: "required|min:1" });
 
-  const reason = "Unrecognised username / password combination.";
+  if (validation.fails()) {
+    context.res = { status: 400, body: JSON.stringify(validation.errors.all()) };
+    return;
+  }
 
-  if (existing?.length === 0 || req.body.password == "") {
+  const userService = new UserService();
+
+  const { exists, user } = await userService.getUserByUsername(req.body.username);
+  const passwordMatches = await user.passwordMatches(req.body.password);
+
+  if (!exists || !passwordMatches || req.body.password == "") {
+    const reason = "Unrecognised username / password combination.";
     context.res = { status: 403, body: JSON.stringify({ success: false, reason }) };
     return;
   }
 
-  const user = existing[0];
-
-  const existingPasswordHash = user.passwordHash;
-  const match = await bcrypt.compare(req.body.password, existingPasswordHash);
-
-  if (!match) {
-    context.res = { status: 403, body: JSON.stringify({ success: false, reason }) };
-    return;
-  }
-
-  const jwtValidator = JwtGenerator.fromEnvironment();
-  const token = jwtValidator.generate(user.id);
-  const userDetails = { username: user.username, firstName: user.firstName, lastName: user.lastName };
-
+  const { token, userDetails } = userService.generateLoginMetadataFor(user);
   context.res = { status: 200, body: JSON.stringify({ success: true, reason: "correct credentials", token, userDetails }) };
 };
 

@@ -1,9 +1,7 @@
 import "../startup";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
-import { CosmosDbMetadataRepository } from "../common/dataaccess/CosmosDbMetadataRepository";
-import { User } from "../common/metadata/User";
-import { JwtGenerator } from "../common/JwtGenerator";
 import { AuthenticationClient } from "auth0";
+import { UserService } from "../common/services/UserService";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   var auth0 = new AuthenticationClient({
@@ -13,36 +11,31 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     redirect_uri: process.env.AUTH0_REDIRECT_URI,
   });
 
+  const userService = new UserService();
+
   try {
     const data = await auth0.getProfile(req.body.token);
 
-    const repository = new CosmosDbMetadataRepository();
-    const existing = await repository.getByProperty<User>("User", "oauthSub", data.sub);
+    const { exists, user } = await userService.getUserByOAuthSubscription(data.sub);
 
-    if (existing?.length != 0) {
-      const user = existing[0];
-
-      const { token, userDetails } = tokenAndDetailsFor(user);
+    if (exists) {
+      const { token, userDetails } = userService.generateLoginMetadataFor(user);
       context.res = { status: 200, body: JSON.stringify({ success: true, reason: "logged in", token, userDetails }) };
       return;
     }
 
-    const username = data.email; // This'll do for now, but we should let the user change this later.
-    const user = User.fromOAuthResult(username, data);
-    await repository.saveOrUpdate<User>(user);
+    const newUser = await userService.createUser({
+      username: data.email,
+      firstName: data.given_name,
+      lastName: data.family_name,
+      oauthSub: data.sub,
+    });
 
-    const { token, userDetails } = tokenAndDetailsFor(user);
+    const { token, userDetails } = userService.generateLoginMetadataFor(newUser);
     context.res = { status: 200, body: JSON.stringify({ success: true, reason: "created", token, userDetails }) };
   } catch (err) {
     context.res = { status: 403, body: JSON.stringify({ success: false, err }) };
   }
 };
-
-function tokenAndDetailsFor(user: User) {
-  const jwtValidator = JwtGenerator.fromEnvironment();
-  const token = jwtValidator.generate(user.id);
-  const userDetails = { username: user.username, firstName: user.firstName, lastName: user.lastName };
-  return { token, userDetails };
-}
 
 export default httpTrigger;
