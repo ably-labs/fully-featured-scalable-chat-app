@@ -2,6 +2,7 @@ import "../startup";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { AuthenticationClient } from "auth0";
 import { UserService } from "../common/services/UserService";
+import { ok, forbidden } from "../common/http/CommonResults";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   var auth0 = new AuthenticationClient({
@@ -19,8 +20,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     const { exists, user } = await userService.getUserByOAuthSubscription(data.sub);
 
     if (exists) {
-      const { token, userDetails } = userService.generateLoginMetadataFor(user);
-      context.res = { status: 200, body: JSON.stringify({ success: true, reason: "logged in", token, userDetails }) };
+      const loginMetadata = userService.generateLoginMetadataFor(user);
+      context.res = ok("logged in", loginMetadata);
       return;
     }
 
@@ -31,10 +32,10 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       oauthSub: data.sub,
     });
 
-    const { token, userDetails } = userService.generateLoginMetadataFor(newUser);
-    context.res = { status: 200, body: JSON.stringify({ success: true, reason: "created", token, userDetails }) };
+    const loginMetadata = userService.generateLoginMetadataFor(newUser);
+    context.res = ok("created", loginMetadata);
   } catch (err) {
-    context.res = { status: 403, body: JSON.stringify({ success: false, err }) };
+    context.res = forbidden();
   }
 };
 
