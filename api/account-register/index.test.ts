@@ -23,7 +23,7 @@ describe("Registration API", () => {
     }
   });
 
-  it("user exists, returns 400 error", async () => {
+  it("user exists, returns 400 error for username not available", async () => {
     addItemToDb("User", { id: "id", username: "user", firstName: "first", lastName: "last", password: "password" });
     const body = { username: "user", firstName: "first", lastName: "last", password: "password" };
 
@@ -34,7 +34,7 @@ describe("Registration API", () => {
     expect(responseBody["username"][0]).toBe(`This username is not available.`);
   });
 
-  it("no existing users, returns 200 created", async () => {
+  it("no existing users, returns 200 created for new user created", async () => {
     const body = { username: "user", firstName: "first", lastName: "last", password: "password" };
 
     await sut(context, { body });
