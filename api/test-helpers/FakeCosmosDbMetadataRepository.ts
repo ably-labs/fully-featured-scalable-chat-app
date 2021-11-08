@@ -1,23 +1,32 @@
 import { Entity } from "../common/dataaccess/IMetadataRepository";
 
-const fakeCalls = {};
 export const saveOrUpdateCalls = [];
+export const inMemoryDb = new Map<string, any[]>();
 
-export function mockCall(name: string, callback: (...args: any[]) => any) {
-  fakeCalls[name] = callback;
+export function addItemToDb(typeName: string, item: any) {
+  const items = inMemoryDb.get(typeName) || [];
+  items.push(item);
+  inMemoryDb.set(typeName, items);
+}
+
+export function clearDbItems() {
+  inMemoryDb.clear();
 }
 
 class FakeCosmosDbMetadataRepository {
   constructor() {}
 
   getByProperty<TEntityType extends Entity>(typeName: string, propertyName: string, value: any): Promise<TEntityType[]> {
-    return fakeCalls["getByProperty"]?.apply(this, arguments);
+    const items = inMemoryDb.get(typeName) || [];
+    const itemsToReturn = items?.filter((item) => item[propertyName] === value);
+    return itemsToReturn as any;
   }
 
   saveOrUpdate<TEntityType extends Entity>(entity: TEntityType): Promise<void> {
     saveOrUpdateCalls.push(entity);
-    return fakeCalls["saveOrUpdate"]?.apply(this, arguments);
+    return Promise.resolve();
   }
 }
 
-export const Mock = { CosmosDbMetadataRepository: FakeCosmosDbMetadataRepository };
+const mock = { CosmosDbMetadataRepository: FakeCosmosDbMetadataRepository };
+jest.doMock("../common/dataaccess/CosmosDbMetadataRepository", () => mock);

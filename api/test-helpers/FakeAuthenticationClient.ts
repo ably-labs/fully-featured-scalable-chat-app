@@ -12,4 +12,5 @@ class FakeAuthenticationClient {
   }
 }
 
-export const Mock = { AuthenticationClient: FakeAuthenticationClient };
+const auth0Mock = { AuthenticationClient: FakeAuthenticationClient };
+jest.doMock("auth0", () => auth0Mock);
