@@ -22,8 +22,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     return;
   }
 
-  const loginMetadata = userService.generateLoginMetadataFor(user);
-  context.res = ok("correct credentials", loginMetadata);
+  const metadata = userService.generateLoginMetadataFor(user);
+  context.res = ok("correct credentials", metadata);
 };
 
 export default httpTrigger;

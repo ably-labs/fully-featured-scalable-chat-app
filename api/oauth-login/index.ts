@@ -20,8 +20,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     const { exists, user } = await userService.getUserByOAuthSubscription(data.sub);
 
     if (exists) {
-      const loginMetadata = userService.generateLoginMetadataFor(user);
-      context.res = ok("logged in", loginMetadata);
+      const metadata = userService.generateLoginMetadataFor(user);
+      context.res = ok("logged in", metadata);
       return;
     }
 
@@ -32,8 +32,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       oauthSub: data.sub,
     });
 
-    const loginMetadata = userService.generateLoginMetadataFor(newUser);
-    context.res = ok("created", loginMetadata);
+    const metadata = userService.generateLoginMetadataFor(newUser);
+    context.res = ok("created", metadata);
   } catch (err) {
     context.res = forbidden();
   }

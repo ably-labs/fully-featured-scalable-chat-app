@@ -22,8 +22,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   }
 
   const user = await userService.createUser(data);
-  const loginMetadata = userService.generateLoginMetadataFor(user);
-  context.res = ok("created", loginMetadata);
+  const metadata = userService.generateLoginMetadataFor(user);
+  context.res = ok("created", metadata);
 };
 
 export type RegistrationForm = { username: string; firstName: string; lastName: string; password: string };
