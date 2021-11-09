@@ -7,11 +7,13 @@ type ChannelSummary = { name: string };
 type ChannelListResponse = { channels: ChannelSummary[] };
 
 export default async function (context: Context, req: HttpRequest): Promise<void> {
-  await authorized(context, req, (authContext: ApiRequestContext) => {
-    const channels: ChannelListResponse = {
-      channels: [{ name: "global-welcome" }, { name: "some-other-channel" }],
-    };
+  const authContext = await authorized(context, req);
 
-    context.res = ok("loaded", channels);
-  });
+  if (!authContext) {
+    return;
+  }
+  const channels: ChannelListResponse = {
+    channels: [{ name: "global-welcome" }, { name: "some-other-channel" }]
+  };
+  context.res = ok("loaded", channels);
 }
