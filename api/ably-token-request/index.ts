@@ -10,7 +10,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
 
         const clientId = `${user.id}:${user.username}`;
 
-        const tokenRequestData = await client.auth.createTokenRequest({ clientId: clientId });
+        const tokenRequestData = await client.auth.createTokenRequest({ clientId });
         context.res = {
             headers: { "content-type": "application/json" },
             body: JSON.stringify(tokenRequestData)
