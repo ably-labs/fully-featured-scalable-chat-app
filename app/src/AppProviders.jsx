@@ -13,17 +13,26 @@ function AuthProvider(props) {
   const [auth, setAuthState] = userPersistentState("auth", {
     isAuthenticated: false,
     userDetails: null,
-    token: null
+    token: null,
+    authMethod: null
   });
 
-  const onLoginSuccess = (token, userDetails) => {
-    setAuthState({ isAuthenticated: true, userDetails, token });
+  const authMethods = {
+    AUTH0_METHOD: "auth0-method",
+    NATIVE_METHOD: "native-method"
+  };
+
+  const onLoginSuccess = (token, userDetails, authMethod) => {
+    setAuthState({ isAuthenticated: true, userDetails, token, authMethod });
     window.location.href = "/"; // TODO: What's the react way to do this?
   };
 
   const logout = () => {
-    setAuthState({ isAuthenticated: false, userDetails: null, token: null });
-    window.location.href = "/"; // TODO: What's the react way to do this?
+    const { authMethod } = auth;
+    setAuthState({ isAuthenticated: false, userDetails: null, token: null, authMethod: null });
+    if (authMethod == authMethods.NATIVE_METHOD) {
+      window.location.href = "/";
+    } // TODO: What's the react way to do this?
   };
 
   const validateToken = async () => {
@@ -43,7 +52,7 @@ function AuthProvider(props) {
   }
 
   const api = auth.isAuthenticated ? new BffApiClient(auth.token) : null;
-  const contextObject = { ...auth, user: auth.userDetails, api, onLoginSuccess, logout };
+  const contextObject = { ...auth, user: auth.userDetails, api, onLoginSuccess, logout, authMethods };
 
   return <AuthContext.Provider value={contextObject} {...props} />;
 }

@@ -4,7 +4,7 @@ import { BffApiClient } from "../../sdk/BffApiClient";
 import { useAuth } from "../../AppProviders";
 
 const Register = () => {
-  const { auth, onLoginSuccess } = useAuth();
+  const { auth, onLoginSuccess, authMethods } = useAuth();
 
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -20,7 +20,7 @@ const Register = () => {
     if (!success) {
       console.log("Oh no!");
     } else {
-      onLoginSuccess(token, userDetails);
+      onLoginSuccess(token, userDetails, authMethods.NATIVE_METHOD);
     }
   };
 

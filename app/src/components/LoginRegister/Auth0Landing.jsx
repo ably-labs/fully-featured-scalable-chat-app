@@ -1,21 +1,15 @@
 import React, { useEffect } from "react";
-import createAuth0Client from "@auth0/auth0-spa-js";
 import { useAuth } from "../../AppProviders";
 import { BffApiClient } from "../../sdk/BffApiClient";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Auth0Landing = () => {
-  const { onLoginSuccess } = useAuth();
+  const { onLoginSuccess, authMethods } = useAuth();
+  const { getAccessTokenSilently } = useAuth0();
 
   useEffect(async () => {
-    const configResponse = await fetch("/api/oauth/config");
-    const configValues = await configResponse.json();
-    const auth0 = await createAuth0Client(configValues);
-
-    if (!auth0.isAuthenticated()) {
-      console.log("Not authenticated"); // Do something better here
-    }
-
-    const auth0token = await auth0.getTokenSilently();
+    const auth0token = await getAccessTokenSilently();
+    console.log(auth0token);
 
     const client = new BffApiClient();
     const { success, token, userDetails } = await client.auth0Authenticate(auth0token);
@@ -23,7 +17,7 @@ const Auth0Landing = () => {
     if (!success) {
       console.log("Oh no! We didn't auth"); // Add UI feedback for bad creds here
     } else {
-      onLoginSuccess(token, userDetails);
+      onLoginSuccess(token, userDetails, authMethods.AUTH0_METHOD);
     }
   }, []);
 

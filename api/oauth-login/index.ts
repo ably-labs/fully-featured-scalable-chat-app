@@ -7,9 +7,8 @@ import { ok, forbidden } from "../common/http/CommonResults";
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   var auth0 = new AuthenticationClient({
     domain: process.env.AUTH0_DOMAIN,
-    clientID: process.env.AUTH0_CLIENTID,
     client_id: process.env.AUTH0_CLIENTID,
-    redirect_uri: process.env.AUTH0_REDIRECT_URI,
+    redirect_uri: process.env.AUTH0_REDIRECT_URI
   });
 
   const userService = new UserService();
@@ -29,7 +28,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       username: data.email,
       firstName: data.given_name,
       lastName: data.family_name,
-      oauthSub: data.sub,
+      oauthSub: data.sub
     });
 
     const metadata = userService.generateLoginMetadataFor(newUser);

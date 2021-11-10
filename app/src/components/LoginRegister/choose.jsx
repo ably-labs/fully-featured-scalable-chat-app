@@ -1,17 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./loginregister.css";
-import { Auth0Client } from "@auth0/auth0-spa-js";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Choose = () => {
-  const auth0Login = async (event) => {
-    event.preventDefault();
-
-    const configResponse = await fetch("/api/oauth/config");
-    const configValues = await configResponse.json();
-    const auth0 = new Auth0Client(configValues);
-    await auth0.loginWithRedirect();
-  };
+  const { loginWithRedirect } = useAuth0();
 
   return (
     <main className="loginregister">
@@ -19,7 +12,7 @@ const Choose = () => {
       <span className="hr">or</span>
       <Link to="/login">Sign In</Link>
       <span className="hr">or</span>
-      <button className="login-register-button" onClick={auth0Login}>
+      <button className="login-register-button" onClick={loginWithRedirect}>
         Login with Auth0
       </button>
     </main>

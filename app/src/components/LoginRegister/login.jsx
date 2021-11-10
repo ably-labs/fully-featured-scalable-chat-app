@@ -4,7 +4,7 @@ import "./loginregister.css";
 import { BffApiClient } from "../../sdk/BffApiClient";
 
 const Login = () => {
-  const { auth, onLoginSuccess } = useAuth();
+  const { auth, onLoginSuccess, authMethods } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,7 +17,7 @@ const Login = () => {
     if (!success) {
       console.log("Oh no!", result.body); // Add UI feedback for bad creds here
     } else {
-      onLoginSuccess(token, userDetails);
+      onLoginSuccess(token, userDetails, authMethods.NATIVE_METHOD);
     }
   };
 

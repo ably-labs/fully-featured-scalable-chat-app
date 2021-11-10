@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import AppProviders from "./AppProviders";
 import { BrowserRouter } from "react-router-dom";
+import { Auth0Provider } from "@auth0/auth0-react";
 import "./index.css";
 
 import App from "./App.jsx";
@@ -10,7 +11,9 @@ ReactDOM.render(
   <React.StrictMode>
     <AppProviders>
       <BrowserRouter>
-        <App />
+        <Auth0Provider domain={process.env.AUTH0_DOMAIN} clientId={process.env.AUTH0_CLIENT_ID} redirectUri={process.env.AUTH0_REDIRECT_URI}>
+          <App />
+        </Auth0Provider>
       </BrowserRouter>
     </AppProviders>
   </React.StrictMode>,
