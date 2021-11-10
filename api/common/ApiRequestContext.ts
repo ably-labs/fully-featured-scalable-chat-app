@@ -47,7 +47,8 @@ export const authorized: AzureFunction = async function (context: Context, req: 
       return;
   }
 
-  context.res = { status: 421, body: JSON.stringify({ success: false, reason: "Authorized, but no response set" }) };
+  // In case a response is not set in the callback, we indicate Not Implemented
+  context.res = { status: 501, body: JSON.stringify({ success: false, reason: "Authorized, but no response set" }) };
 
   await wrappedFunction(ctx);
 };
