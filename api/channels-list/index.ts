@@ -2,8 +2,8 @@ import "../startup";
 import { Context, HttpRequest } from "@azure/functions";
 import { authorized, ApiRequestContext } from "../common/ApiRequestContext";
 
-type ChannelSummary = { name: string; };
-type ChannelListResponse = { channels: ChannelSummary[]; }
+type ChannelSummary = { name: string };
+type ChannelListResponse = { channels: ChannelSummary[] };
 
 export default async function (context: Context, req: HttpRequest): Promise<void> {
     await authorized(context, req, (authContext: ApiRequestContext) => {
