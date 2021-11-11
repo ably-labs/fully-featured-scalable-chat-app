@@ -4,6 +4,12 @@ export default {
   "devOptions:": {
     "out ": "dist"
   },
+  env: {
+    API_URL: 'api.google.com',
+    SNOWPACK_PUBLIC_AUTH0_DOMAIN: 'dev-bq0at7yy.us.auth0.com',
+    SNOWPACK_PUBLIC_AUTH0_CLIENT_ID: 'RBnxtz9TQ5w0RpsgaeTqmuJoC9Pr8Cl4',
+    SNOWPACK_PUBLIC_AUTH0_AUDIENCE: 'ably-auth'
+  },
   "buildOptions:": {
     "clean ": true
   },
