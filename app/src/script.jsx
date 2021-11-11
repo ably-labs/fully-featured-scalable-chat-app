@@ -1,3 +1,4 @@
+import.meta.hot;
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
@@ -9,10 +10,10 @@ ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Auth0Provider
-        domain={import.meta.env.SNOWPACK_PUBLIC_AUTH0_DOMAIN}
-        clientId={import.meta.env.SNOWPACK_PUBLIC_AUTH0_CLIENT_ID}
+        domain={__SNOWPACK_ENV__.SNOWPACK_PUBLIC_AUTH0_DOMAIN}
+        clientId={__SNOWPACK_ENV__.SNOWPACK_PUBLIC_AUTH0_CLIENT_ID}
         redirectUri={window.location.origin}
-        audience={import.meta.env.SNOWPACK_PUBLIC_AUTH0_AUDIENCE}
+        audience={__SNOWPACK_ENV__.SNOWPACK_PUBLIC_AUTH0_AUDIENCE}
       >
         <App />
       </Auth0Provider>
