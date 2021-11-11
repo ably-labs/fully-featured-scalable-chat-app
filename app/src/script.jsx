@@ -5,6 +5,8 @@ import "./index.css";
 import { Auth0Provider } from "@auth0/auth0-react";
 
 import App from "./App.jsx";
+
+console.log(process.env.SNOWPACK_PUBLIC_AUTH0_DOMAIN, process.env);
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
