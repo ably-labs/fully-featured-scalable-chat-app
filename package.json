@@ -6,8 +6,8 @@
   "scripts": {
     "init": "npm clean-install && cd api && npm clean-install",
     "start": "run-p dev:api dev:server",
-    "build": "env-cmd -f .env npx snowpack build",
-    "dev:server": "env-cmd -f .env npx snowpack dev",
+    "build": "npx snowpack build",
+    "dev:server": "npx snowpack dev",
     "test": "jest --runInBand && npm run test:api",
     "dev:api": "npm run start --prefix api",
     "test:api": "npm run test --prefix api"
