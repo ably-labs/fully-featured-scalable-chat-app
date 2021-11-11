@@ -12,7 +12,7 @@ function AppProviders({ children }) {
 
 export const AuthMethods = {
   auth0: "auth0",
-  native: "native",
+  native: "native"
 };
 
 function AuthProvider(props) {
@@ -20,7 +20,7 @@ function AuthProvider(props) {
     isAuthenticated: false,
     userDetails: null,
     token: null,
-    authMethod: null,
+    authMethod: null
   });
 
   const onLoginSuccess = (token, userDetails, authMethod) => {
@@ -41,7 +41,8 @@ function AuthProvider(props) {
     } else if (authMethod == AuthMethods.auth0) {
       const auth0Client = await useAuth0();
       if (auth0Client.isAuthenticated) {
-        auth0Client.logout();
+        const { protocol, hostname, port } = window.location;
+        auth0Client.logout({ returnTo: `${protocol}//${hostname}${port ? ":" + port : ""}` });
       }
     }
   };
@@ -71,7 +72,7 @@ function AuthProvider(props) {
     user: auth.userDetails,
     api,
     onLoginSuccess,
-    logout,
+    logout
   };
 
   return <AuthContext.Provider value={contextObject} {...props} />;
