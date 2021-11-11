@@ -2,14 +2,14 @@ import proxy from "http2-proxy";
 
 export default {
   "devOptions:": {
-    "out ": "dist"
+    "out ": "dist",
   },
   "buildOptions:": {
-    "clean ": true
+    "clean ": true,
   },
   mount: {
     "app/public": "/",
-    "app/src": "/dist"
+    "app/src": "/dist",
   },
   plugins: ["@snowpack/plugin-react-refresh", "@snowpack/plugin-dotenv"],
   routes: [
@@ -17,12 +17,12 @@ export default {
       src: "/api/.*",
       dest: (req, res) => {
         return proxy.web(req, res, { hostname: "localhost", port: 7071 });
-      }
+      },
     },
     {
       match: "routes",
       src: ".*",
-      dest: "/index.html"
-    }
-  ]
+      dest: "/index.html",
+    },
+  ],
 };

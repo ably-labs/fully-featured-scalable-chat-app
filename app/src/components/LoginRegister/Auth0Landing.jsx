@@ -1,23 +1,22 @@
 import React, { useEffect } from "react";
-import { useAuth } from "../../AppProviders";
-import { BffApiClient } from "../../sdk/BffApiClient";
-import { useAuth0 } from "@auth0/auth0-react";
+import { AuthMethods, useAuth } from "../../AppProviders";
+import { useAuth0 } from "../../sdk/Auth0Client";
+import { unauthorizedBffApiClient } from "../../sdk/BffApiClient";
 
 const Auth0Landing = () => {
-  const { onLoginSuccess, authMethods } = useAuth();
-  const { getAccessTokenSilently } = useAuth0();
+  const { onLoginSuccess } = useAuth();
 
   useEffect(async () => {
-    const auth0token = await getAccessTokenSilently();
-    console.log(auth0token);
+    const auth0 = await useAuth0();
+    const auth0token = await auth0.getTokenSilently();
 
-    const client = new BffApiClient();
-    const { success, token, userDetails } = await client.auth0Authenticate(auth0token);
+    const { success, token, userDetails } =
+      await unauthorizedBffApiClient.auth0Authenticate(auth0token);
 
     if (!success) {
       console.log("Oh no! We didn't auth"); // Add UI feedback for bad creds here
     } else {
-      onLoginSuccess(token, userDetails, authMethods.AUTH0_METHOD);
+      onLoginSuccess(token, userDetails, AuthMethods.auth0);
     }
   }, []);
 

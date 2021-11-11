@@ -38,16 +38,16 @@ The chat app is made up of the following:
 The React application is a default, single page application.
 It uses a mixture of `react-router-dom` and a custom `AppProvider` to provide the security context for the application.
 
-The app uses [@ably-labs/react-hooks](https://www.npmjs.com/package/@ably-labs/react-hooks) to interact with **Ably Channels**, and the application is composed of modern *React Functional Components*.
+The app uses [@ably-labs/react-hooks](https://www.npmjs.com/package/@ably-labs/react-hooks) to interact with **Ably Channels**, and the application is composed of modern _React Functional Components_.
 
-*snowpack* is the development server, which will transparently build ES6 code for production.
+_snowpack_ is the development server, which will transparently build ES6 code for production.
 
 ## The BFF (Backend-for-Frontend) API
 
-The BFF is an *application specific* API that contains all of the serverside logic for the chat app.
+The BFF is an _application specific_ API that contains all of the serverside logic for the chat app.
 Because it is hosted on **Azure Static Web Apps**, we can use the `azure-functions-core-tools` run the API server.
 
-In addition to this, the **Azure Static Web Apps** runtime will *auto-host* the APIs for us - so we don't need to worry about configuring hosting.
+In addition to this, the **Azure Static Web Apps** runtime will _auto-host_ the APIs for us - so we don't need to worry about configuring hosting.
 The BFF is executed on serverless infrastrucutre, and Azure SWA will auto-scale it to meet demand.
 
 To add new API endpoints, you will need to add a new directory to the `api` folder.
@@ -64,7 +64,7 @@ Then, create a `function.json` file in the new directory.
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": [ "get", "post" ]
+      "methods": ["get", "post"]
     },
     {
       "type": "http",
@@ -82,9 +82,12 @@ Next, you'll need to create your `TypeScript` API:
 import "../startup";
 import { Context, HttpRequest } from "@azure/functions";
 
-export default async function (context: Context, req: HttpRequest): Promise<void> {
-    context.res = { status: 200, body: "I'm an API" };
-};
+export default async function (
+  context: Context,
+  req: HttpRequest
+): Promise<void> {
+  context.res = { status: 200, body: "I'm an API" };
+}
 ```
 
 This API will now be mounted at `http://localhost:8080/api/messages`.
@@ -97,7 +100,7 @@ The app uses JWT token authentication between the Web application and the BFF.
 We store user credentials and salted, one way hashed passwords (done with bcrypt) in the CosmosDB database.
 
 When a user authenticates, the app signs a JWT token with the user's id and username that is then sent to the BFF in subsequent requests for authenticated data.
-This means, with a small amount of code in the  APIs, we can ensure that the user is who they claim to be, and that they are entitled to access API data.
+This means, with a small amount of code in the APIs, we can ensure that the user is who they claim to be, and that they are entitled to access API data.
 
 We can expand this model to include a collection of `roles` for claims-based authentication to resources in the application.
 
@@ -110,32 +113,46 @@ import "../startup";
 import { Context, HttpRequest } from "@azure/functions";
 import { authorized, ApiRequestContext } from "../common/ApiRequestContext";
 
-export default async function (context: Context, req: HttpRequest): Promise<void> {
-    await authorized(context, req, () => {
+export default async function (
+  context: Context,
+  req: HttpRequest
+): Promise<void> {
+  await authorized(context, req, () => {
+    // This code will only run if the user is authenticated
 
-        // This code will only run if the user is authenticated
-
-        context.res = { status: 200, body: JSON.stringify("I am validated and authenticated") };
-    });
-};
+    context.res = {
+      status: 200,
+      body: JSON.stringify("I am validated and authenticated"),
+    };
+  });
+}
 ```
 
 If you want to access the authenticated users information as part of one of these API calls, you can do the following:
-
 
 ```typescript
 import "../startup";
 import { Context, HttpRequest } from "@azure/functions";
 import { authorized, ApiRequestContext } from "../common/ApiRequestContext";
 
-export default async function (context: Context, req: HttpRequest): Promise<void> {
-    await authorized(context, req, ({ user }: ApiRequestContext) => {
+export default async function (
+  context: Context,
+  req: HttpRequest
+): Promise<void> {
+  await authorized(
+    context,
+    req,
+    ({ user }: ApiRequestContext) => {
+      // user is the userDetails object retrieved from CosmosDb
 
-        // user is the userDetails object retrieved from CosmosDb
-
-        context.res = { status: 200, body: JSON.stringify("I am validated and authenticated") };
-    }, true); // <- true to include the userDetails object in the ApiRequestContext
-};
+      context.res = {
+        status: 200,
+        body: JSON.stringify("I am validated and authenticated"),
+      };
+    },
+    true
+  ); // <- true to include the userDetails object in the ApiRequestContext
+}
 ```
 
 ## Accessing user data in the React application
@@ -153,12 +170,9 @@ Here is an example of accessing the `userDetails` object of the currently authen
 import { useAuth } from "../../AppProviders";
 
 const MyComponent = () => {
-
   const { user } = useAuth();
 
-  return (
-    <div>{user.username}</div>
-  );
+  return <div>{user.username}</div>;
 };
 
 export default MyComponent;
@@ -170,21 +184,18 @@ You can also access an instance of the `BffApiClient` class, which will allow yo
 import { useAuth } from "../../AppProviders";
 
 const MyComponent = () => {
+  const { api } = useAuth();
+  const [channels, setChannels] = useState([]);
 
-    const { api } = useAuth();
-    const [channels, setChannels] = useState([]);
+  useEffect(() => {
+    const fetchChannels = async () => {
+      const response = await api.listChannels();
+      setChannels(response.channels);
+    };
+    fetchChannels();
+  }, []);
 
-    useEffect(() => {
-        const fetchChannels = async () => {
-            const response = await api.listChannels();
-            setChannels(response.channels);
-        };
-        fetchChannels();
-    }, []);
-
-  return (
-    <div>... bind channel data here</div>
-  );
+  return <div>... bind channel data here</div>;
 };
 
 export default MyComponent;
@@ -226,12 +237,14 @@ We're using `Ably channels` to store our chat messages and to push events to our
 Each connected user will receive messages for channels that they are actively viewing in real-time, and we're using `Channel rewind` to populate the most recently sent messages.
 
 ### Future work
+
 Messages may be `corrected` asyncronously after they have been received - for instance, to apply profanity filtering, or to correct spelling errors.
 These correction messages will be part of the stream, and applied retroactively in the react application. (Further development on this in later epics)
 
 This design allows us to stand up extra APIs that consume these events, and publish their own elaborations on the channels for clients to respond to.
 
 # Suggested Chat Archiving
+
 ## The Chat Archive API
 
 Because Ably events will vanish over time, we're going to store copies of inbound events on each channel into our `Chat Archive` via the `Archive API`.

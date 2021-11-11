@@ -1,4 +1,7 @@
-import { addItemToDb, clearDbItems } from "../test-helpers/FakeCosmosDbMetadataRepository";
+import {
+  addItemToDb,
+  clearDbItems,
+} from "../test-helpers/FakeCosmosDbMetadataRepository";
 import { default as sut } from "./index";
 
 describe("Registration API", () => {
@@ -10,10 +13,20 @@ describe("Registration API", () => {
   });
 
   it("when any mandatory property is missing, fails", async () => {
-    const requiredProperties = ["username", "firstName", "lastName", "password"];
+    const requiredProperties = [
+      "username",
+      "firstName",
+      "lastName",
+      "password",
+    ];
 
     for (let prop of requiredProperties) {
-      const body = { username: "user", firstName: "first", lastName: "last", password: "password" };
+      const body = {
+        username: "user",
+        firstName: "first",
+        lastName: "last",
+        password: "password",
+      };
       delete body[prop];
 
       await sut(context, { body });
@@ -24,8 +37,19 @@ describe("Registration API", () => {
   });
 
   it("user exists, returns 400 error for username not available", async () => {
-    addItemToDb("User", { id: "id", username: "user", firstName: "first", lastName: "last", password: "password" });
-    const body = { username: "user", firstName: "first", lastName: "last", password: "password" };
+    addItemToDb("User", {
+      id: "id",
+      username: "user",
+      firstName: "first",
+      lastName: "last",
+      password: "password",
+    });
+    const body = {
+      username: "user",
+      firstName: "first",
+      lastName: "last",
+      password: "password",
+    };
 
     await sut(context, { body });
     const responseBody = JSON.parse(context.res.body);
@@ -35,7 +59,12 @@ describe("Registration API", () => {
   });
 
   it("no existing users, returns 200 created for new user created", async () => {
-    const body = { username: "user", firstName: "first", lastName: "last", password: "password" };
+    const body = {
+      username: "user",
+      firstName: "first",
+      lastName: "last",
+      password: "password",
+    };
 
     await sut(context, { body });
     const responseBody = JSON.parse(context.res.body);

@@ -5,7 +5,9 @@ export class BffApiClient {
   }
 
   async fetch(input, init) {
-    init.headers = this._jwtToken ? { ...init.headers, jwt: this._jwtToken } : init.headers;
+    init.headers = this._jwtToken
+      ? { ...init.headers, jwt: this._jwtToken }
+      : init.headers;
     const func = this._fetchFunc || fetch;
     return await func(input, init);
   }
@@ -14,11 +16,18 @@ export class BffApiClient {
     return await this.fetch(input, { method: "GET", headers: {} });
   }
   async post(input, body) {
-    return await this.fetch(input, { method: "POST", headers: {}, body: JSON.stringify(body) });
+    return await this.fetch(input, {
+      method: "POST",
+      headers: {},
+      body: JSON.stringify(body),
+    });
   }
 
   async signIn(username, password) {
-    const result = await this.post("/api/account/signin", { username, password });
+    const result = await this.post("/api/account/signin", {
+      username,
+      password,
+    });
 
     if (result.status !== 200) {
       return { success: false, token: null, userDetails: null };
@@ -40,7 +49,12 @@ export class BffApiClient {
   }
 
   async register(username, firstName, lastName, password) {
-    const result = await this.post("/api/account/register", { username, firstName, lastName, password });
+    const result = await this.post("/api/account/register", {
+      username,
+      firstName,
+      lastName,
+      password,
+    });
 
     if (result.status !== 200) {
       return { success: false, token: null, userDetails: null };
@@ -60,3 +74,5 @@ export class BffApiClient {
     return await result.json();
   }
 }
+
+export const unauthorizedBffApiClient = new BffApiClient();
