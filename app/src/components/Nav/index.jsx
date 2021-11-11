@@ -12,7 +12,7 @@ const Nav = () => {
     logout();
     if (auth0Client.isAuthenticated) {
       auth0Client.logout({
-        returnTo: import.meta.SNOWPACK_PUBLIC_AUTH0_LOGOUT_REDIRECT
+        returnTo: import.meta.env.SNOWPACK_PUBLIC_AUTH0_LOGOUT_REDIRECT
       });
     }
   };
