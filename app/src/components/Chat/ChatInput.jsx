@@ -3,11 +3,10 @@ import React from "react";
 export const ChatInput = ({ sendMessage }) => {
   const [message, setMessage] = React.useState("");
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (message.trim() === "") {
-      return 
+      return;
     }
     sendMessage(message);
     setMessage("");
@@ -22,9 +21,9 @@ export const ChatInput = ({ sendMessage }) => {
           setMessage(e.target.value);
         }}
         onKeyDown={(e) => {
-          if(e.code == "Enter") {
-             e.preventDefault();
-             handleSubmit(e);
+          if (e.code == "Enter") {
+            e.preventDefault();
+            handleSubmit(e);
           }
         }}
         value={message}

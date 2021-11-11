@@ -1,37 +1,32 @@
 {
-	"name": "Snowpack and Azure Functions",
-	"runArgs": [
-		"--init"
-	],
-	"build": {
-		"dockerfile": "Dockerfile",
-		"args": {
-			// Update 'VARIANT' to pick a Node version: 16, 14, 12.
-			// Append -bullseye or -buster to pin to an OS version.
-			// Use -bullseye variants on local arm64/Apple Silicon.
-			"VARIANT": "14"
-		}
-	},
-	"forwardPorts": [
-		8080,
-		7071
-	],
-	"portsAttributes": {
-		"8080": {
-			"label": "Website",
-			"onAutoForward": "ignore",
-		},
-		"7071": {
-			"label": "API",
-			"onAutoForward": "ignore",
-		}
-	},
-	"settings": {},
-	"extensions": [
-		"ms-azuretools.vscode-azurefunctions",
-		"ms-azuretools.vscode-azurestaticwebapps",
-		"dbaeumer.vscode-eslint"
-	],
-	"postCreateCommand": "npm run init",
-	"remoteUser": "node"
+  "name": "Snowpack and Azure Functions",
+  "runArgs": ["--init"],
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": {
+      // Update 'VARIANT' to pick a Node version: 16, 14, 12.
+      // Append -bullseye or -buster to pin to an OS version.
+      // Use -bullseye variants on local arm64/Apple Silicon.
+      "VARIANT": "14"
+    }
+  },
+  "forwardPorts": [8080, 7071],
+  "portsAttributes": {
+    "8080": {
+      "label": "Website",
+      "onAutoForward": "ignore"
+    },
+    "7071": {
+      "label": "API",
+      "onAutoForward": "ignore"
+    }
+  },
+  "settings": {},
+  "extensions": [
+    "ms-azuretools.vscode-azurefunctions",
+    "ms-azuretools.vscode-azurestaticwebapps",
+    "dbaeumer.vscode-eslint"
+  ],
+  "postCreateCommand": "npm run init",
+  "remoteUser": "node"
 }
