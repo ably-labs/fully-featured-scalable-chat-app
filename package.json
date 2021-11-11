@@ -6,7 +6,7 @@
   "scripts": {
     "init": "npm clean-install && cd api && npm clean-install",
     "start": "run-p dev:api dev:server",
-    "build": "npx snowpack build",
+    "build": "env-cmd -f .env npx snowpack build",
     "dev:server": "npx snowpack dev",
     "test": "jest --runInBand && npm run test:api",
     "dev:api": "npm run start --prefix api",
@@ -37,6 +37,7 @@
   "dependencies": {
     "@ably-labs/react-hooks": "^1.1.2",
     "@auth0/auth0-react": "^1.8.0",
+    "env-cmd": "^10.1.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
