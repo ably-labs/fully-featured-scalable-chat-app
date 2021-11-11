@@ -1,4 +1,8 @@
-import { addItemToDb, clearDbItems, saveOrUpdateCalls } from "../test-helpers/FakeCosmosDbMetadataRepository";
+import {
+  addItemToDb,
+  clearDbItems,
+  saveOrUpdateCalls,
+} from "../test-helpers/FakeCosmosDbMetadataRepository";
 import { mockCall as mockAuth0Call } from "../test-helpers/FakeAuthenticationClient";
 
 import { default as sut } from "./index";
@@ -22,7 +26,12 @@ describe("OAuth Registration API", () => {
   });
 
   it("no existing users, creates user in datastore", async () => {
-    auth0Returns({ email: "foo@bar.com", given_name: "first", family_name: "last", sub: "google:12345" });
+    auth0Returns({
+      email: "foo@bar.com",
+      given_name: "first",
+      family_name: "last",
+      sub: "google:12345"
+    });
 
     await sut(context, { body: { token: "some-valid-auth0-token" } });
 
@@ -34,7 +43,12 @@ describe("OAuth Registration API", () => {
   });
 
   it("no existing users, returns user profile with data based on auth0 response", async () => {
-    auth0Returns({ email: "foo@bar.com", given_name: "first", family_name: "last", sub: "google:12345" });
+    auth0Returns({
+      email: "foo@bar.com",
+      given_name: "first",
+      family_name: "last",
+      sub: "google:12345"
+    });
 
     await sut(context, { body: { token: "some-valid-auth0-token" } });
     const responseBody = JSON.parse(context.res.body);
@@ -49,9 +63,14 @@ describe("OAuth Registration API", () => {
       username: "foo@bar.com",
       firstName: "first",
       lastName: "last",
-      oauthSub: "google:12345",
+      oauthSub: "google:12345"
     });
-    auth0Returns({ email: "foo@bar.com", given_name: "first", family_name: "last", sub: "google:12345" });
+    auth0Returns({
+      email: "foo@bar.com",
+      given_name: "first",
+      family_name: "last",
+      sub: "google:12345"
+    });
 
     await sut(context, { body: { token: "some-valid-auth0-token" } });
     const responseBody = JSON.parse(context.res.body);
@@ -61,4 +80,5 @@ describe("OAuth Registration API", () => {
   });
 });
 
-const auth0Returns = (profile) => mockAuth0Call("getProfile", () => Promise.resolve(profile));
+const auth0Returns = (profile) =>
+  mockAuth0Call("getProfile", () => Promise.resolve(profile));

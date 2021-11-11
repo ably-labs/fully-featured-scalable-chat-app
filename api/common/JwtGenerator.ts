@@ -29,7 +29,7 @@ export class JwtGenerator {
       sub: `users/${userId}`, // The UID of the user in your system
       scope: "self, users",
       userId,
-      ...(extraClaims || {}),
+      ...(extraClaims || {})
     };
 
     const jwt = nJwt.create(claims, this.signingKey);

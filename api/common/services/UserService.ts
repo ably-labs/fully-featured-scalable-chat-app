@@ -2,8 +2,18 @@ import { CosmosDbMetadataRepository } from "../dataaccess/CosmosDbMetadataReposi
 import { JwtGenerator } from "../JwtGenerator";
 import { User } from "../metadata/User";
 
-export type LoginMetadata = { username: string; firstName: string; lastName: string };
-export type UserCreationRequest = { username: string; firstName: string; lastName: string; password?: string; oauthSub?: string };
+export type LoginMetadata = {
+  username: string;
+  firstName: string;
+  lastName: string;
+};
+export type UserCreationRequest = {
+  username: string;
+  firstName: string;
+  lastName: string;
+  password?: string;
+  oauthSub?: string;
+};
 
 export class UserService {
   private _repo: CosmosDbMetadataRepository;
@@ -14,8 +24,14 @@ export class UserService {
     this._jwtValidator = JwtGenerator.fromEnvironment();
   }
 
-  public async getUserByUsername(username: string): Promise<{ exists: boolean; user?: User }> {
-    const existing = await this._repo.getByProperty<User>("User", "username", username);
+  public async getUserByUsername(
+    username: string
+  ): Promise<{ exists: boolean; user?: User }> {
+    const existing = await this._repo.getByProperty<User>(
+      "User",
+      "username",
+      username
+    );
 
     if (existing.length > 0) {
       const asUserType = Object.assign(new User(), existing[0]);
@@ -25,8 +41,14 @@ export class UserService {
     return { exists: false, user: undefined };
   }
 
-  public async getUserByOAuthSubscription(sub: string): Promise<{ exists: boolean; user?: User }> {
-    const existing = await this._repo.getByProperty<User>("User", "oauthSub", sub);
+  public async getUserByOAuthSubscription(
+    sub: string
+  ): Promise<{ exists: boolean; user?: User }> {
+    const existing = await this._repo.getByProperty<User>(
+      "User",
+      "oauthSub",
+      sub
+    );
 
     if (existing.length > 0) {
       const asUserType = Object.assign(new User(), existing[0]);
@@ -42,9 +64,16 @@ export class UserService {
     return user;
   }
 
-  public generateLoginMetadataFor(user: User): { token: string; userDetails: LoginMetadata } {
+  public generateLoginMetadataFor(user: User): {
+    token: string;
+    userDetails: LoginMetadata;
+  } {
     const token = this._jwtValidator.generate(user.id);
-    const userDetails = { username: user.username, firstName: user.firstName, lastName: user.lastName };
+    const userDetails = {
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName
+    };
     return { token, userDetails };
   }
 }

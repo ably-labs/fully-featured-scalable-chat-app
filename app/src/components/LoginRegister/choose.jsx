@@ -1,11 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { loginWithRedirect } from "../../sdk/Auth0Client";
 import "./loginregister.css";
-import { useAuth0 } from "@auth0/auth0-react";
 
 const Choose = () => {
-  const { loginWithRedirect } = useAuth0();
-
   return (
     <main className="loginregister">
       <Link to="/register">Create Account</Link>

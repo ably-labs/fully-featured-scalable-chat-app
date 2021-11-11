@@ -30,7 +30,7 @@
 }
 
 .messages {
-  height: calc( 100vh - 18rem);
+  height: calc(100vh - 18rem);
   overflow-y: auto;
   margin: 1rem 0;
   padding: 0;

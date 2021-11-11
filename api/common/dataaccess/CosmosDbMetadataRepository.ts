@@ -12,19 +12,32 @@ export class CosmosDbMetadataRepository implements IMetadataRepository {
     this._client = new CosmosClient({ endpoint, key });
   }
 
-  public async getById<TEntityType extends Entity>(typeName: string, id: string): Promise<TEntityType> {
+  public async getById<TEntityType extends Entity>(
+    typeName: string,
+    id: string
+  ): Promise<TEntityType> {
     const container = await this.getContainer(typeName);
-    const allMatchingItems = await container.items.query(`SELECT * FROM c WHERE c.id = '${id}'`).fetchAll();
+    const allMatchingItems = await container.items
+      .query(`SELECT * FROM c WHERE c.id = '${id}'`)
+      .fetchAll();
     return allMatchingItems[0];
   }
 
-  public async getByProperty<TEntityType extends Entity>(typeName: string, propertyName: string, value: any): Promise<TEntityType[]> {
+  public async getByProperty<TEntityType extends Entity>(
+    typeName: string,
+    propertyName: string,
+    value: any
+  ): Promise<TEntityType[]> {
     const container = await this.getContainer(typeName);
-    const results = await container.items.query(`SELECT * FROM c WHERE c.${propertyName} = '${value}'`).fetchAll();
+    const results = await container.items
+      .query(`SELECT * FROM c WHERE c.${propertyName} = '${value}'`)
+      .fetchAll();
     return results.resources as TEntityType[];
   }
 
-  public async saveOrUpdate<TEntityType extends Entity>(entity: TEntityType): Promise<void> {
+  public async saveOrUpdate<TEntityType extends Entity>(
+    entity: TEntityType
+  ): Promise<void> {
     const container = await this.getContainer(entity.type);
     const result = await container.items.upsert(entity);
 
@@ -35,11 +48,15 @@ export class CosmosDbMetadataRepository implements IMetadataRepository {
 
   public async exists(typeName: string, id: string): Promise<boolean> {
     const container = await this.getContainer(typeName);
-    const countResult = await container.items.query(`SELECT count(1) FROM c WHERE c.id = '${id}'`).fetchAll();
+    const countResult = await container.items
+      .query(`SELECT count(1) FROM c WHERE c.id = '${id}'`)
+      .fetchAll();
     return countResult[0] > 0;
   }
 
-  public async getAll<TEntityType extends Entity>(typeName: string): Promise<TEntityType[]> {
+  public async getAll<TEntityType extends Entity>(
+    typeName: string
+  ): Promise<TEntityType[]> {
     const container = await this.getContainer(typeName);
     const results = await container.items.readAll().fetchAll();
     return results.resources as TEntityType[];

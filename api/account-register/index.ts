@@ -4,7 +4,10 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { UserService } from "../common/services/UserService";
 import { badRequest, badRequestFor, ok } from "../common/http/CommonResults";
 
-const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
+const httpTrigger: AzureFunction = async function (
+  context: Context,
+  req: HttpRequest
+): Promise<void> {
   const data = { ...req.body } as RegistrationForm;
   const validation = new Validator(data, registrationFormRules);
 
@@ -17,7 +20,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   const { exists } = await userService.getUserByUsername(data.username);
 
   if (exists) {
-    context.res = badRequestFor({ username: ["This username is not available."] });
+    context.res = badRequestFor({
+      username: ["This username is not available."]
+    });
     return;
   }
 
@@ -26,7 +31,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
   context.res = ok("created", metadata);
 };
 
-export type RegistrationForm = { username: string; firstName: string; lastName: string; password: string };
+export type RegistrationForm = {
+  username: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+};
 
 const registrationFormRules = {
   username: "required|min:1",
