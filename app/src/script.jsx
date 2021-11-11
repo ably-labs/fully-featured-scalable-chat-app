@@ -7,6 +7,8 @@ import "./index.css";
 
 import App from "./App.jsx";
 
+console.log(import.meta.env.SNOWPACK_PUBLIC_AUTH0_DOMAIN, import.meta.env.SNOWPACK_PUBLIC_AUTH0_CLIENT_ID, import.meta.env.SNOWPACK_PUBLIC_AUTH0_REDIRECT_URI);
+
 ReactDOM.render(
   <React.StrictMode>
     <AppProviders>
