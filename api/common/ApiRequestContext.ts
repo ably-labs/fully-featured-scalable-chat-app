@@ -65,7 +65,7 @@ export const authorized: AzureFunction = async function (
   if (!ctx.isAuthenticatedUser) {
     context.res = {
       status: 401,
-      body: JSON.stringify({ success: false, reason: ctx.reason }),
+      body: JSON.stringify({ success: false, reason: ctx.reason })
     };
     return;
   }
@@ -75,7 +75,7 @@ export const authorized: AzureFunction = async function (
     status: 501,
     body: JSON.stringify({
       success: false,
-      reason: "Authorized, but no response set",
+      reason: "Authorized, but no response set"
     }),
   };
 

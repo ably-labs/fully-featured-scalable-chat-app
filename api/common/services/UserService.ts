@@ -72,7 +72,7 @@ export class UserService {
     const userDetails = {
       username: user.username,
       firstName: user.firstName,
-      lastName: user.lastName,
+      lastName: user.lastName
     };
     return { token, userDetails };
   }

@@ -30,7 +30,7 @@ describe("OAuth Registration API", () => {
       email: "foo@bar.com",
       given_name: "first",
       family_name: "last",
-      sub: "google:12345",
+      sub: "google:12345"
     });
 
     await sut(context, { body: { token: "some-valid-auth0-token" } });
@@ -47,7 +47,7 @@ describe("OAuth Registration API", () => {
       email: "foo@bar.com",
       given_name: "first",
       family_name: "last",
-      sub: "google:12345",
+      sub: "google:12345"
     });
 
     await sut(context, { body: { token: "some-valid-auth0-token" } });
@@ -63,13 +63,13 @@ describe("OAuth Registration API", () => {
       username: "foo@bar.com",
       firstName: "first",
       lastName: "last",
-      oauthSub: "google:12345",
+      oauthSub: "google:12345"
     });
     auth0Returns({
       email: "foo@bar.com",
       given_name: "first",
       family_name: "last",
-      sub: "google:12345",
+      sub: "google:12345"
     });
 
     await sut(context, { body: { token: "some-valid-auth0-token" } });

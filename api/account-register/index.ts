@@ -21,7 +21,7 @@ const httpTrigger: AzureFunction = async function (
 
   if (exists) {
     context.res = badRequestFor({
-      username: ["This username is not available."],
+      username: ["This username is not available."]
     });
     return;
   }

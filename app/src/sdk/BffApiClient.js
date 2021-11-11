@@ -19,14 +19,14 @@ export class BffApiClient {
     return await this.fetch(input, {
       method: "POST",
       headers: {},
-      body: JSON.stringify(body),
+      body: JSON.stringify(body)
     });
   }
 
   async signIn(username, password) {
     const result = await this.post("/api/account/signin", {
       username,
-      password,
+      password
     });
 
     if (result.status !== 200) {
@@ -53,7 +53,7 @@ export class BffApiClient {
       username,
       firstName,
       lastName,
-      password,
+      password
     });
 
     if (result.status !== 200) {

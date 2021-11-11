@@ -122,7 +122,7 @@ export default async function (
 
     context.res = {
       status: 200,
-      body: JSON.stringify("I am validated and authenticated"),
+      body: JSON.stringify("I am validated and authenticated")
     };
   });
 }

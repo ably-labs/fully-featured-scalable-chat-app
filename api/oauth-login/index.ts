@@ -33,7 +33,7 @@ const httpTrigger: AzureFunction = async function (
       username: data.email,
       firstName: data.given_name,
       lastName: data.family_name,
-      oauthSub: data.sub,
+      oauthSub: data.sub
     });
 
     const metadata = userService.generateLoginMetadataFor(newUser);

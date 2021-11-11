@@ -42,13 +42,13 @@ describe("Registration API", () => {
       username: "user",
       firstName: "first",
       lastName: "last",
-      password: "password",
+      password: "password"
     });
     const body = {
       username: "user",
       firstName: "first",
       lastName: "last",
-      password: "password",
+      password: "password"
     };
 
     await sut(context, { body });
@@ -63,7 +63,7 @@ describe("Registration API", () => {
       username: "user",
       firstName: "first",
       lastName: "last",
-      password: "password",
+      password: "password"
     };
 
     await sut(context, { body });

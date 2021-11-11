@@ -34,7 +34,7 @@ function AuthProvider(props) {
       isAuthenticated: false,
       userDetails: null,
       token: null,
-      authMethod: null,
+      authMethod: null
     });
     if (authMethod == AuthMethods.native) {
       window.location.href = "/";
@@ -61,7 +61,7 @@ function AuthProvider(props) {
   if (auth.isAuthenticated) {
     configureAbly({
       authUrl: "/api/ably/token-request",
-      authHeaders: { jwt: auth.token },
+      authHeaders: { jwt: auth.token }
     });
   }
 
