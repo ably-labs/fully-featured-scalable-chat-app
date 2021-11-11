@@ -13,6 +13,4 @@ const UnauthenticatedApp = () => {
   );
 };
 
-console.log(import.meta);
-
 export default UnauthenticatedApp;

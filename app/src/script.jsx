@@ -6,7 +6,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 
 import App from "./App.jsx";
 
-console.log(process.env.SNOWPACK_PUBLIC_AUTH0_DOMAIN, process.env);
+console.log(import.meta.env.SNOWPACK_PUBLIC_AUTH0_AUDIENCE);
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
