@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SNOWPACK_PUBLIC_AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
-      SNOWPACK_PUBLIC_AUTH0_CLIENT_ID: ${{ secrets.AUTH_CLIENT_ID }}
-      SNOWPACK_PUBLIC_AUTH0_AUDIENCE: ${{ secrets.AUTH_AUDIENCE }}
+      SNOWPACK_PUBLIC_AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+      SNOWPACK_PUBLIC_AUTH0_AUDIENCE: ${{ secrets.AUTH0_AUDIENCE }}
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v2
