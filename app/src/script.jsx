@@ -11,7 +11,11 @@ ReactDOM.render(
   <React.StrictMode>
     <AppProviders>
       <BrowserRouter>
-        <Auth0Provider domain={process.env.AUTH0_DOMAIN} clientId={process.env.AUTH0_CLIENT_ID} redirectUri={process.env.AUTH0_REDIRECT_URI}>
+        <Auth0Provider
+          domain={import.meta.env.SNOWPACK_PUBLIC_AUTH0_DOMAIN}
+          clientId={import.meta.env.SNOWPACK_PUBLIC_AUTH0_CLIENT_ID}
+          redirectUri={import.meta.env.SNOWPACK_PUBLIC_AUTH0_REDIRECT_URI}
+        >
           <App />
         </Auth0Provider>
       </BrowserRouter>
