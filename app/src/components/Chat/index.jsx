@@ -5,7 +5,7 @@ import { SelectAChannel } from "./SelectAChannel";
 import { ChatInput } from "./ChatInput";
 import "./chat.css";
 
-const Chat = ({ currentChannel }) => {
+const Chat = ({ currentChannel, onChatExit }) => {
   if (currentChannel === null) {
     return <SelectAChannel />;
   }
@@ -35,10 +35,16 @@ const Chat = ({ currentChannel }) => {
 
   return (
     <section className="chat">
-      <h2>{currentChannel}</h2>
+      <header className="authed">
+        <button className="exit" onClick={onChatExit}>
+          Back
+        </button>
+        <h2>{currentChannel}</h2>
+      </header>
       <ul className="messages">
         <ChatHistory history={history} />
         <li
+          className="end-message"
           ref={(element) => {
             messageEnd = element;
           }}

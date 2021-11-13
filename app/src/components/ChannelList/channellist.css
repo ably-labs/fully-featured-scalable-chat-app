@@ -2,8 +2,13 @@ main {
   height: 100%;
 }
 
+.channellist {
+  min-width: 300px;
+  flex-shrink: 0;
+}
+
 .channellist h2 {
-  padding: 1rem;
+  padding: 1rem 2rem;
   font-size: 1em;
   background-color: var(--secondary);
 }
@@ -45,12 +50,12 @@ main {
   }
 
   .channellist {
-    padding-left: 1rem;
     background-color: var(--secondary);
-    border-right: 1px solid var(--primary);
+    border-right: 1px solid var(--primary-dark);
   }
-
+  
   .channellist ul {
-    border-left: 1px solid var(--primary);
+    margin-left: 1rem;
+    border-left: 1px solid var(--primary-dark);
   }
 }

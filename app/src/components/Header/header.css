@@ -1,17 +1,20 @@
 header {
+  position: relative;
   padding: 1rem;
   text-align: center;
   background-color: var(--primary);
 }
 
 header h1 {
+  padding-right: 4rem;
   color: var(--primary-text);
-  font-size: 1.6rem;
+  font-size: clamp(1rem, 3vw, 1.4rem);
 }
 
 header h2 {
-  font-size: 0.8rem;
+  margin-left: 1rem;
   color: var(--primary-text);
+  font-size: clamp(1rem, 3vw, 1.4rem);
 }
 
 header img {
@@ -23,15 +26,11 @@ header img {
   display: flex;
   align-items: center;
   padding: 0;
+  min-height: 4rem;
 }
 
 .authed img {
   max-height: 2rem;
-}
-
-.authed h2 {
-  margin-left: auto;
-  margin-right: 1rem;
 }
 
 @media screen and (min-width: 800px) {
@@ -43,10 +42,5 @@ header img {
 
   header img {
     max-height: 50px;
-  }
-
-  header h2 {
-    margin-left: auto;
-    margin-right: 1rem;
   }
 }

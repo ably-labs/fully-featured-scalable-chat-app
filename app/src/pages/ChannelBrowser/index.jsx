@@ -3,7 +3,7 @@ import { useAuth } from "../../AppProviders";
 import ChannelList from "../../components/ChannelList";
 import Chat from "../../components/Chat";
 
-export default () => {
+export default ({ toggleChannelView }) => {
   const { api } = useAuth();
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState(null);
@@ -18,12 +18,14 @@ export default () => {
 
   const channelSelected = (channel) => {
     setCurrentChannel(channel);
+
+    toggleChannelView();
   };
 
   return (
     <>
       <ChannelList channels={channels} onChannelSelected={channelSelected} />
-      <Chat currentChannel={currentChannel} />
+      <Chat currentChannel={currentChannel} onChatExit={toggleChannelView} />
     </>
   );
 };
