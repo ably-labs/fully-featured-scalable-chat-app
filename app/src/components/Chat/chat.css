@@ -72,6 +72,47 @@
   line-height: 1px;
 }
 
-@media screen and (min-width: 800px) {
+.exit {
+  display: none;
+}
 
+.members {
+  display: block;
+  font-weight: normal;
+  font-size: .8rem;
+}
+
+@media screen and (max-width: 799px) {
+  .chat {
+    position: absolute;
+    top: 0;
+    height: calc(100vh - 3rem - 1px);
+    background-color: var(--negative);
+    transition: all .2s ease-in-out;
+  }
+
+  .channel-view .chat{
+    transform: translateX(100%);
+  }
+
+  .chat-view .chat {
+    transform: translateX(0%);
+  }
+
+  .exit {
+    display: block;
+    height: 3rem;
+    width: 2rem;
+    margin-left: 1rem;
+    border: 0;
+    color: transparent;
+    background: url("images/left.svg") center no-repeat transparent;
+    background-size: 2rem;
+    opacity: 0.7;
+    cursor: pointer;
+  }
+
+  .exit:hover {
+    opacity: 1;
+  }
 }

@@ -39,7 +39,10 @@ const Chat = ({ currentChannel, onChatExit }) => {
         <button className="exit" onClick={onChatExit}>
           Back
         </button>
-        <h2>{currentChannel}</h2>
+        <h2>
+          {currentChannel}
+          <span class="members">1 member</span>
+        </h2>
       </header>
       <ul className="messages">
         <ChatHistory history={history} />

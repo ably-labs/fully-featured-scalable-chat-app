@@ -17,6 +17,12 @@
   background: url("images/nav.svg") 1rem center no-repeat;
   background-size: 2rem;
   font-size: 0;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.menu-title:hover {
+  opacity: 1;
 }
 
 .main-nav {
