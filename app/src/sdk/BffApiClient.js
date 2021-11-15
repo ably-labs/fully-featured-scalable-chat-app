@@ -5,9 +5,7 @@ export class BffApiClient {
   }
 
   async fetch(input, init) {
-    init.headers = this._jwtToken
-      ? { ...init.headers, jwt: this._jwtToken }
-      : init.headers;
+    init.headers = this._jwtToken ? { ...init.headers, jwt: this._jwtToken } : init.headers;
     const func = this._fetchFunc || fetch;
     return await func(input, init);
   }

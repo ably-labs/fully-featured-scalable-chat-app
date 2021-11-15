@@ -43,7 +43,7 @@
   list-style: none;
 }
 
-.message::before {
+.message-thumbnail {
   content: "";
   position: absolute;
   left: 0;

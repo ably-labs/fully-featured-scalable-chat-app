@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@azure/cosmos": "^3.14.1",
+    "@azure/storage-blob": "^12.8.0",
     "ably": "^1.2.14",
     "auth0": "^2.37.0",
     "bcrypt": "^5.0.1",

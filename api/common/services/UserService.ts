@@ -1,6 +1,7 @@
 import { CosmosDbMetadataRepository } from "../dataaccess/CosmosDbMetadataRepository";
 import { JwtGenerator } from "../JwtGenerator";
 import { User } from "../metadata/User";
+import { getAzureProfileImgBlobByUrl } from "../dataaccess/AzureBlobStorageData";
 
 export type LoginMetadata = {
   username: string;
@@ -24,14 +25,8 @@ export class UserService {
     this._jwtValidator = JwtGenerator.fromEnvironment();
   }
 
-  public async getUserByUsername(
-    username: string
-  ): Promise<{ exists: boolean; user?: User }> {
-    const existing = await this._repo.getByProperty<User>(
-      "User",
-      "username",
-      username
-    );
+  public async getUserByUsername(username: string): Promise<{ exists: boolean; user?: User }> {
+    const existing = await this._repo.getByProperty<User>("User", "username", username);
 
     if (existing.length > 0) {
       const asUserType = Object.assign(new User(), existing[0]);
@@ -41,14 +36,8 @@ export class UserService {
     return { exists: false, user: undefined };
   }
 
-  public async getUserByOAuthSubscription(
-    sub: string
-  ): Promise<{ exists: boolean; user?: User }> {
-    const existing = await this._repo.getByProperty<User>(
-      "User",
-      "oauthSub",
-      sub
-    );
+  public async getUserByOAuthSubscription(sub: string): Promise<{ exists: boolean; user?: User }> {
+    const existing = await this._repo.getByProperty<User>("User", "oauthSub", sub);
 
     if (existing.length > 0) {
       const asUserType = Object.assign(new User(), existing[0]);
@@ -59,7 +48,12 @@ export class UserService {
   }
 
   public async createUser(request: UserCreationRequest): Promise<User> {
-    const user = User.fromJSON(request);
+    const userProfileImageUrl = await getAzureProfileImgBlobByUrl();
+    const requestWithProfileImg = {
+      ...request,
+      profileImgUrl: userProfileImageUrl
+    };
+    const user = User.fromJSON(requestWithProfileImg);
     await this._repo.saveOrUpdate<User>(user);
     return user;
   }
@@ -72,7 +66,8 @@ export class UserService {
     const userDetails = {
       username: user.username,
       firstName: user.firstName,
-      lastName: user.lastName
+      lastName: user.lastName,
+      profileImgUrl: user.profileImgUrl
     };
     return { token, userDetails };
   }
