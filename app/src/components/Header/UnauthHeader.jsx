@@ -4,8 +4,8 @@ import logo from "../../logo.svg";
 
 const Header = () => {
   return (
-    <header>
-      <img src={logo} alt="logo" />
+    <header className="unauthed">
+      <img src={logo} alt="Fully Featured Scalable Chat" />
       <h1>Fully Featured Scalable Chat</h1>
     </header>
   );

@@ -16,9 +16,16 @@ header h2 {
   font-size: clamp(1rem, 3vw, 1.2rem);
 }
 
-header img {
+.unauthed h1 {
+  padding: 0;
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  text-align: center;
+}
+
+.unauthed img {
+  display: block;
   max-height: 200px;
-  margin: 1rem;
+  margin: 0 auto 1rem;
 }
 
 .authed {
@@ -29,6 +36,7 @@ header img {
 }
 
 .authed img {
+  margin: 1rem;
   max-height: 2rem;
 }
 
@@ -41,5 +49,10 @@ header img {
 
   header img {
     max-height: 50px;
+  }
+
+  .unauthed img {
+    max-height: 50px;
+    margin: 1rem;
   }
 }
