@@ -1,7 +1,7 @@
 import { CosmosDbMetadataRepository } from "../dataaccess/CosmosDbMetadataRepository";
 import { JwtGenerator } from "../JwtGenerator";
 import { User } from "../metadata/User";
-import { getAzureProfileImgBlobByUrl } from "../dataaccess/AzureBlobStorageData";
+import { getAzureProfileImgBlobByUrl } from "../dataaccess/AzureBlobStorageClient";
 
 export type LoginMetadata = {
   username: string;
