@@ -9,7 +9,6 @@ const ChannelList = ({ channels, onChannelSelected }) => {
 
   const selectChannel = (evt, channel) => {
     evt.preventDefault();
-    console.log(evt)
     onChannelSelected(channel.name);
   };
 
