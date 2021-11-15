@@ -1,37 +1,43 @@
 header {
+  position: relative;
   padding: 1rem;
-  text-align: center;
   background-color: var(--primary);
 }
 
 header h1 {
+  padding-right: 4rem;
   color: var(--primary-text);
-  font-size: 1.6rem;
+  font-size: clamp(1rem, 3vw, 1.4rem);
 }
 
 header h2 {
-  font-size: 0.8rem;
+  margin-left: 1rem;
   color: var(--primary-text);
+  font-size: clamp(1rem, 3vw, 1.2rem);
 }
 
-header img {
+.unauthed h1 {
+  padding: 0;
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  text-align: center;
+}
+
+.unauthed img {
+  display: block;
   max-height: 200px;
-  margin: 1rem;
+  margin: 0 auto 1rem;
 }
 
 .authed {
   display: flex;
   align-items: center;
   padding: 0;
+  min-height: 4rem;
 }
 
 .authed img {
+  margin: 1rem;
   max-height: 2rem;
-}
-
-.authed h2 {
-  margin-left: auto;
-  margin-right: 1rem;
 }
 
 @media screen and (min-width: 800px) {
@@ -45,8 +51,8 @@ header img {
     max-height: 50px;
   }
 
-  header h2 {
-    margin-left: auto;
-    margin-right: 1rem;
+  .unauthed img {
+    max-height: 50px;
+    margin: 1rem;
   }
 }

@@ -1,10 +1,12 @@
 .chat {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 1rem;
 }
 
 .send {
   display: flex;
+  margin: 0 1rem 1rem;
 }
 
 .send-input {
@@ -18,7 +20,7 @@
   padding: 1rem 2rem;
   border: 0;
   font-family: inherit;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   background-color: var(--primary);
   color: var(--primary-text);
@@ -30,10 +32,9 @@
 }
 
 .messages {
-  height: calc(100vh - 18rem);
+  height: 100%;
   overflow-y: auto;
-  margin: 1rem 0;
-  padding: 0;
+  padding: 1rem;
 }
 
 .message {
@@ -56,4 +57,62 @@
 .sender {
   display: block;
   font-weight: bold;
+}
+
+.time {
+  float: right;
+  margin-left: 1rem;
+  font-size: .8rem;
+  font-weight: normal;
+  color: var(--secondary)
+}
+
+.end-message {
+  list-style: none;
+  line-height: 1px;
+}
+
+.exit {
+  display: none;
+}
+
+.members {
+  display: block;
+  font-weight: normal;
+  font-size: .8rem;
+}
+
+@media screen and (max-width: 799px) {
+  .chat {
+    position: absolute;
+    top: 0;
+    height: calc(100vh - 3rem - 1px);
+    background-color: var(--negative);
+    transition: all .2s ease-in-out;
+  }
+
+  .channel-view .chat{
+    transform: translateX(100%);
+  }
+
+  .chat-view .chat {
+    transform: translateX(0%);
+  }
+
+  .exit {
+    display: block;
+    height: 3rem;
+    width: 2rem;
+    margin-left: 1rem;
+    border: 0;
+    color: transparent;
+    background: url("images/left.svg") center no-repeat transparent;
+    background-size: 2rem;
+    opacity: 0.7;
+    cursor: pointer;
+  }
+
+  .exit:hover {
+    opacity: 1;
+  }
 }
