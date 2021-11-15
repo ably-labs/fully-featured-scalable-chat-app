@@ -41,7 +41,7 @@ const Chat = ({ currentChannel, onChatExit }) => {
         </button>
         <h2>
           {currentChannel}
-          <span class="members">1 member</span>
+          <span className="members">1 member</span>
         </h2>
       </header>
       <ul className="messages">

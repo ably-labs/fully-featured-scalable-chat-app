@@ -8,6 +8,7 @@ export interface IUser extends Entity {
   lastName: string;
   passwordHash: string;
   oauthSub: string;
+  profileImgUrl: string;
 }
 
 export class User implements IUser, Entity {
@@ -19,14 +20,13 @@ export class User implements IUser, Entity {
   public lastName: string;
   public passwordHash: string;
   public oauthSub: string;
+  public profileImgUrl: string;
 
   constructor() {
     this.type = "User";
   }
 
-  public async passwordMatches(
-    suppliedClearTextPassword: string
-  ): Promise<boolean> {
+  public async passwordMatches(suppliedClearTextPassword: string): Promise<boolean> {
     return await bcrypt.compare(suppliedClearTextPassword, this.passwordHash);
   }
 
@@ -52,13 +52,10 @@ export class User implements IUser, Entity {
   }
 
   private static createId(): string {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-      /[xy]/g,
-      function (c) {
-        var r = (Math.random() * 16) | 0,
-          v = c == "x" ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-      }
-    );
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+      var r = (Math.random() * 16) | 0,
+        v = c == "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 }
