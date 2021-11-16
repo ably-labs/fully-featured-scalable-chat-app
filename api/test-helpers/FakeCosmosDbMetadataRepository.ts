@@ -16,11 +16,7 @@ export function clearDbItems() {
 class FakeCosmosDbMetadataRepository {
   constructor() {}
 
-  getByProperty<TEntityType extends Entity>(
-    typeName: string,
-    propertyName: string,
-    value: any
-  ): Promise<TEntityType[]> {
+  getByProperty<TEntityType extends Entity>(typeName: string, propertyName: string, value: any): Promise<TEntityType[]> {
     const items = inMemoryDb.get(typeName) || [];
     const itemsToReturn = items?.filter((item) => item[propertyName] === value);
     return itemsToReturn as any;

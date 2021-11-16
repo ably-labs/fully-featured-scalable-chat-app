@@ -1,7 +1,4 @@
-import {
-  addItemToDb,
-  clearDbItems,
-} from "../test-helpers/FakeCosmosDbMetadataRepository";
+import { addItemToDb, clearDbItems } from "../test-helpers/FakeCosmosDbMetadataRepository";
 import { default as sut } from "./index";
 
 describe("Registration API", () => {
@@ -13,19 +10,14 @@ describe("Registration API", () => {
   });
 
   it("when any mandatory property is missing, fails", async () => {
-    const requiredProperties = [
-      "username",
-      "firstName",
-      "lastName",
-      "password",
-    ];
+    const requiredProperties = ["username", "firstName", "lastName", "password"];
 
     for (let prop of requiredProperties) {
       const body = {
         username: "user",
         firstName: "first",
         lastName: "last",
-        password: "password",
+        password: "password"
       };
       delete body[prop];
 

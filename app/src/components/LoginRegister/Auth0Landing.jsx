@@ -10,8 +10,7 @@ const Auth0Landing = () => {
     const auth0 = await useAuth0();
     const auth0token = await auth0.getTokenSilently();
 
-    const { success, token, userDetails } =
-      await unauthorizedBffApiClient.auth0Authenticate(auth0token);
+    const { success, token, userDetails } = await unauthorizedBffApiClient.auth0Authenticate(auth0token);
 
     if (!success) {
       console.log("Oh no! We didn't auth"); // Add UI feedback for bad creds here

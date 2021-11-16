@@ -11,8 +11,7 @@ const Login = () => {
   const doLogin = async (event) => {
     event.preventDefault();
 
-    const { success, token, userDetails } =
-      await unauthorizedBffApiClient.signIn(username, password);
+    const { success, token, userDetails } = await unauthorizedBffApiClient.signIn(username, password);
 
     if (!success) {
       console.log("Oh no!"); // Add UI feedback for bad creds here
@@ -27,12 +26,7 @@ const Login = () => {
         <h2 className="loginregister-title">Sign In</h2>
         <label className="loginregister-label">
           <span className="loginregister-label-text">username</span>
-          <input
-            type="text"
-            placeholder="username"
-            value={username}
-            onChange={(ele) => setUsername(ele.target.value)}
-          ></input>
+          <input type="text" placeholder="username" value={username} onChange={(ele) => setUsername(ele.target.value)}></input>
         </label>
         <label className="loginregister-label">
           <span className="loginregister-label-text">password</span>

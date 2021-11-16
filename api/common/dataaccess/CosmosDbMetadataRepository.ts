@@ -18,7 +18,11 @@ export class CosmosDbMetadataRepository implements IMetadataRepository {
     return allMatchingItems[0];
   }
 
-  public async getByProperty<TEntityType extends Entity>(typeName: string, propertyName: string, value: any): Promise<TEntityType[]> {
+  public async getByProperty<TEntityType extends Entity>(
+    typeName: string,
+    propertyName: string,
+    value: any
+  ): Promise<TEntityType[]> {
     const container = await this.getContainer(typeName);
     const results = await container.items.query(`SELECT * FROM c WHERE c.${propertyName} = '${value}'`).fetchAll();
     return results.resources as TEntityType[];

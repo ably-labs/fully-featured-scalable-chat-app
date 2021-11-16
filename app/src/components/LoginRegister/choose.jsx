@@ -10,9 +10,7 @@ const Choose = () => {
       <span className="hr">or</span>
       <Link to="/login">Sign In</Link>
       <span className="hr">or</span>
-      <button onClick={loginWithRedirect}>
-        Login with Auth0
-      </button>
+      <button onClick={loginWithRedirect}>Login with Auth0</button>
     </main>
   );
 };

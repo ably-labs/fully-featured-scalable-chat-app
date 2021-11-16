@@ -22,11 +22,7 @@
     }
   },
   "settings": {},
-  "extensions": [
-    "ms-azuretools.vscode-azurefunctions",
-    "ms-azuretools.vscode-azurestaticwebapps",
-    "dbaeumer.vscode-eslint"
-  ],
+  "extensions": ["ms-azuretools.vscode-azurefunctions", "ms-azuretools.vscode-azurestaticwebapps", "dbaeumer.vscode-eslint"],
   "postCreateCommand": "npm run init",
   "remoteUser": "node"
 }
