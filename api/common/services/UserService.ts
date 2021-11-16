@@ -47,6 +47,16 @@ export class UserService {
     return { exists: false, user: undefined };
   }
 
+  public async getUserById(id: string): Promise<{ exists: boolean; user?: User }> {
+    const existing = await this._repo.getByProperty<User>("User", "id", id);
+
+    if (existing.length > 0) {
+      const asUserType = Object.assign(new User(), existing[0]);
+      return { exists: true, user: asUserType };
+    }
+    return { exists: false, user: undefined };
+  }
+
   public async createUser(request: UserCreationRequest): Promise<User> {
     const userProfileImageUrl = await getAzureProfileImgBlobByUrl();
     const requestWithProfileImg = {
