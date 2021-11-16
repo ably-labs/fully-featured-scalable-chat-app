@@ -17,8 +17,10 @@ export const ChatHistory = ({ history }) => {
     return (
       <li key={index} className="message">
         <img className="message-thumbnail" src={profileImgUrl} alt={userName} onClick={getUserProfileDetails} />
-        <span className="sender" onClick={getUserProfileDetails}>
-          {userName}
+        <span className="message-header">
+          <span className="sender" onClick={getUserProfileDetails}>
+            {userName}
+          </span>
           <span className="time">{messageTime}</span>
         </span>
         <span className="text">{item.data.text}</span>
