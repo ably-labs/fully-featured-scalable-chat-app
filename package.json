@@ -10,7 +10,8 @@
     "dev:server": "npx snowpack dev",
     "test": "jest --runInBand && npm run test:api",
     "dev:api": "npm run start --prefix api",
-    "test:api": "npm run test --prefix api"
+    "test:api": "npm run test --prefix api",
+    "lint": "npx eslint . --ext .js,.jsx"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,15 @@
     "@snowpack/plugin-dotenv": "^2.2.0",
     "@snowpack/plugin-react-refresh": "^2.5.0",
     "@types/jest": "^27.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "^19.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.27.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "http2-proxy": "^5.0.53",
     "jest": "^27.3.0",
     "jest-cli": "^27.3.0",
