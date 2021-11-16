@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import AppProviders from "./AppProviders";
+import { loadFeatureConfig, isFeatureAdmin } from "./feature-configuration";
+import FeatureToggleProvider from "./feature-toggle/Feature";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 
@@ -10,7 +12,9 @@ ReactDOM.render(
   <React.StrictMode>
     <AppProviders>
       <BrowserRouter>
-        <App />
+        <FeatureToggleProvider loadConfigurationFrom={loadFeatureConfig} includeAdminPanel={true} canOverrideFeatures={isFeatureAdmin}>
+          <App />
+        </FeatureToggleProvider>
       </BrowserRouter>
     </AppProviders>
   </React.StrictMode>,
