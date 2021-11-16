@@ -30,7 +30,12 @@ const Login = () => {
         </label>
         <label className="loginregister-label">
           <span className="loginregister-label-text">password</span>
-          <input type="password" placeholder="password" value={password} onChange={(ele) => setPassword(ele.target.value)}></input>
+          <input
+            type="password"
+            placeholder="password"
+            value={password}
+            onChange={(ele) => setPassword(ele.target.value)}
+          ></input>
         </label>
         <button className="login-register-button" onClick={doLogin}>
           Sign In

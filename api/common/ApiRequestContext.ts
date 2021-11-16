@@ -40,7 +40,12 @@ export class ApiRequestContext {
   }
 }
 
-export const authorized: AzureFunction = async function (context: Context, req: HttpRequest, wrappedFunction, includeUser: boolean = true): Promise<void> {
+export const authorized: AzureFunction = async function (
+  context: Context,
+  req: HttpRequest,
+  wrappedFunction,
+  includeUser: boolean = true
+): Promise<void> {
   const ctx = await ApiRequestContext.fromRequest(req, includeUser);
   if (!ctx.isAuthenticatedUser) {
     context.res = {
