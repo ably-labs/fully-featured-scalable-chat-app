@@ -53,7 +53,7 @@ main {
     background-color: var(--secondary);
     border-right: 1px solid var(--primary-dark);
   }
-  
+
   .channellist ul {
     margin-left: 1rem;
     border-left: 1px solid var(--primary-dark);

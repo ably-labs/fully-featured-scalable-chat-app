@@ -4,13 +4,10 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { UserService } from "../common/services/UserService";
 import { badRequest, forbidden, ok } from "../common/http/CommonResults";
 
-const httpTrigger: AzureFunction = async function (
-  context: Context,
-  req: HttpRequest
-): Promise<void> {
+const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
   const validation = new Validator(req.body, {
     username: "required|min:1",
-    password: "required|min:1",
+    password: "required|min:1"
   });
 
   if (validation.fails()) {
@@ -20,9 +17,7 @@ const httpTrigger: AzureFunction = async function (
 
   const userService = new UserService();
 
-  const { exists, user } = await userService.getUserByUsername(
-    req.body.username
-  );
+  const { exists, user } = await userService.getUserByUsername(req.body.username);
   const passwordMatches = await user.passwordMatches(req.body.password);
 
   if (!exists || !passwordMatches) {

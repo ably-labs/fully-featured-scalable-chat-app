@@ -4,13 +4,12 @@ import ChannelBrowser from "../pages/ChannelBrowser";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 const AuthenticatedApp = () => {
-
   const [additionalCSS, setAdditionalCSS] = useState("channel-view");
 
   const toggleChannelView = () => {
     const state = additionalCSS == "chat-view" ? "channel-view" : "chat-view";
     setAdditionalCSS(state);
-  }
+  };
 
   return (
     <>

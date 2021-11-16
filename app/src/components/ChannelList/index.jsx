@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../AppProviders";
-import Header from  "../Header/AuthHeader"
+import Header from "../Header/AuthHeader";
 import "./channellist.css";
 
 const ChannelList = ({ channels, onChannelSelected }) => {

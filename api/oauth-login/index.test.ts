@@ -1,8 +1,4 @@
-import {
-  addItemToDb,
-  clearDbItems,
-  saveOrUpdateCalls,
-} from "../test-helpers/FakeCosmosDbMetadataRepository";
+import { addItemToDb, clearDbItems, saveOrUpdateCalls } from "../test-helpers/FakeCosmosDbMetadataRepository";
 import { mockCall as mockAuth0Call } from "../test-helpers/FakeAuthenticationClient";
 
 import { default as sut } from "./index";
@@ -80,5 +76,4 @@ describe("OAuth Registration API", () => {
   });
 });
 
-const auth0Returns = (profile) =>
-  mockAuth0Call("getProfile", () => Promise.resolve(profile));
+const auth0Returns = (profile) => mockAuth0Call("getProfile", () => Promise.resolve(profile));

@@ -82,10 +82,7 @@ Next, you'll need to create your `TypeScript` API:
 import "../startup";
 import { Context, HttpRequest } from "@azure/functions";
 
-export default async function (
-  context: Context,
-  req: HttpRequest
-): Promise<void> {
+export default async function (context: Context, req: HttpRequest): Promise<void> {
   context.res = { status: 200, body: "I'm an API" };
 }
 ```
@@ -113,10 +110,7 @@ import "../startup";
 import { Context, HttpRequest } from "@azure/functions";
 import { authorized, ApiRequestContext } from "../common/ApiRequestContext";
 
-export default async function (
-  context: Context,
-  req: HttpRequest
-): Promise<void> {
+export default async function (context: Context, req: HttpRequest): Promise<void> {
   await authorized(context, req, () => {
     // This code will only run if the user is authenticated
 
@@ -135,10 +129,7 @@ import "../startup";
 import { Context, HttpRequest } from "@azure/functions";
 import { authorized, ApiRequestContext } from "../common/ApiRequestContext";
 
-export default async function (
-  context: Context,
-  req: HttpRequest
-): Promise<void> {
+export default async function (context: Context, req: HttpRequest): Promise<void> {
   await authorized(
     context,
     req,
@@ -147,7 +138,7 @@ export default async function (
 
       context.res = {
         status: 200,
-        body: JSON.stringify("I am validated and authenticated"),
+        body: JSON.stringify("I am validated and authenticated")
       };
     },
     true

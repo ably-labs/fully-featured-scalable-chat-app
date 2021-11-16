@@ -7,7 +7,7 @@ describe("BffApiClient", () => {
     body: {},
     json: function () {
       return this.body;
-    },
+    }
   };
   let fetchMock = null;
 
@@ -44,5 +44,5 @@ describe("BffApiClient", () => {
 const successfulSignInResponse = {
   success: true,
   token: "token",
-  userDetails: { username: "blah" },
+  userDetails: { username: "blah" }
 };
