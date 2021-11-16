@@ -51,11 +51,22 @@
   width: 3rem;
   height: 3rem;
   background-color: var(--primary);
+  cursor: pointer;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
 }
 
 .sender {
   display: block;
   font-weight: bold;
+  cursor: pointer;
+}
+
+.sender:hover {
+  text-decoration: underline;
 }
 
 .time {
