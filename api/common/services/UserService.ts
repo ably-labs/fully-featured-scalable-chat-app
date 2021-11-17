@@ -3,8 +3,8 @@ import { JwtGenerator } from "../JwtGenerator";
 import { User } from "../metadata/User";
 import { getAzureProfileImgBlobByUrl } from "../dataaccess/AzureBlobStorageClient";
 import { ExpiringAccessTokenCache } from "@azure/core-http";
-import { RoleService } from "../common/services/RoleService";
 import { Role } from "../metadata/Role";
+import { RoleService } from "./RoleService";
 
 export type LoginMetadata = {
   username: string;
@@ -57,7 +57,7 @@ export class UserService {
     }
 
     const roleService = new RoleService();
-    const { roleExists, role } = await roleService.getRoleByName(user.roleName);
+    const { exists: roleExists, role } = await roleService.getRoleByName(user.roleName);
 
     if (!roleExists) {
         return { exists: false, role: undefined };
