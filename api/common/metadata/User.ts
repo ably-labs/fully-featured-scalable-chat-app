@@ -9,6 +9,7 @@ export interface IUser extends Entity {
   passwordHash: string;
   oauthSub: string;
   profileImgUrl: string;
+  roleID: string;
 }
 
 export class User implements IUser, Entity {
@@ -21,6 +22,7 @@ export class User implements IUser, Entity {
   public passwordHash: string;
   public oauthSub: string;
   public profileImgUrl: string;
+  public roleID: string;
 
   constructor() {
     this.type = "User";
