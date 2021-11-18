@@ -13,11 +13,16 @@ If you have any questions, ideas or want to contribute, please raise an issue or
 3. an `.env` file in ./api
 
 ```[text]
-COSMOS_ENDPOINT=https://ffschatmetadata.documents.azure.com
+COSMOS_ENDPOINT=https://yourcosomsdb.documents.azure.com
 COSMOS_KEY=ASK FOR THIS OR MAKE YOUR OWN
 COSMOS_DATABASE_ID=metadata
 JWT_SIGNING_KEY=ASK FOR THIS OR MAKE YOUR OWN
 ABLY_API_KEY=YOURKEY:HERE
+AUTH0_DOMAIN=yourdomain.auth0.com
+AUTH0_CLIENTID=yourclientid
+AUTH0_REDIRECT_URI=http://localhost:8080/auth0-landing
+AZURE_STORAGE_CONNECTION_STRING=your string here
+AZURE_STORAGE_CONTAINER_NAME=container name here
 ```
 
 4. `npm run start` in the root.
