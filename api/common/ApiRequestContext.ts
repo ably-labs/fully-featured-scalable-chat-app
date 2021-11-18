@@ -2,6 +2,7 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { CosmosDbMetadataRepository } from "./dataaccess/CosmosDbMetadataRepository";
 import { JwtGenerator } from "./JwtGenerator";
 import { IUser, User } from "./metadata/User";
+import { UserService } from "./services/UserService";
 
 export class ApiRequestContext {
   public isAuthenticatedUser: boolean;
@@ -53,6 +54,53 @@ export const authorized: AzureFunction = async function (
       body: JSON.stringify({ success: false, reason: ctx.reason })
     };
     return;
+  }
+
+  // In case a response is not set in the callback, we indicate Not Implemented
+  context.res = {
+    status: 501,
+    body: JSON.stringify({
+      success: false,
+      reason: "Authorized, but no response set"
+    })
+  };
+
+  await wrappedFunction(ctx);
+};
+
+export const authorizedWithPermission: AzureFunction = async function (
+  context: Context,
+  req: HttpRequest,
+  permission: string,
+  wrappedFunction,
+  includeUser: boolean = true
+): Promise<void> {
+  const ctx = await ApiRequestContext.fromRequest(req, includeUser);
+  if (!ctx.isAuthenticatedUser) {
+    context.res = {
+      status: 401,
+      body: JSON.stringify({ success: false, reason: ctx.reason })
+    };
+    return;
+  }
+
+  const userService = new UserService();
+  const { exists, role } = await userService.getRoleByUsername(ctx.user.username);
+
+  if (!exists) {
+    context.res = {
+      status: 401,
+      body: JSON.stringify({ success: false, reason: "User does not exist" })
+    };
+    return;   
+  }
+
+  if (!role.permissions.includes(permission)) {
+    context.res = {
+      status: 401,
+      body: JSON.stringify({ success: false, reason: "User does not have permission to access resource" })
+    };
+    return;   
   }
 
   // In case a response is not set in the callback, we indicate Not Implemented
