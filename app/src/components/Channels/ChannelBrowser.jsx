@@ -16,9 +16,9 @@ export default ({ toggleChannelView }) => {
     fetchChannels();
   }, []);
 
-  const channelSelected = (channel) => {
+  const channelSelected = async (channel) => {
     setCurrentChannel(channel);
-
+    const response = await api.getChannelMetadata();
     toggleChannelView();
   };
 
