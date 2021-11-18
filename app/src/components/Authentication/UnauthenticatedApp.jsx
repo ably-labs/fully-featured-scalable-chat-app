@@ -1,13 +1,13 @@
 import React from "react";
-import Header from "./Header/UnauthHeader";
-import Footer from "./Footer";
-import LoginRegister from "./LoginRegister";
+import Header from "../Header/UnauthHeader";
+import Footer from "../Footer/Footer";
+import AuthContainer from "./AuthContainer";
 
 const UnauthenticatedApp = () => {
   return (
     <>
       <Header />
-      <LoginRegister />
+      <AuthContainer />
       <Footer />
     </>
   );

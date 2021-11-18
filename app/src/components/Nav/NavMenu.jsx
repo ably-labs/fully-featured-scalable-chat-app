@@ -2,7 +2,7 @@ import React from "react";
 import "./nav.css";
 import { useAuth } from "../../AppProviders";
 
-const Nav = () => {
+const NavMenu = () => {
   const { _, __, logout } = useAuth();
 
   const processLogout = (event) => {
@@ -23,4 +23,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default NavMenu;
