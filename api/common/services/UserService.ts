@@ -2,6 +2,9 @@ import { CosmosDbMetadataRepository } from "../dataaccess/CosmosDbMetadataReposi
 import { JwtGenerator } from "../JwtGenerator";
 import { User } from "../metadata/User";
 import { getAzureProfileImgBlobByUrl } from "../dataaccess/AzureBlobStorageClient";
+import { ExpiringAccessTokenCache } from "@azure/core-http";
+import { Role } from "../metadata/Role";
+import { RoleService } from "./RoleService";
 
 export type LoginMetadata = {
   username: string;
@@ -47,11 +50,28 @@ export class UserService {
     return { exists: false, user: undefined };
   }
 
+  public async getRoleByUsername(username: string): Promise<{ exists: boolean; role?: Role }> {
+    const { exists, user } = await this.getUserByUsername(username);
+    if (!exists) {
+        return { exists: false, role: undefined };
+    }
+
+    const roleService = new RoleService();
+    const { exists: roleExists, role } = await roleService.getRoleByName(user.roleName);
+
+    if (!roleExists) {
+        return { exists: false, role: undefined };
+    }
+
+    return { exists: true, role: role };
+  }
+
   public async createUser(request: UserCreationRequest): Promise<User> {
     const userProfileImageUrl = await getAzureProfileImgBlobByUrl();
     const requestWithProfileImg = {
       ...request,
-      profileImgUrl: userProfileImageUrl
+      profileImgUrl: userProfileImageUrl,
+      roleName: "normal"
     };
     const user = User.fromJSON(requestWithProfileImg);
     await this._repo.saveOrUpdate<User>(user);
