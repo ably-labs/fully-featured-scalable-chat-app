@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "./AppProviders";
-import AuthenticatedApp from "./components/Authentication/AuthenticatedApp";
-import UnauthenticatedApp from "./components/Authentication/UnauthenticatedApp";
+import AuthenticatedApp from "./components/AppContainers/AuthenticatedApp";
+import UnauthenticatedApp from "./components/AppContainers/UnauthenticatedApp";
 import "./App.css";
 
 const App = () => {
