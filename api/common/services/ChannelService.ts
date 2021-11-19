@@ -28,6 +28,11 @@ export class ChannelService {
     return { exists: false, channel: undefined };
   }
 
+  public async getDefaultChannelsList(): Promise<{ defaultChannelsList?: Channel[] }> {
+    const defaultChannelsList = await this._repo.getByProperty<Channel>("Channel", "isDefault", true);
+    return { defaultChannelsList: defaultChannelsList };
+  }
+
   public async createChannel(request: ChannelMetadata): Promise<Channel> {
     const channel = Channel.fromJSON(request);
     await this._repo.saveOrUpdate<Channel>(channel);

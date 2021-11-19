@@ -11,7 +11,7 @@ export default ({ toggleChannelView }) => {
   useEffect(() => {
     const fetchChannels = async () => {
       const response = await api.listChannels();
-      setChannels(response.channels);
+      setChannels(response);
     };
     fetchChannels();
   }, []);
