@@ -1,11 +1,11 @@
 import React from "react";
 import "./footer.css";
-import ably from "./ably-logo-full-rbg-pos.png";
+import ablyLogo from "./ably-logo-full-rbg-pos.png";
 
 const Header = () => {
   return (
     <footer>
-      Powered by <img src={ably} alt="Ably" />
+      Powered by <img src={ablyLogo} alt="Ably" />
     </footer>
   );
 };
