@@ -59,10 +59,18 @@
   justify-content: space-between;
 }
 
+.message-button {
+  display: contents;
+}
+
 .sender {
   display: block;
   font-weight: bold;
   cursor: pointer;
+  border: 0;
+  font-family: inherit;
+  background-color: transparent;
+  font-size: 1rem;
 }
 
 .sender:hover {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useChannel } from "@ably-labs/react-hooks";
 import { ChatList } from "./ChatList";
 import { ChatInput } from "./ChatInput";
+import Profile from "../Profile";
 import "./chat.css";
 
 const ChatContainer = ({ currentChannel, onChatExit }) => {
@@ -31,7 +32,7 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
   return (
     <section className="chat">
       <header className="authed">
-        <button className="exit" onClick={onChatExit}>
+        <button className="exit" onClick={onChatExit} type="button">
           Back
         </button>
         <h2>
@@ -46,7 +47,7 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
           ref={(element) => {
             messageEnd = element;
           }}
-        ></li>
+        />
       </ul>
       <ChatInput sendMessage={sendMessage} />
     </section>

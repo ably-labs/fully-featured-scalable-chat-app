@@ -56,7 +56,9 @@ export class UserService {
     }
 
     const roleService = new RoleService();
-    const { exists: roleExists, role } = await roleService.getRoleByName(user.roleName);
+    const result = await roleService.getRoleByName(user.roleName);
+    console.log(result);
+    const { exists: roleExists, role } = result;
 
     if (!roleExists) {
       return { exists: false, role: undefined };

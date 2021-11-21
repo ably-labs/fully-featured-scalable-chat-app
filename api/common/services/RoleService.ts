@@ -14,6 +14,7 @@ export class RoleService {
     if (existing.length > 0) {
       const asRoleType = Object.assign(new Role(), existing[0]);
       return { exists: true, role: asRoleType };
-    }
+    } 
+    return { exists: false, role: null };
   }
 }

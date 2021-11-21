@@ -13,5 +13,13 @@ module.exports = {
     sourceType: "module"
   },
   plugins: ["react", "@typescript-eslint"],
-  rules: {}
+  rules: {
+    "react/function-component-definition": [
+      2,
+      {
+        namedComponents: "arrow-function"
+      }
+    ],
+    "arrow-body-style": ["error", "always"]
+  }
 };

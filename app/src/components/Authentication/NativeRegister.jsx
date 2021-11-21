@@ -38,7 +38,7 @@ const NativeRegister = () => {
             placeholder="first name"
             value={firstName}
             onChange={(ele) => setFirstName(ele.target.value)}
-          ></input>
+          />
         </label>
         <label className="loginregister-label">
           <span className="loginregister-label-text">surname</span>

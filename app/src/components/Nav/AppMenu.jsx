@@ -17,7 +17,9 @@ const AppMenu = () => {
         Menu
       </label>
       <nav className="main-nav">
-        <button onClick={processLogout}>Logout</button>
+        <button onClick={processLogout} type="button">
+          Logout
+        </button>
       </nav>
     </div>
   );
