@@ -69,12 +69,12 @@ export class BffApiClient {
 
   async listChannels() {
     const result = await this.get("/api/channels");
-    return await result.json();
+    return result.json();
   }
 
-  async getUserProfile(userId) {
-    const result = await this.post("/api/users/get-profile/", { userId });
-    return await result.json();
+  async getUserDetails(userId) {
+    const result = await this.get(`/api/users/${userId}`);
+    return result.json();
   }
 }
 

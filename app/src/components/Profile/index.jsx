@@ -9,7 +9,7 @@ const Profile = (props) => {
   const { api } = useAuth();
 
   useEffect(async () => {
-    const response = await api.getUserProfile(userId);
+    const response = await api.getUserDetails(userId);
     setUserProfileDetails(response);
   }, [userId]);
 
