@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { AuthMethods, useAuth } from "../../AppProviders";
 import { unauthorizedBffApiClient } from "../../sdk/BffApiClient";
-import "./loginregister.css";
+import "./auth.css";
 
-const Login = () => {
+const NativeLogin = () => {
   const { onLoginSuccess } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -45,4 +45,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default NativeLogin;

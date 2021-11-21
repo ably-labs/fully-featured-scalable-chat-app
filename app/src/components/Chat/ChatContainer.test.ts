@@ -1,4 +1,4 @@
-import { default as Chat } from "./index";
+import { default as Chat } from "./ChatContainer";
 
 describe("A", () => {
   it("Chat", () => {

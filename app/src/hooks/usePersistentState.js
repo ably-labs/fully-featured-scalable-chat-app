@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function userPersistentState(storageKey: string, stateObject: any) {
+export function userPersistentState(storageKey, stateObject) {
   let storedData = localStorage.getItem(storageKey) || JSON.stringify(stateObject);
 
   const initialData = JSON.parse(storedData);
@@ -10,7 +10,7 @@ export function userPersistentState(storageKey: string, stateObject: any) {
     setState(stateObject);
   }
 
-  const setAndPersistState = (newState: any) => {
+  const setAndPersistState = (newState) => {
     setState(newState);
     localStorage.setItem(storageKey, JSON.stringify(newState));
   };

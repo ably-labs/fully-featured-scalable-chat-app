@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../AppProviders";
-import ChannelList from "../../components/ChannelList";
-import Chat from "../../components/Chat";
+import ChannelList from "./ChannelList";
+import ChatContainer from "../Chat/ChatContainer";
 
 export default ({ toggleChannelView }) => {
   const { api } = useAuth();
   const [channels, setChannels] = useState([]);
-  const [currentChannel, setCurrentChannel] = useState(null);
+  const [currentChannel, setCurrentChannel] = useState("global-welcome");
 
   useEffect(() => {
     const fetchChannels = async () => {
@@ -25,7 +25,7 @@ export default ({ toggleChannelView }) => {
   return (
     <>
       <ChannelList channels={channels} onChannelSelected={channelSelected} />
-      <Chat currentChannel={currentChannel} onChatExit={toggleChannelView} />
+      <ChatContainer currentChannel={currentChannel} onChatExit={toggleChannelView} />
     </>
   );
 };

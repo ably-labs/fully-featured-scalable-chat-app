@@ -3,7 +3,7 @@ import { AuthMethods, useAuth } from "../../AppProviders";
 import { useAuth0 } from "../../sdk/Auth0Client";
 import { unauthorizedBffApiClient } from "../../sdk/BffApiClient";
 
-const Auth0Landing = () => {
+const Auth0PostLoginRedirect = () => {
   const { onLoginSuccess } = useAuth();
 
   useEffect(async () => {
@@ -22,4 +22,4 @@ const Auth0Landing = () => {
   return <div>Logging you in...</div>;
 };
 
-export default Auth0Landing;
+export default Auth0PostLoginRedirect;

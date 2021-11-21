@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useAuth } from "../../AppProviders";
-import ProfilePopupModal from "../ProfilePopupModal";
+import ProfilePopupModal from "../UserProfile/ProfilePopupModal";
 
-export const ChatHistory = ({ history }) => {
+export const ChatList = ({ history }) => {
   const { api } = useAuth();
   const [modal, setModal] = useState(false);
   const [userProfileDetails, setUserProfileDetails] = useState({});
@@ -48,4 +48,4 @@ export const ChatHistory = ({ history }) => {
   return messageElements;
 };
 
-export default ChatHistory;
+export default ChatList;
