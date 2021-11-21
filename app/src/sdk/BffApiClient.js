@@ -1,20 +1,24 @@
+import LocalUserProfileCache from "./LocalUserProfileCache";
+
 export class BffApiClient {
   constructor(jwtToken, fetchFunc = null) {
     this._jwtToken = jwtToken;
     this._fetchFunc = fetchFunc;
+    this._profileCache = new LocalUserProfileCache();
   }
 
   async fetch(input, init) {
     init.headers = this._jwtToken ? { ...init.headers, jwt: this._jwtToken } : init.headers;
     const func = this._fetchFunc || fetch;
-    return await func(input, init);
+    return func(input, init);
   }
 
   async get(input) {
-    return await this.fetch(input, { method: "GET", headers: {} });
+    return this.fetch(input, { method: "GET", headers: {} });
   }
+
   async post(input, body) {
-    return await this.fetch(input, {
+    return this.fetch(input, {
       method: "POST",
       headers: {},
       body: JSON.stringify(body)
@@ -73,8 +77,10 @@ export class BffApiClient {
   }
 
   async getUserDetails(userId) {
-    const result = await this.get(`/api/users/${userId}`);
-    return result.json();
+    return this._profileCache.get(userId, async () => {
+      const result = await this.get(`/api/users/${userId}`);
+      return result.json();
+    });
   }
 }
 
