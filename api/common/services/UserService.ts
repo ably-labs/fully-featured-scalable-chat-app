@@ -2,7 +2,6 @@ import { CosmosDbMetadataRepository } from "../dataaccess/CosmosDbMetadataReposi
 import { JwtGenerator } from "../JwtGenerator";
 import { User } from "../metadata/User";
 import { getAzureProfileImgBlobByUrl } from "../dataaccess/AzureBlobStorageClient";
-import { ExpiringAccessTokenCache } from "@azure/core-http";
 import { Role } from "../metadata/Role";
 import { RoleService } from "./RoleService";
 
@@ -53,17 +52,27 @@ export class UserService {
   public async getRoleByUsername(username: string): Promise<{ exists: boolean; role?: Role }> {
     const { exists, user } = await this.getUserByUsername(username);
     if (!exists) {
-        return { exists: false, role: undefined };
+      return { exists: false, role: undefined };
     }
 
     const roleService = new RoleService();
     const { exists: roleExists, role } = await roleService.getRoleByName(user.roleName);
 
     if (!roleExists) {
-        return { exists: false, role: undefined };
+      return { exists: false, role: undefined };
     }
 
     return { exists: true, role: role };
+  }
+
+  public async getUserById(id: string): Promise<{ exists: boolean; user?: User }> {
+    const existing = await this._repo.getByProperty<User>("User", "id", id);
+
+    if (existing.length > 0) {
+      const asUserType = Object.assign(new User(), existing[0]);
+      return { exists: true, user: asUserType };
+    }
+    return { exists: false, user: undefined };
   }
 
   public async createUser(request: UserCreationRequest): Promise<User> {
