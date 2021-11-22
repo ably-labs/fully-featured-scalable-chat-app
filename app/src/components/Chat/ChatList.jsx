@@ -1,66 +1,59 @@
-import React, { useState } from "react";
-import { useAuth } from "../../AppProviders";
-import Profile from "../Profile";
+import React, { useState, useEffect } from "react";
+import useProfileData from "../../hooks/useProfileData";
+import { FloatingTogglableProfile } from "../Profile";
 
 export const ChatList = ({ history }) => {
-  const { api } = useAuth();
+  const [messageElements, setMessageElements] = useState([]);
+  const [selectedProfile, setSelectedProfile] = useState("");
+  const [profileTarget, setProfileTarget] = useState({ top: 0, right: 0 });
 
-  const [selectedProfile, setSelectedProfile] = useState({});
-  const [profileVisible, setProfileVisibility] = useState(false);
-  const [profileCSSOverride, setProfileCSSOverride] = useState({});
-
-  const toggleProfile = (e) => {
-    const viewHeight = document.documentElement.clientHeight;
-    const { top, right } = e.target.getBoundingClientRect();
-    const position = {};
-
-    if (top + 554 <= viewHeight) {
-      // min height of profile. TODO: calculate this better
-      position.top = top;
-    } else {
-      position.bottom = "3rem"; // height of footer
-    }
-    position.left = right;
-    setProfileCSSOverride(position);
-    setProfileVisibility(!profileVisible);
-  };
-
-  const messageElements = history.map((item, index) => {
-    const [userId, username, encodedProfileImgUrl] = item.clientId.split(":");
-    const profileImgUrl = decodeURIComponent(encodedProfileImgUrl);
-    const messageTime = new Date(item.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-    const toggleSpecificUserProfile = (e) => {
-      setSelectedProfile(userId);
-      toggleProfile(e);
-    };
-
-    return (
-      <li key={userId} className="message">
-        <button type="button" onClick={toggleSpecificUserProfile} className="message-button">
-          <img className="message-thumbnail" src={profileImgUrl} alt={username} />
-        </button>
-        <button className="sender message-button" type="button" onClick={toggleSpecificUserProfile}>
-          {username}
-        </button>
-        <span className="time">{messageTime}</span>
-        <span className="text">{item.data.text}</span>
-      </li>
-    );
+  const userIds = history.map((item) => {
+    return item.clientId;
   });
 
-  const profile = profileVisible ? (
-    <Profile userId={selectedProfile} onClose={toggleProfile} cssOverride={profileCSSOverride} />
-  ) : (
-    <></>
+  useProfileData(
+    userIds,
+    (profiles) => {
+      const renderedMessages = history.map((item) => {
+        const userId = item.clientId;
+        const { username, profileImgUrl } = profiles[userId];
+        const messageTime = new Date(item.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+        const showProfile = (e) => {
+          const { top, right } = e.target.getBoundingClientRect();
+          setProfileTarget({ top, right });
+          setSelectedProfile(userId);
+        };
+
+        return (
+          <li key={item.id} className="message">
+            <button type="button" onClick={showProfile} className="message-button">
+              <img className="message-thumbnail" src={profileImgUrl} alt={username} />
+            </button>
+            <button className="sender message-button" type="button" onClick={showProfile}>
+              {username}
+            </button>
+            <span className="time">{messageTime}</span>
+            <span className="text">{item.data.text}</span>
+          </li>
+        );
+      });
+
+      setMessageElements(renderedMessages);
+    },
+    [history]
   );
 
   return (
     <>
       {messageElements}
-      {profile}
+      <FloatingTogglableProfile
+        userId={selectedProfile}
+        target={profileTarget}
+        onClose={() => {
+          setSelectedProfile("");
+        }}
+      />
     </>
   );
 };
-
-export default ChatList;

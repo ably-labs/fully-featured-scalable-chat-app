@@ -78,9 +78,19 @@ export class BffApiClient {
 
   async getUserDetails(userId) {
     return this._profileCache.get(userId, async () => {
+      console.log("cache miss for", userId);
       const result = await this.get(`/api/users/${userId}`);
       return result.json();
     });
+  }
+
+  async getUsersDetails(userIds) {
+    const next = {};
+    for (let userId of userIds) {
+      const { id, ...profile } = await this.getUserDetails(userId);
+      next[id] = { id, ...profile };
+    }
+    return next;
   }
 }
 

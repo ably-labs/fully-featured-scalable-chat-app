@@ -20,7 +20,8 @@ module.exports = {
         namedComponents: "arrow-function"
       }
     ],
-    "arrow-body-style": ["error", "always"],
-    "no-underscore-dangle": "off"
+    "arrow-body-style": "off",
+    "no-underscore-dangle": "off",
+    "no-plusplus": "off"
   }
 };
