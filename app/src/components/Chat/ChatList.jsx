@@ -14,8 +14,8 @@ export const ChatList = ({ history }) => {
     const { top, right } = e.target.getBoundingClientRect();
     const position = {};
 
-    if (top + 480 <= viewHeight) {
-      // minheight of profile TODO: calculate this better
+    if (top + 554 <= viewHeight) {
+      // min height of profile. TODO: calculate this better
       position.top = top;
     } else {
       position.bottom = "3rem"; // height of footer
