@@ -15,6 +15,7 @@ export const ChatList = ({ history }) => {
     const position = {};
 
     if (top + 480 <= viewHeight) {
+      // minheight of profile TODO: calculate this better
       position.top = top;
     } else {
       position.bottom = "3rem"; // height of footer
@@ -25,7 +26,7 @@ export const ChatList = ({ history }) => {
   };
 
   const messageElements = history.map((item, index) => {
-    const [userId, username, encodedProfileImgUrl] = item.clientId.split(":");    
+    const [userId, username, encodedProfileImgUrl] = item.clientId.split(":");
     const profileImgUrl = decodeURIComponent(encodedProfileImgUrl);
     const messageTime = new Date(item.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
@@ -48,9 +49,18 @@ export const ChatList = ({ history }) => {
     );
   });
 
-  const profile = profileVisible ? <Profile userId={selectedProfile} onClose={toggleProfile} cssOverride={profileCSSOverride} /> : <></>;
+  const profile = profileVisible ? (
+    <Profile userId={selectedProfile} onClose={toggleProfile} cssOverride={profileCSSOverride} />
+  ) : (
+    <></>
+  );
 
-  return <>{messageElements}{profile}</>;
+  return (
+    <>
+      {messageElements}
+      {profile}
+    </>
+  );
 };
 
 export default ChatList;
