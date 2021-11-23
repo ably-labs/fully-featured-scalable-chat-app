@@ -1,7 +1,7 @@
 # Show HN: An open-source fully-featured scalable chat app
 
 When building a collaborative application, chat will usually worm its way in somewhere. Allowing users to chat in text while they collaborate can make the experience more engaging, or simply ease communication between peers.
-Simple chat examples can be functional and easy to build, but they're usually not structured for production-level applications. You start to need to consider:
+Simple chat examples can be functional and easy to build, but they're usually not structured for production-level applications. You will need to consider:
 
 * How to store & retrieve messages
 * Authentication, authorization, and roles for users
