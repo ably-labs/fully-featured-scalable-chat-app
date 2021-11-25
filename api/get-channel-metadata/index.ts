@@ -11,8 +11,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       const channelService = new ChannelService();
       const { channel } = await channelService.getChannelById(channelId);
 
-      console.log(`Channel: ${JSON.stringify(channel)}`);
-
       context.res = {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(channel)

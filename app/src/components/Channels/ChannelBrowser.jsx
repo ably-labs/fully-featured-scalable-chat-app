@@ -6,7 +6,8 @@ import ChatContainer from "../Chat/ChatContainer";
 export default ({ toggleChannelView }) => {
   const { api } = useAuth();
   const [channels, setChannels] = useState([]);
-  const [currentChannel, setCurrentChannel] = useState("global-welcome");
+  const [currentChannelName, setCurrentChannelName] = useState("");
+  const [currentChannelId, setCurrentChannelId] = useState("");
 
   useEffect(() => {
     const fetchChannels = async () => {
@@ -17,15 +18,15 @@ export default ({ toggleChannelView }) => {
   }, []);
 
   const channelSelected = async (channel) => {
-    setCurrentChannel(channel);
-    const response = await api.getChannelMetadata();
+    setCurrentChannelName(channel);
+    setCurrentChannelId(channel.id);
     toggleChannelView();
   };
 
   return (
     <>
       <ChannelList channels={channels} onChannelSelected={channelSelected} />
-      <ChatContainer currentChannel={currentChannel} onChatExit={toggleChannelView} />
+      <ChatContainer currentChannelName={currentChannelName} currentChannelId={currentChannelId} onChatExit={toggleChannelView} />
     </>
   );
 };
