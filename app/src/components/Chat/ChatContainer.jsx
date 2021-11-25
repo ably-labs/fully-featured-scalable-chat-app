@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useChannel } from "@ably-labs/react-hooks";
-import { ChatHistory } from "./ChatHistory";
-import { SelectAChannel } from "./SelectAChannel";
+import { ChatList } from "./ChatList";
 import { ChatInput } from "./ChatInput";
+import Profile from "../Profile";
 import "./chat.css";
 
-const Chat = ({ currentChannel, onChatExit }) => {
-  if (currentChannel === null) {
-    return <SelectAChannel />;
-  }
-
+const ChatContainer = ({ currentChannel, onChatExit }) => {
   let messageEnd = null;
 
   const rewindParameters = "[?rewind=100]";
@@ -36,7 +32,7 @@ const Chat = ({ currentChannel, onChatExit }) => {
   return (
     <section className="chat">
       <header className="authed">
-        <button className="exit" onClick={onChatExit}>
+        <button className="exit" onClick={onChatExit} type="button">
           Back
         </button>
         <h2>
@@ -45,16 +41,16 @@ const Chat = ({ currentChannel, onChatExit }) => {
         </h2>
       </header>
       <ul className="messages">
-        <ChatHistory history={history} />
+        <ChatList history={history} />
         <li
           className="end-message"
           ref={(element) => {
             messageEnd = element;
           }}
-        ></li>
+        />
       </ul>
       <ChatInput sendMessage={sendMessage} />
     </section>
   );
 };
-export default Chat;
+export default ChatContainer;

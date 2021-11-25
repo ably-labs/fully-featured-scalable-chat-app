@@ -1,20 +1,24 @@
+import LocalUserProfileCache from "./LocalUserProfileCache";
+
 export class BffApiClient {
   constructor(jwtToken, fetchFunc = null) {
     this._jwtToken = jwtToken;
     this._fetchFunc = fetchFunc;
+    this._profileCache = new LocalUserProfileCache();
   }
 
   async fetch(input, init) {
     init.headers = this._jwtToken ? { ...init.headers, jwt: this._jwtToken } : init.headers;
     const func = this._fetchFunc || fetch;
-    return await func(input, init);
+    return func(input, init);
   }
 
   async get(input) {
-    return await this.fetch(input, { method: "GET", headers: {} });
+    return this.fetch(input, { method: "GET", headers: {} });
   }
+
   async post(input, body) {
-    return await this.fetch(input, {
+    return this.fetch(input, {
       method: "POST",
       headers: {},
       body: JSON.stringify(body)
@@ -69,7 +73,24 @@ export class BffApiClient {
 
   async listChannels() {
     const result = await this.get("/api/channels");
-    return await result.json();
+    return result.json();
+  }
+
+  async getUserDetails(userId) {
+    return this._profileCache.get(userId, async () => {
+      console.log("cache miss for", userId);
+      const result = await this.get(`/api/users/${userId}`);
+      return result.json();
+    });
+  }
+
+  async getUsersDetails(userIds) {
+    const next = {};
+    for (let userId of userIds) {
+      const { id, ...profile } = await this.getUserDetails(userId);
+      next[id] = { id, ...profile };
+    }
+    return next;
   }
 }
 

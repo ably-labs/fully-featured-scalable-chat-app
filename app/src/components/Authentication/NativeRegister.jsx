@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { unauthorizedBffApiClient } from "../../sdk/BffApiClient";
 import { AuthMethods, useAuth } from "../../AppProviders";
-import "./loginregister.css";
+import "./auth.css";
 
-const Register = () => {
+const NativeRegister = () => {
   const { onLoginSuccess } = useAuth();
 
   const [username, setUsername] = useState("");
@@ -38,7 +38,7 @@ const Register = () => {
             placeholder="first name"
             value={firstName}
             onChange={(ele) => setFirstName(ele.target.value)}
-          ></input>
+          />
         </label>
         <label className="loginregister-label">
           <span className="loginregister-label-text">surname</span>
@@ -59,4 +59,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default NativeRegister;

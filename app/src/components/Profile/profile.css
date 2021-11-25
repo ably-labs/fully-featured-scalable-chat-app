@@ -1,0 +1,116 @@
+.profile-holder {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--negative);
+}
+
+.close {
+  position: absolute;
+  top: 0.5rem;
+  display: block;
+  height: 3rem;
+  width: 2rem;
+  margin-left: 1rem;
+  border: 0;
+  color: transparent;
+  background: url("images/left.svg") center no-repeat transparent;
+  background-size: 2rem;
+  opacity: 0.7;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.close:hover {
+  opacity: 1;
+}
+
+.profile-header {
+  padding-left: 2rem;
+}
+
+.profile {
+  padding: 1rem;
+}
+
+.profile-img {
+  display: block;
+  width: 100%;
+  min-height: 266px;
+  margin-bottom: 1rem;
+}
+
+.profile-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.profile-subtitle {
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.profile-buttons {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 1rem;
+}
+
+.profile-button {
+  padding: 1rem 2rem;
+  border: 0;
+  border-radius: var(--spacer);
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  text-align: center;
+  text-decoration: none;
+  background-color: var(--primary);
+  color: var(--primary-text);
+}
+
+.profile-button:hover {
+  background-color: var(--primary-active);
+}
+
+@media screen and (min-width: 800px) {
+  .profile-header {
+    display: none;
+  }
+
+  .profile-holder {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+  }
+
+  .profile {
+    position: absolute;
+    width: 100%;
+    max-width: 400px;
+    margin-left: 1rem;
+    border: 1px solid var(--primary-dark);
+    background-color: var(--negative);
+    box-shadow: 0px 2px 10px 1px rgb(0 0 0 / 25%);
+  }
+
+  .close {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    border: 0;
+    font-size: 0;
+    color: transparent;
+    background-color: transparent;
+  }
+}

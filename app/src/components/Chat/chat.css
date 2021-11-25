@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-height: calc(100vh - 3rem - 1px); /* height of footer and border*/
 }
 
 .send {
@@ -51,11 +52,30 @@
   width: 3rem;
   height: 3rem;
   background-color: var(--primary);
+  cursor: pointer;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.message-button {
+  display: contents;
 }
 
 .sender {
   display: block;
   font-weight: bold;
+  cursor: pointer;
+  border: 0;
+  font-family: inherit;
+  background-color: transparent;
+  font-size: 1rem;
+}
+
+.sender:hover {
+  text-decoration: underline;
 }
 
 .time {
@@ -73,6 +93,10 @@
 
 .exit {
   display: none;
+}
+
+.text {
+  word-break: break-all;
 }
 
 .members {

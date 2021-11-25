@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Footer from "./Footer";
-import ChannelBrowser from "../pages/ChannelBrowser";
+import Footer from "../Footer/Footer";
+import ChannelBrowser from "../Channels/ChannelBrowser.jsx";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 const AuthenticatedApp = () => {
