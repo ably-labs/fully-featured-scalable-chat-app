@@ -16,7 +16,9 @@ export default {
     {
       src: "/api/.*",
       dest: (req, res) => {
-        return proxy.web(req, res, { hostname: "localhost", port: 7071 });
+        return proxy.web(req, res, { hostname: "localhost", port: 7071 }, (err) => {
+          console.log(err);
+        });
       }
     },
     {
