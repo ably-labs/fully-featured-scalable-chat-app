@@ -8,9 +8,11 @@ If you have any questions, ideas or want to contribute, please raise an issue or
 
 ## Things you will need to make this run locally!
 
-1. Node
-2. [The Azure Functions Runtime from NPM](https://www.npmjs.com/package/azure-functions-core-tools)
-3. an `.env` file in ./api
+1. [Node 16 installed](https://nodejs.org/en/download/)
+2. [The Azure Functions Runtime from NPM](https://www.npmjs.com/package/azure-functions-core-tools). To install this run:
+
+    `npm install -g azure-functions-core-tools@4`
+3. an `.env` file in ./api:
 
 ```[text]
 COSMOS_ENDPOINT=https://yourcosomsdb.documents.azure.com
