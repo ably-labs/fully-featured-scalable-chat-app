@@ -1,12 +1,12 @@
 import "../startup";
 import { Context, HttpRequest } from "@azure/functions";
-import { authorizedWithPermission, ApiRequestContext } from "../common/ApiRequestContext";
+import { authorized, ApiRequestContext } from "../common/ApiRequestContext";
 import * as Validator from "validatorjs";
 import { badRequest, badRequestFor, ok } from "../common/http/CommonResults";
 import { RoleService } from "../common/services/RoleService";
 
 export default async function (context: Context, req: HttpRequest): Promise<void> {
-  await authorizedWithPermission(
+  await authorized(
     context,
     req,
     "admin",

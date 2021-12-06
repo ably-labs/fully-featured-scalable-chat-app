@@ -45,14 +45,25 @@ export const authorized: AzureFunction = async function (
   context: Context,
   req: HttpRequest,
   wrappedFunction,
+  permission: string = "any",
   includeUser: boolean = true
 ): Promise<void> {
   const ctx = await ApiRequestContext.fromRequest(req, includeUser);
+
   if (!ctx.isAuthenticatedUser) {
     context.res = {
       status: 401,
       body: JSON.stringify({ success: false, reason: ctx.reason })
     };
+    return;
+  }
+
+  if (
+    permission !== "any" &&
+    ctx.user != null &&
+    ctx.user.username != null &&
+    !(await hasPermission(ctx.user.username, context, permission))
+  ) {
     return;
   }
 
@@ -68,31 +79,16 @@ export const authorized: AzureFunction = async function (
   await wrappedFunction(ctx);
 };
 
-export const authorizedWithPermission: AzureFunction = async function (
-  context: Context,
-  req: HttpRequest,
-  permission: string,
-  wrappedFunction,
-  includeUser: boolean = true
-): Promise<void> {
-  const ctx = await ApiRequestContext.fromRequest(req, includeUser);
-  if (!ctx.isAuthenticatedUser) {
-    context.res = {
-      status: 401,
-      body: JSON.stringify({ success: false, reason: ctx.reason })
-    };
-    return;
-  }
-
+async function hasPermission(username: string, context: Context, permission: string): Promise<boolean> {
   const userService = new UserService();
-  const { exists, role } = await userService.getRoleByUsername(ctx.user.username);
+  const { exists, role } = await userService.getRoleByUsername(username);
 
   if (!exists) {
     context.res = {
       status: 401,
       body: JSON.stringify({ success: false, reason: "User does not exist" })
     };
-    return;   
+    return false;
   }
 
   if (!role.permissions.includes(permission)) {
@@ -100,17 +96,8 @@ export const authorizedWithPermission: AzureFunction = async function (
       status: 401,
       body: JSON.stringify({ success: false, reason: "User does not have permission to access resource" })
     };
-    return;   
+    return false;
   }
 
-  // In case a response is not set in the callback, we indicate Not Implemented
-  context.res = {
-    status: 501,
-    body: JSON.stringify({
-      success: false,
-      reason: "Authorized, but no response set"
-    })
-  };
-
-  await wrappedFunction(ctx);
-};
+  return true;
+}
