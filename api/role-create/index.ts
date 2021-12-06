@@ -10,8 +10,8 @@ export default async function (context: Context, req: HttpRequest): Promise<void
     context,
     req,
     "admin",
-    async ({ user }: ApiRequestContext) => {
-      const data = req.query as unknown as RoleCreateForm
+    async () => {
+      const data = { ...req.body } as RoleCreateForm
       const validation = new Validator(data, roleCreateFormRules);
 
       if (validation.fails()) {
