@@ -1,7 +1,7 @@
 {
   "bindings": [
     {
-      "route": "ably/role-create",
+      "route": "role/create",
       "authLevel": "function",
       "type": "httpTrigger",
       "direction": "in",
