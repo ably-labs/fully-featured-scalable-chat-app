@@ -28,7 +28,7 @@ export class Role implements IRole, Entity {
     return Object.assign(new Role(), json);
   }
 
-  public keyID(): string {
+  public get keyID() : string {
     return this.apiKey.split(':')[0].split('.')[1];
   }
 

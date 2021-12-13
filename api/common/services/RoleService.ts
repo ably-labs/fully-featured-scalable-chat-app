@@ -39,7 +39,7 @@ export class RoleService {
   }
 
   public async deleteRole(role: Role): Promise<{ success: boolean; reason?: string }> {
-    const success = await this.deleteKey(role.keyID());
+    const success = await this.deleteKey(role.keyID);
     if (!success) {
       return { success: false, reason: "Failed to delete Ably API key for role" };
     }
@@ -53,7 +53,7 @@ export class RoleService {
   }
 
   public async editRole(role: Role, newPermissions: string[]): Promise<{ success: boolean; reason?: string }> {
-    const success = await this.editKey(role.keyID(), newPermissions);
+    const success = await this.editKey(role.keyID, newPermissions);
     if (!success) {
       return { success: false, reason: "Failed to delete Ably API key for role" };
     }
@@ -98,11 +98,7 @@ private async deleteKey(keyID: string): Promise<boolean> {
   const url = `https://control.ably.net/v1/apps/${process.env.APP_ID}/keys/${keyID}/revoke`;
 
     const response = await fetch(url, { method: "POST", headers });
-    if (response.status != 201) {
-      return false;
-    }
-
-    return true;
+    return response.status != 201;
   }
 
   private async editKey(keyID: string, permissions: object): Promise<boolean> {

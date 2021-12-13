@@ -9,8 +9,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
   await authorized(
     context,
     req,
-    "admin",
-    async ({ user }: ApiRequestContext) => {
+    async () => {
       const data = { ...req.body } as RoleEditForm
       const validation = new Validator(data, roleEditFormRules);
 
@@ -20,7 +19,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
       }
 
       const roleService = new RoleService();
-      let { exists, role } = await roleService.getRoleByName(data.name);
+      const { exists, role } = await roleService.getRoleByName(data.name);
     
       if (!exists) {
         context.res = badRequestFor({
@@ -40,7 +39,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
 
       context.res = ok("created");
     },
-    true
+    "admin"
   );
 }
 

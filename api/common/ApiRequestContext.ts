@@ -46,7 +46,7 @@ export const authorized: AzureFunction = async function (
   req: HttpRequest,
   wrappedFunction,
   permission: string = "any",
-  includeUser: boolean = true
+  includeUser: boolean = false
 ): Promise<void> {
   const ctx = await ApiRequestContext.fromRequest(req, includeUser);
 
