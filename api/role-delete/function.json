@@ -1,12 +1,12 @@
 {
     "bindings": [
       {
-        "route": "role/delete",
+        "route": "role",
         "authLevel": "function",
         "type": "httpTrigger",
         "direction": "in",
         "name": "req",
-        "methods": ["post"]
+        "methods": ["delete"]
       },
       {
         "type": "http",

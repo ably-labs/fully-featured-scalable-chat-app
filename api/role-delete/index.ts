@@ -9,9 +9,8 @@ export default async function (context: Context, req: HttpRequest): Promise<void
   await authorized(
     context,
     req,
-    "admin",
     async ({ user }: ApiRequestContext) => {
-        const data = { ...req.body } as RoleDeleteForm
+      const data = { ...req.body } as RoleDeleteForm;
       const validation = new Validator(data, roleDeleteFormRules);
 
       if (validation.fails()) {
@@ -20,8 +19,8 @@ export default async function (context: Context, req: HttpRequest): Promise<void
       }
 
       const roleService = new RoleService();
-      let { exists, role } = await roleService.getRoleByName(data.name);
-    
+      const { exists, role } = await roleService.getRoleByName(data.name);
+
       if (!exists) {
         context.res = badRequestFor({
           name: ["Role does not exist."]
@@ -40,7 +39,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
 
       context.res = ok("deleted");
     },
-    true
+    "admin"
   );
 }
 
@@ -49,5 +48,5 @@ export type RoleDeleteForm = {
 };
 
 const roleDeleteFormRules = {
-  name: "required|min:1",
+  name: "required|min:1"
 };

@@ -81,7 +81,7 @@ export class RoleService {
   }
 
 private async deleteKey(keyID: string): Promise<boolean> {
-  let url = `https://control.ably.net/v1/apps/${process.env.APP_ID}/keys/${keyID}/revoke`;
+  const url = `https://control.ably.net/v1/apps/${process.env.APP_ID}/keys/${keyID}/revoke`;
 
   const headers = { 
     "Content-type": "application/json",
