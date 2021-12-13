@@ -29,6 +29,7 @@ export class RoleService {
   public async createRole(request: RoleCreationRequest): Promise<Role> {
     const role = Role.fromRequest(request);
     const { success, key } = await this.createKey(request.name);
+
     if (!success) {
       return undefined;
     }
@@ -37,10 +38,10 @@ export class RoleService {
     return role;
   }
 
-  private async createKey(name: string): Promise<{ success: boolean, key?: string }> {
-    let url = `https://control.ably.net/v1/apps/${process.env.APP_ID}/keys`;
-    
-    let body = JSON.stringify({
+  private async createKey(name: string): Promise<{ success: boolean; key?: string }> {
+    const url = `https://control.ably.net/v1/apps/${process.env.APP_ID}/keys`;
+
+    const body = JSON.stringify({
       name: name,
       // TODO: Replace with inserted capabilities
       capability: {
@@ -62,10 +63,6 @@ export class RoleService {
     const responseJson = await response.json();
     const key = responseJson["key"];
 
-    if (!key) {
-      return { success: false };
-    }
-
-    return { success: true, key };
+    return { success: !!key, key };
   }
 }

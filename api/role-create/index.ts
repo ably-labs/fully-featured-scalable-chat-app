@@ -9,9 +9,9 @@ export default async function (context: Context, req: HttpRequest): Promise<void
   await authorized(
     context,
     req,
-    "admin",
-    async () => {
-      const data = { ...req.body } as RoleCreateForm
+    async ({ user }: ApiRequestContext) => {
+      const data = { ...req.body } as RoleCreateForm;
+
       const validation = new Validator(data, roleCreateFormRules);
 
       if (validation.fails()) {
@@ -21,7 +21,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
 
       const roleService = new RoleService();
       let { exists } = await roleService.getRoleByName(data.name);
-    
+
       if (exists) {
         context.res = badRequestFor({
           name: ["This name is not available."]
@@ -40,7 +40,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
 
       context.res = ok("created");
     },
-    true
+    "admin"
   );
 }
 
@@ -51,5 +51,5 @@ export type RoleCreateForm = {
 
 const roleCreateFormRules = {
   name: "required|min:1",
-  permissions: "required|min:1",
+  permissions: "required|min:1"
 };
