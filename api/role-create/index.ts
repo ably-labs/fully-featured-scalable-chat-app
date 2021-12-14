@@ -9,7 +9,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
   await authorized(
     context,
     req,
-    async ({ user }: ApiRequestContext) => {
+    async () => {
       const data = { ...req.body } as RoleCreateForm;
 
       const validation = new Validator(data, roleCreateFormRules);
