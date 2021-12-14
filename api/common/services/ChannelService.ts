@@ -5,7 +5,6 @@ export type ChannelMetadata = {
   id: string;
   name: string;
   members: string[];
-  memberCount: number;
   createdBy: string;
   description: string;
   visibility: string;
@@ -26,6 +25,11 @@ export class ChannelService {
       return { exists: true, channel: asChannelType };
     }
     return { exists: false, channel: undefined };
+  }
+
+  public async getDefaultChannelsList(): Promise<{ defaultChannelsList?: Channel[] }> {
+    const defaultChannelsList = await this._repo.getByProperty<Channel>("Channel", "isDefault", true);
+    return { defaultChannelsList: defaultChannelsList };
   }
 
   public async createChannel(request: ChannelMetadata): Promise<Channel> {
