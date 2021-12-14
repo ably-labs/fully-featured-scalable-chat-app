@@ -10,9 +10,8 @@ export default async function (context: Context, req: HttpRequest): Promise<void
     context,
     req,
     async () => {
-      const data = { ...req.body } as RoleCreateForm;
-
-      const validation = new Validator(data, roleCreateFormRules);
+      const data = { ...req.body } as RoleDeleteForm;
+      const validation = new Validator(data, roleDeleteFormRules);
 
       if (validation.fails()) {
         context.res = badRequest(validation);
@@ -20,36 +19,34 @@ export default async function (context: Context, req: HttpRequest): Promise<void
       }
 
       const roleService = new RoleService();
-      let { exists } = await roleService.getRoleByName(data.name);
+      const { exists, role } = await roleService.getRoleByName(data.name);
 
-      if (exists) {
+      if (!exists) {
         context.res = badRequestFor({
-          name: ["This name is not available."]
+          name: ["Role does not exist."]
         });
         return;
       }
 
-      const role = await roleService.createRole(data);
-      if (!role) {
+      const successfullyDeleted = await roleService.deleteRole(role);
+      if (!successfullyDeleted) {
         context.res = {
           status: 500,
-          body: JSON.stringify({ success: false, reason: "Internal error creating role" })
+          body: JSON.stringify({ success: false, reason: "Internal error deleting role" })
         };
         return;
       }
 
-      context.res = ok("created");
+      context.res = ok("deleted");
     },
     "admin"
   );
 }
 
-export type RoleCreateForm = {
+export type RoleDeleteForm = {
   name: string;
-  permissions: string[];
 };
 
-const roleCreateFormRules = {
-  name: "required|min:1",
-  permissions: "required|min:1"
+const roleDeleteFormRules = {
+  name: "required|min:1"
 };

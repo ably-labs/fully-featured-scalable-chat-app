@@ -37,6 +37,17 @@ export class CosmosDbMetadataRepository implements IMetadataRepository {
     }
   }
 
+  public async delete<TEntityType extends Entity>(entity: TEntityType): Promise<boolean> {
+    const container = await this.getContainer(entity.type);
+    const { resource: result } = await container.item(entity.type, entity.id).delete();
+
+    if (result.statusCode !== 201) {
+      throw new Error(`Error deleting entity of type ${entity.type} and id ${entity.id}`);
+    }
+
+    return true;
+  }
+
   public async exists(typeName: string, id: string): Promise<boolean> {
     const container = await this.getContainer(typeName);
     const countResult = await container.items.query(`SELECT count(1) FROM c WHERE c.id = '${id}'`).fetchAll();

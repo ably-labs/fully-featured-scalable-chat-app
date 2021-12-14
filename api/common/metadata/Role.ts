@@ -28,6 +28,10 @@ export class Role implements IRole, Entity {
     return Object.assign(new Role(), json);
   }
 
+  public get keyID() : string {
+    return this.apiKey.split(':')[0].split('.')[1];
+  }
+
   private static createId(): string {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
       var r = (Math.random() * 16) | 0,

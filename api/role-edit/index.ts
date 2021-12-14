@@ -10,9 +10,8 @@ export default async function (context: Context, req: HttpRequest): Promise<void
     context,
     req,
     async () => {
-      const data = { ...req.body } as RoleCreateForm;
-
-      const validation = new Validator(data, roleCreateFormRules);
+      const data = { ...req.body } as RoleEditForm
+      const validation = new Validator(data, roleEditFormRules);
 
       if (validation.fails()) {
         context.res = badRequest(validation);
@@ -20,20 +19,20 @@ export default async function (context: Context, req: HttpRequest): Promise<void
       }
 
       const roleService = new RoleService();
-      let { exists } = await roleService.getRoleByName(data.name);
-
-      if (exists) {
+      const { exists, role } = await roleService.getRoleByName(data.name);
+    
+      if (!exists) {
         context.res = badRequestFor({
-          name: ["This name is not available."]
+          name: ["Role does not exist."]
         });
         return;
       }
 
-      const role = await roleService.createRole(data);
-      if (!role) {
+      const success = await roleService.editRole(role, data.permissions);
+      if (!success) {
         context.res = {
           status: 500,
-          body: JSON.stringify({ success: false, reason: "Internal error creating role" })
+          body: JSON.stringify({ success: false, reason: "Internal error editing role" })
         };
         return;
       }
@@ -44,12 +43,12 @@ export default async function (context: Context, req: HttpRequest): Promise<void
   );
 }
 
-export type RoleCreateForm = {
+export type RoleEditForm = {
   name: string;
   permissions: string[];
 };
 
-const roleCreateFormRules = {
+const roleEditFormRules = {
   name: "required|min:1",
-  permissions: "required|min:1"
+  permissions: "required|min:1",
 };
