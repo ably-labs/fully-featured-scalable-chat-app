@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useChannel } from "@ably-labs/react-hooks";
+import { useAuth } from "../../AppProviders";
 import { ChatList } from "./ChatList";
 import { ChatInput } from "./ChatInput";
-import Profile from "../Profile";
 import "./chat.css";
 
-const ChatContainer = ({ currentChannel, onChatExit }) => {
+const ChatContainer = ({ currentChannelName, currentChannelId, onChatExit }) => {
   let messageEnd = null;
 
+  const { api } = useAuth();
   const rewindParameters = "[?rewind=100]";
-  const channelSubscription = rewindParameters + currentChannel;
+  const channelSubscription = rewindParameters + currentChannelName;
 
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
     setHistory([]); // Reset history on channel change
-  }, [currentChannel]);
+  }, [currentChannelName]);
 
   useEffect(() => {
     messageEnd.scrollIntoView({ behaviour: "smooth" }); // scroll page to bottom
@@ -29,6 +30,11 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
     channel.publish("message", { text: messageText });
   };
 
+  const displayChannelMetadata = async () => {
+    const response = await api.getChannelMetadata(currentChannelId);
+    console.log(response);
+  };
+
   return (
     <section className="chat">
       <header className="authed">
@@ -36,7 +42,7 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
           Back
         </button>
         <h2>
-          {currentChannel}
+          <span onClick={displayChannelMetadata}> {currentChannelName}</span>
           <span className="members">1 member</span>
         </h2>
       </header>

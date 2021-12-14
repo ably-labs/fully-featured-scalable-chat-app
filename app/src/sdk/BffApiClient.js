@@ -78,7 +78,6 @@ export class BffApiClient {
 
   async getUserDetails(userId) {
     return this._profileCache.get(userId, async () => {
-      console.log("cache miss for", userId);
       const result = await this.get(`/api/users/${userId}`);
       return result.json();
     });
@@ -91,6 +90,16 @@ export class BffApiClient {
       next[id] = { id, ...profile };
     }
     return next;
+  }
+
+  async getChannelMetadata(channelId) {
+    const result = await this.get(`/api/channels/${channelId}`);
+    return await result.text();
+  }
+
+  async getChannelMetadata(channelId) {
+    const result = await this.post("/api/channels/get-metadata", { channelId });
+    return await result.json();
   }
 }
 

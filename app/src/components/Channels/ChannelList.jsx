@@ -6,7 +6,7 @@ import "./channellist.css";
 const ChannelList = ({ channels, onChannelSelected }) => {
   const selectChannel = (evt, channel) => {
     evt.preventDefault();
-    onChannelSelected(channel.name);
+    onChannelSelected(channel);
   };
 
   const channelListItems = channels.map((channel) => (

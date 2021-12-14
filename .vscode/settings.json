@@ -6,5 +6,6 @@
   "debug.internalConsoleOptions": "neverOpen",
   "azureFunctions.preDeployTask": "npm prune (functions)",
   "typescript.tsdk": "node_modules\\typescript\\lib",
-  "prettier.printWidth": 180
+  "prettier.printWidth": 180,
+  "cSpell.words": ["vite"]
 }
