@@ -1,7 +1,7 @@
 {
   "bindings": [
     {
-      "route": "role",
+      "route": "roles",
       "authLevel": "function",
       "type": "httpTrigger",
       "direction": "in",

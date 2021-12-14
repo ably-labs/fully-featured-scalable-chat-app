@@ -21,6 +21,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
         body: JSON.stringify(tokenRequestData)
       };
     },
+    undefined,
     true
   );
 }

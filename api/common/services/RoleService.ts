@@ -80,32 +80,38 @@ export class RoleService {
     const headers = {
       "Content-type": "application/json",
       accept: "application/json",
-      Authorization: "Bearer " + process.env.CONTROL_KEY,
+      Authorization: `Bearer ${process.env.CONTROL_KEY}`,
       "Access-Control-Allow-Origin": "*"
     };
 
     const response = await fetch(url, { method: "POST", body, headers });
-    if (response.status != 201) {
+    if (response.status !== 201) {
       return { success: false };
     }
-    const responseJson = await response.json();
-    const key = responseJson["key"];
+    const { key } = await response.json();
 
     return { success: !!key, key };
   }
 
-private async deleteKey(keyID: string): Promise<boolean> {
-  const url = `https://control.ably.net/v1/apps/${process.env.APP_ID}/keys/${keyID}/revoke`;
+  private async deleteKey(keyID: string): Promise<boolean> {
+    const url = `https://control.ably.net/v1/apps/${process.env.APP_ID}/keys/${keyID}/revoke`;
+
+    const headers = {
+      "Content-type": "application/json",
+      accept: "application/json",
+      Authorization: `Bearer ${process.env.CONTROL_KEY}`,
+      "Access-Control-Allow-Origin": "*"
+    };
 
     const response = await fetch(url, { method: "POST", headers });
-    return response.status != 201;
+    return response.status !== 201;
   }
 
   private async editKey(keyID: string, permissions: object): Promise<boolean> {
-    let url = `https://control.ably.net/v1/apps/${process.env.APP_ID}/keys/${keyID}`;
+    const url = `https://control.ably.net/v1/apps/${process.env.APP_ID}/keys/${keyID}`;
 
     // TODO: Iterate through permissions for corresponding capabilities
-    let body = JSON.stringify({
+    const body = JSON.stringify({
       capability: {
         "*": ["publish", "subscribe", "presence"]
       }
@@ -114,14 +120,11 @@ private async deleteKey(keyID: string): Promise<boolean> {
     const headers = {
       "Content-type": "application/json",
       accept: "application/json",
-      Authorization: "Bearer " + process.env.CONTROL_KEY,
+      Authorization: `Bearer ${process.env.CONTROL_KEY}`,
       "Access-Control-Allow-Origin": "*"
     };
 
     const response = await fetch(url, { method: "PATCH", body, headers });
-    if (response.status != 200) {
-      return false;
-    }
-    return true;
+    return response.status !== 201;
   }
 }
