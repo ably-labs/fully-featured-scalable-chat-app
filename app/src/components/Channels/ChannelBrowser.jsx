@@ -18,7 +18,7 @@ export default ({ toggleChannelView }) => {
   }, []);
 
   const channelSelected = async (channel) => {
-    setCurrentChannelName(channel);
+    setCurrentChannelName(channel.name);
     setCurrentChannelId(channel.id);
     toggleChannelView();
   };

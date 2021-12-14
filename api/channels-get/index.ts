@@ -7,7 +7,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     context,
     req,
     async () => {
-      const channelId = req.body.channelId;
+      const channelId = req.params.channelId;
       const channelService = new ChannelService();
       const { channel } = await channelService.getChannelById(channelId);
 
@@ -15,8 +15,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         headers: { "content-type": "application/json" },
         body: JSON.stringify(channel)
       };
-    },
-    true
+    }
   );
 };
 

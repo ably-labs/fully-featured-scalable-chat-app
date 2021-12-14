@@ -1,12 +1,12 @@
 {
   "bindings": [
     {
-      "route": "channels/get-metadata",
+      "route": "channels/{channelId}",
       "authLevel": "function",
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": ["post"]
+      "methods": ["get"]
     },
     {
       "type": "http",
@@ -14,5 +14,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/get-channel-metadata/index.js"
+  "scriptFile": "../dist/channels-get/index.js"
 }

@@ -3,7 +3,6 @@ import { useChannel } from "@ably-labs/react-hooks";
 import { useAuth } from "../../AppProviders";
 import { ChatList } from "./ChatList";
 import { ChatInput } from "./ChatInput";
-import Profile from "../Profile";
 import "./chat.css";
 
 const ChatContainer = ({ currentChannelName, currentChannelId, onChatExit }) => {

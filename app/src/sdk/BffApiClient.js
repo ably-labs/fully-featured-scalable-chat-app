@@ -93,8 +93,8 @@ export class BffApiClient {
   }
 
   async getChannelMetadata(channelId) {
-    const result = await this.post("/api/channels/get-metadata", { channelId });
-    return await result.json();
+    const result = await this.get(`/api/channels/${channelId}`);
+    return await result.text();
   }
 }
 
