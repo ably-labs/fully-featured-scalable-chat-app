@@ -6,8 +6,8 @@
   "scripts": {
     "init": "npm clean-install && cd api && npm clean-install",
     "start": "run-p dev:api dev:server",
-    "build": "npx snowpack build",
-    "dev:server": "npx snowpack dev",
+    "build": "npx vite build",
+    "dev:server": "npx vite serve",
     "test": "jest --runInBand && npm run test:api",
     "dev:api": "npm run start --prefix api",
     "test:api": "npm run test --prefix api",
@@ -24,8 +24,6 @@
   },
   "homepage": "https://github.com/ably-labs/fully-featured-scalable-chat-app#readme",
   "devDependencies": {
-    "@snowpack/plugin-dotenv": "^2.2.0",
-    "@snowpack/plugin-react-refresh": "^2.5.0",
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
@@ -40,7 +38,8 @@
     "jest": "^27.3.0",
     "jest-cli": "^27.3.0",
     "npm-run-all": "^4.1.5",
-    "snowpack": "^3.8.8",
+    "@vitejs/plugin-react": "^1.0.7",
+    "vite": "^2.6.4",
     "ts-jest": "^27.0.7",
     "typescript": "^4.4.4"
   },
