@@ -4,7 +4,7 @@
 
 The goal is to build a chat app with a complete feature set using [Ably Realtime](https://ably.com/) in combination with other services to store, manipulate and share data.
 
-If you have any questions, ideas or want to contribute, please raise an issue or [reach out to us](devrel@ably.com).
+If you have any questions, ideas or want to contribute, please raise an issue or [reach out to us](mailto:devrel@ably.com).
 
 ## Things you will need to make this run locally!
 
@@ -12,22 +12,34 @@ If you have any questions, ideas or want to contribute, please raise an issue or
 2. [The Azure Functions Runtime from NPM](https://www.npmjs.com/package/azure-functions-core-tools). To install this run:
 
     `npm install -g azure-functions-core-tools@4`
-3. an `.env` file in ./api:
 
-```[text]
-COSMOS_ENDPOINT=https://yourcosomsdb.documents.azure.com
-COSMOS_KEY=ASK FOR THIS OR MAKE YOUR OWN
+3. an `.env` file in `./api`: (we have create a template for you, open
+   [./api/.env-sample](./api/.env-sample)  replace the `{token-values}` and
+   save the file as `.env`. _You should NEVER commit `.env` files._
+
+```text
+COSMOS_ENDPOINT={https://yourcosomsdb.documents.azure.com}
+COSMOS_KEY={ask-for-this-or-make-your-own}
 COSMOS_DATABASE_ID=metadata
-JWT_SIGNING_KEY=ASK FOR THIS OR MAKE YOUR OWN
-ABLY_API_KEY=YOURKEY:HERE
-AUTH0_DOMAIN=yourdomain.auth0.com
-AUTH0_CLIENTID=yourclientid
+
+ABLY_API_KEY={ABLY:APIKEY.SECRET}
+JWT_SIGNING_KEY={ask-for-this-or-make-your-own}
+
+AUTH0_DOMAIN={yourdomain.auth0.com}
+AUTH0_CLIENTID={yourclientid}
 AUTH0_REDIRECT_URI=http://localhost:8080/auth0-landing
-AZURE_STORAGE_CONNECTION_STRING=your string here
-AZURE_STORAGE_CONTAINER_NAME=container name here
+
+AZURE_STORAGE_CONNECTION_STRING={your-string-here}
+AZURE_STORAGE_CONTAINER_NAME={container-name-here}
 ```
 
-4. `npm run start` in the root.
+4. In the root folder
+```
+npm run init
+npm run start
+```
+
+5. Open a browser to [http://localhost:8080](http://localhost:8080)
 
 # Design
 
@@ -257,3 +269,10 @@ The `Archive API` will be able to update a search index as messages are received
 # Testing
 
 Tests are written in `jest` with `ts-jest` used to execute the APIs `TypeScript` tests.
+
+
+
+
+# TODO
+- M1 setup problems ask @jo what the diff is this
+- Write the respective how-to guides to .env bit and pieces
