@@ -33,7 +33,13 @@ AZURE_STORAGE_CONNECTION_STRING={your-string-here}
 AZURE_STORAGE_CONTAINER_NAME={container-name-here}
 ```
 
-4. `npm run start` in the root.
+4. In the root folder
+```
+npm run init
+npm run start
+```
+
+5. Open a browser to [http://localhost:8080](http://localhost:8080)
 
 # Design
 
@@ -263,3 +269,10 @@ The `Archive API` will be able to update a search index as messages are received
 # Testing
 
 Tests are written in `jest` with `ts-jest` used to execute the APIs `TypeScript` tests.
+
+
+
+
+# TODO
+- M1 setup problems ask @jo what the diff is this
+- Write the respective how-to guides to .env bit and pieces
