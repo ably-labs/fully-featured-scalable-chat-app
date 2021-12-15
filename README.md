@@ -4,7 +4,7 @@
 
 The goal is to build a chat app with a complete feature set using [Ably Realtime](https://ably.com/) in combination with other services to store, manipulate and share data.
 
-If you have any questions, ideas or want to contribute, please raise an issue or [reach out to us](devrel@ably.com).
+If you have any questions, ideas or want to contribute, please raise an issue or [reach out to us](mailto:devrel@ably.com).
 
 ## Things you will need to make this run locally!
 
