@@ -1,3 +1,5 @@
+name: Create Ably App
+
 on: 
   push:
     paths:
