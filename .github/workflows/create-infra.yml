@@ -1,0 +1,26 @@
+on: 
+  push:
+    paths:
+      - '.github/workflows/create-infra.yml'
+  workflow_dispatch:
+
+jobs:
+  create_infra:
+    runs-on: ubuntu-latest
+    name: Create Infrastructure for FFS
+    steps:
+      - name: Create Ably App
+        id: ablyapp
+        uses: ably-labs/ably-control-api@v0.1.0
+        with:
+            account-id: '${{ secrets.ABLY_ACCOUNT_ID }}'
+            control-api-key: '${{ secrets.ABLY_CONTROL_API_KEY }}'
+            app-name: 'fully-featured-scalable-chat'
+            create-key: 'true'
+            key-name: 'all-capabilities'
+            key-capabilities: 'channel-metadata, history, presence, publish, push-admin, push-subscribe, stats, subscribe'
+      - name: Get the output
+        run: |
+          echo "App Name: ${{ steps.ablyapp.outputs.app-name }}"
+          echo "App ID: ${{ steps.ablyapp.outputs.app-id }}"
+          echo "API Key Name: ${{ steps.ablyapp.outputs.api-key-name }}"
