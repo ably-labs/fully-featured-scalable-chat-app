@@ -29,7 +29,7 @@ jobs:
       - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GENTLE_DUNE_0FEC87F03 }}
+          creds: ${{ secrets.AZURE_CLI_CREDENTIALS }}
       - name: Azure CLI script
         uses: azure/CLI@v1.0.6
         with:
