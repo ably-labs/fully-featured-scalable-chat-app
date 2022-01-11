@@ -19,10 +19,20 @@ jobs:
             control-api-key: '${{ secrets.ABLY_CONTROL_API_KEY }}'
             app-name: 'fully-featured-scalable-chat'
             create-key: 'true'
-            key-name: 'all-capabilities'
+            key-name: 'all-capabilities-1'
             key-capabilities: 'channel-metadata, history, presence, publish, push-admin, push-subscribe, statistics, subscribe'
       - name: Get the output
         run: |
           echo "App Name: ${{ steps.ablyapp.outputs.app-name }}"
           echo "App ID: ${{ steps.ablyapp.outputs.app-id }}"
           echo "API Key Name: ${{ steps.ablyapp.outputs.api-key-name }}"
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GENTLE_DUNE_0FEC87F03 }}
+      - name: Azure CLI script
+        uses: azure/CLI@v1.0.6
+        with:
+          azcliversion: 2.32.0
+          inlineScript: |
+            az staticwebapp appsettings set --name ffschatapp --setting-names "ABLY_API_KEY_ALL_CAPABILITIES=${{ steps.ablyapp.outputs.api-key-key }}"
