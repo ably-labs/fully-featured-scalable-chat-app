@@ -42,6 +42,7 @@ AUTH0_REDIRECT_URI=http://localhost:8080/auth0-landing
 As seen in the .env file, there are a few services you'll need to sign up with to use the project in its current form.
 * Ably
 * CosmosDB
+* Azure Blob Storage
 * Auth0
 
 ## Ably credentials
@@ -55,6 +56,10 @@ For the `CONTROL_KEY`, which is used for controlling the creation of API keys, a
 CosmosDB is used for storing data for this app. To get an Azure account and create a CosmosDB resource, follow the steps in [Azure's setup tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/sql/create-cosmosdb-resources-portal). You should set the `COSMOS_ENDPOINT` to be the URI provided in your new subaccount. The `COSMOS_KEY` is the primary key for the CosmosDB account, which you can [access as described by Azure](https://docs.microsoft.com/en-us/azure/cosmos-db/secure-access-to-data?tabs=using-primary-key).
 
 `COSMOS_DATABASE_ID` is the [name of the container](https://docs.microsoft.com/en-us/azure/cosmos-db/sql/how-to-create-container) you will be using within your CosmosDB account.
+
+## Azure Blob Storage
+
+Using the same Azure account created for CosmosDB, create a [new Data Storage Container](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal). Once you have that setup, go to the 'Access Keys' section in the sidebar to obtain a `connection string` for `AZURE_STORAGE_CONNECTION_STRING`, and then set `AZURE_STORAGE_CONTAINER_NAME` to whatever you named the container.
 
 ## Auth0
 
