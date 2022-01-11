@@ -18,7 +18,7 @@ jobs:
             app-name: 'fully-featured-scalable-chat'
             create-key: 'true'
             key-name: 'all-capabilities'
-            key-capabilities: 'channel-metadata, history, presence, publish, push-admin, push-subscribe, stats, subscribe'
+            key-capabilities: 'channel-metadata, history, presence, publish, push-admin, push-subscribe, statistics, subscribe'
       - name: Get the output
         run: |
           echo "App Name: ${{ steps.ablyapp.outputs.app-name }}"
