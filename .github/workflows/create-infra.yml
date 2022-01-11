@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Create Ably App
         id: ablyapp
-        uses: ably-labs/ably-control-api@v0.1.0
+        uses: ably-labs/ably-control-api-action@v0.1.0
         with:
             account-id: '${{ secrets.ABLY_ACCOUNT_ID }}'
             control-api-key: '${{ secrets.ABLY_CONTROL_API_KEY }}'
