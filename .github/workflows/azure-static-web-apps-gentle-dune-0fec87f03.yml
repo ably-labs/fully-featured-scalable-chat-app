@@ -18,6 +18,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+          node-version: 16.x
+      - name: Run linters
+        shell: bash
+        run: npm run lint
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
