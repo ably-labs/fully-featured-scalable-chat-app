@@ -1,6 +1,7 @@
 import React from "react";
 import "./profilepopupmodal.css";
 
+// eslint-disable-next-line react/function-component-definition
 export default function ProfilePopupModal(props) {
   return (
     <>

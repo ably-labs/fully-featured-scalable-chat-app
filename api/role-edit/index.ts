@@ -10,7 +10,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
     context,
     req,
     async () => {
-      const data = { ...req.body } as RoleEditForm
+      const data = { ...req.body } as RoleEditForm;
       const validation = new Validator(data, roleEditFormRules);
 
       if (validation.fails()) {
@@ -20,7 +20,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
 
       const roleService = new RoleService();
       const { exists, role } = await roleService.getRoleByName(data.name);
-    
+
       if (!exists) {
         context.res = badRequestFor({
           name: ["Role does not exist."]
@@ -50,5 +50,5 @@ export type RoleEditForm = {
 
 const roleEditFormRules = {
   name: "required|min:1",
-  permissions: "required|min:1",
+  permissions: "required|min:1"
 };
