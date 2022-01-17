@@ -20,12 +20,15 @@ module.exports = {
   },
   plugins: ["react", "@typescript-eslint", "prettier"],
   rules: {
+    "react/display-name": [0],
     "react/function-component-definition": [
       2,
       {
         namedComponents: "arrow-function"
       }
     ],
+    "react/prop-types": [0],
+    "arrow-body-style": "off",
     "no-underscore-dangle": "off",
     "no-plusplus": "off"
   },

@@ -3,6 +3,7 @@ import "./nav.css";
 import { useAuth } from "../../AppProviders";
 
 const AppMenu = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { _, __, logout } = useAuth();
 
   const processLogout = (event) => {

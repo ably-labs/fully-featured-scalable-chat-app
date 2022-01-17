@@ -20,7 +20,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     }
 
     const { id, name } = role;
-    const response = { id, name};
+    const response = { id, name };
 
     context.res = ok("success", response, { etag: etagFor(role) });
   });
