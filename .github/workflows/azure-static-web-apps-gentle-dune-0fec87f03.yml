@@ -21,7 +21,9 @@ jobs:
           node-version: 16.x
       - name: Run linters
         shell: bash
-        run: npm run lint
+        run: | 
+          npm run init
+          npm run lint
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
