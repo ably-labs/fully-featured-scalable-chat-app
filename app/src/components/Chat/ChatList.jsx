@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import useProfileData from "../../hooks/useProfileData";
 import { FloatingTogglableProfile } from "../Profile";
 

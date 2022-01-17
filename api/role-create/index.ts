@@ -20,7 +20,7 @@ export default async function (context: Context, req: HttpRequest): Promise<void
       }
 
       const roleService = new RoleService();
-      let { exists } = await roleService.getRoleByName(data.name);
+      const { exists } = await roleService.getRoleByName(data.name);
 
       if (exists) {
         context.res = badRequestFor({

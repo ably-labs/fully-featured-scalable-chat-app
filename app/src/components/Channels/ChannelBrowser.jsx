@@ -3,7 +3,8 @@ import { useAuth } from "../../AppProviders";
 import ChannelList from "./ChannelList";
 import ChatContainer from "../Chat/ChatContainer";
 
-export default ({ toggleChannelView }) => {
+// eslint-disable-next-line react/function-component-definition
+export default function ({ toggleChannelView }) {
   const { api } = useAuth();
   const [channels, setChannels] = useState([]);
   const [currentChannel, setCurrentChannel] = useState("global-welcome");
@@ -28,4 +29,4 @@ export default ({ toggleChannelView }) => {
       <ChatContainer currentChannel={currentChannel} onChatExit={toggleChannelView} />
     </>
   );
-};
+}

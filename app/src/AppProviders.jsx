@@ -6,16 +6,16 @@ import { useAuth0 } from "./sdk/Auth0Client";
 
 const AuthContext = createContext();
 
-function AppProviders({ children }) {
+var AppProviders = ({ children }) => {
   return <AuthProvider>{children}</AuthProvider>;
-}
+};
 
 export const AuthMethods = {
   auth0: "auth0",
   native: "native"
 };
 
-function AuthProvider(props) {
+var AuthProvider = (props) => {
   const [auth, setAuthState] = userPersistentState("auth", {
     isAuthenticated: false,
     userDetails: null,
@@ -76,7 +76,7 @@ function AuthProvider(props) {
   };
 
   return <AuthContext.Provider value={contextObject} {...props} />;
-}
+};
 
 export const useAuth = () => useContext(AuthContext);
 export default AppProviders;

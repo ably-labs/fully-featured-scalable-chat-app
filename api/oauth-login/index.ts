@@ -5,7 +5,7 @@ import { UserService } from "../common/services/UserService";
 import { ok, forbidden } from "../common/http/CommonResults";
 
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
-  var auth0 = new AuthenticationClient({
+  const auth0 = new AuthenticationClient({
     domain: process.env.AUTH0_DOMAIN,
     client_id: process.env.AUTH0_CLIENTID,
     redirect_uri: process.env.AUTH0_REDIRECT_URI

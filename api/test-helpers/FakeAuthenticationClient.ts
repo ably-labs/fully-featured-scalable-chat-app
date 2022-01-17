@@ -5,9 +5,8 @@ export function mockCall(name: string, callback: (...args: any[]) => any) {
 }
 
 class FakeAuthenticationClient {
-  constructor() {}
-
   getProfile(): Promise<any> {
+    // eslint-disable-next-line prefer-rest-params
     return fakeCalls["getProfile"]?.apply(this, arguments);
   }
 }

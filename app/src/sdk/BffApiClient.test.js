@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { BffApiClient } from "./BffApiClient";
 
 describe("BffApiClient", () => {
