@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/ably-labs/fully-featured-scalable-chat-app#readme",
   "devDependencies": {
+    "@types/auth0": "^2.34.10",
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
