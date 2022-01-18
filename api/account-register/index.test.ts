@@ -10,14 +10,15 @@ describe("Registration API", () => {
   });
 
   it("when any mandatory property is missing, fails", async () => {
-    const requiredProperties = ["username", "firstName", "lastName", "password"];
+    const requiredProperties = ["username", "firstName", "lastName", "password", "email"];
 
     for (const prop of requiredProperties) {
       const body = {
         username: "user",
         firstName: "first",
         lastName: "last",
-        password: "password"
+        password: "password",
+        email: "email"
       };
       delete body[prop];
 

@@ -10,6 +10,7 @@ export interface IUser extends Entity {
   oauthSub: string;
   profileImgUrl: string;
   roleName: string;
+  email: string;
 }
 
 export class User implements IUser, Entity {
@@ -23,6 +24,7 @@ export class User implements IUser, Entity {
   public oauthSub: string;
   public profileImgUrl: string;
   public roleName: string;
+  public email: string;
 
   constructor() {
     this.type = "User";
