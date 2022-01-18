@@ -14,6 +14,7 @@ export type UserCreationRequest = {
   username: string;
   firstName: string;
   lastName: string;
+  email: string;
   password?: string;
   oauthSub?: string;
 };
