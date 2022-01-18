@@ -34,6 +34,7 @@ export type RegistrationForm = {
   firstName: string;
   lastName: string;
   password: string;
+  email: string;
 };
 
 const registrationFormRules = {
@@ -41,7 +42,8 @@ const registrationFormRules = {
   email: "required|min:1",
   firstName: "required|min:1",
   lastName: "required|min:1",
-  password: "required|min:1"
+  password: "required|min:1",
+  email: "required|min:1"
 };
 
 export default httpTrigger;

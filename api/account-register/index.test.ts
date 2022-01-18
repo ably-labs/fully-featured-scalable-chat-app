@@ -18,7 +18,8 @@ describe("Registration API", () => {
         email: "email",
         firstName: "first",
         lastName: "last",
-        password: "password"
+        password: "password",
+        email: "email"
       };
       delete body[prop];
 
