@@ -4,6 +4,7 @@ import { User } from "../metadata/User";
 import { getAzureProfileImgBlobByUrl } from "../dataaccess/AzureBlobStorageClient";
 import { Role } from "../metadata/Role";
 import { RoleService } from "./RoleService";
+import * as md5 from "md5";
 
 export type LoginMetadata = {
   username: string;
@@ -79,7 +80,10 @@ export class UserService {
   }
 
   public async createUser(request: UserCreationRequest): Promise<User> {
-    const userProfileImageUrl = await getAzureProfileImgBlobByUrl();
+    const defaultUserProfileImageUrl = await getAzureProfileImgBlobByUrl();
+    const userProfileImageUrl = `https://www.gravatar.com/avatar/${this.getEmailHash(request.email)}?d=${encodeURIComponent(
+      defaultUserProfileImageUrl
+    )}`;
     const requestWithProfileImg = {
       ...request,
       profileImgUrl: userProfileImageUrl,
@@ -102,5 +106,9 @@ export class UserService {
       profileImgUrl: user.profileImgUrl
     };
     return { token, userDetails };
+  }
+
+  private getEmailHash(email: string): string {
+    return md5(email.toLowerCase().trim());
   }
 }
