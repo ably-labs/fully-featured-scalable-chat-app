@@ -44,7 +44,8 @@ describe("Registration API", () => {
       email: "email",
       firstName: "first",
       lastName: "last",
-      password: "password"
+      password: "password",
+      email: "email"
     };
 
     await sut(context, { body });
@@ -60,7 +61,8 @@ describe("Registration API", () => {
       email: "email",
       firstName: "first",
       lastName: "last",
-      password: "password"
+      password: "password",
+      email: "email"
     };
 
     await sut(context, { body });
