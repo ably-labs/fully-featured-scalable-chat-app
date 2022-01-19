@@ -36,6 +36,7 @@ describe("OAuth Registration API", () => {
     expect(lastSavedItem.firstName).toBe("first");
     expect(lastSavedItem.lastName).toBe("last");
     expect(lastSavedItem.oauthSub).toBe("google:12345");
+    expect(lastSavedItem.email).toBe("foo@bar.com");
   });
 
   it("no existing users, returns user profile with data based on auth0 response", async () => {
