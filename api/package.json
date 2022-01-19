@@ -26,10 +26,12 @@
   "dependencies": {
     "@azure/cosmos": "^3.14.1",
     "@azure/storage-blob": "^12.8.0",
+    "@types/md5": "^2.3.1",
     "ably": "^1.2.14",
     "auth0": "^2.37.0",
     "bcrypt": "^5.0.1",
     "dotenv": "^10.0.0",
+    "md5": "^2.3.0",
     "njwt": "^1.1.0",
     "secure-random": "^1.1.2",
     "validatorjs": "^3.22.1"
