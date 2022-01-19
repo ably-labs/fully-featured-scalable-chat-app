@@ -69,7 +69,9 @@
     "verbose": false,
     "testPathIgnorePatterns": [
       "/node_modules",
-      "api/node_modules"
+      "/dist",
+      "api/node_modules",
+      "api/dist"
     ],
     "extensionsToTreatAsEsm": [
       ".ts"
