@@ -50,9 +50,10 @@ export class BffApiClient {
     return { success: true, ...body };
   }
 
-  async register(username, firstName, lastName, password) {
+  async register(username, email, firstName, lastName, password) {
     const result = await this.post("/api/account/register", {
       username,
+      email,
       firstName,
       lastName,
       password
