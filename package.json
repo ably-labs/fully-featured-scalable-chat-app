@@ -8,7 +8,7 @@
     "start": "run-p dev:api dev:server",
     "build": "npx vite build",
     "dev:server": "npx vite serve",
-    "test": "jest --runInBand && npm run test:api",
+    "test": "jest",
     "dev:api": "npm run start --prefix api",
     "test:api": "npm run test --prefix api",
     "lint": "npx eslint . --ext .js,.jsx,.ts"
@@ -24,10 +24,17 @@
   },
   "homepage": "https://github.com/ably-labs/fully-featured-scalable-chat-app#readme",
   "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-typescript": "^7.16.7",
+    "@types/auth0": "^2.34.10",
     "@types/jest": "^27.0.2",
+    "@types/secure-random": "^1.1.0",
+    "@types/validatorjs": "^3.15.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vitejs/plugin-react": "^1.0.7",
+    "babel-jest": "^27.4.6",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.0",
     "eslint-config-prettier": "^8.3.0",
@@ -60,7 +67,7 @@
     "verbose": false,
     "testPathIgnorePatterns": [
       "/node_modules",
-      "/api"
+      "api/node_modules"
     ],
     "extensionsToTreatAsEsm": [
       ".ts"
