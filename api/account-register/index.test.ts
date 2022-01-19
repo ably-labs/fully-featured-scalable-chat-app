@@ -18,8 +18,7 @@ describe("Registration API", () => {
         email: "email",
         firstName: "first",
         lastName: "last",
-        password: "password",
-        email: "email"
+        password: "password"
       };
       delete body[prop];
 
@@ -44,8 +43,7 @@ describe("Registration API", () => {
       email: "email",
       firstName: "first",
       lastName: "last",
-      password: "password",
-      email: "email"
+      password: "password"
     };
 
     await sut(context, { body });
@@ -61,8 +59,7 @@ describe("Registration API", () => {
       email: "email",
       firstName: "first",
       lastName: "last",
-      password: "password",
-      email: "email"
+      password: "password"
     };
 
     await sut(context, { body });
