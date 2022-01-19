@@ -16,6 +16,6 @@ describe("Generator", () => {
 
     expect(success).toBe(true);
     expect(token).not.toBeNull();
-    expect(token.body["userId"]).toBe("1");
+    expect(token?.body.toJSON()["userId"]).toBe("1");
   });
 });

@@ -7,6 +7,7 @@ const NativeRegister = () => {
   const { onLoginSuccess } = useAuth();
 
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [surname, setSurname] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +15,13 @@ const NativeRegister = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { success, token, userDetails } = await unauthorizedBffApiClient.register(username, firstName, surname, password);
+    const { success, token, userDetails } = await unauthorizedBffApiClient.register(
+      username,
+      email,
+      firstName,
+      surname,
+      password
+    );
 
     if (!success) {
       console.log("Oh no!");
@@ -30,6 +37,10 @@ const NativeRegister = () => {
         <label className="loginregister-label">
           <span className="loginregister-label-text">username</span>
           <input type="text" placeholder="username" value={username} onChange={(ele) => setUsername(ele.target.value)}></input>
+        </label>
+        <label className="loginregister-email">
+          <span className="loginregister-label-text">email</span>
+          <input type="email" placeholder="email" value={email} onChange={(ele) => setEmail(ele.target.value)}></input>
         </label>
         <label className="loginregister-label">
           <span className="loginregister-label-text">first name</span>
