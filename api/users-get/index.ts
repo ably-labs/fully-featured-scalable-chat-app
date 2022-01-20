@@ -22,8 +22,8 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
         return;
       }
 
-      const { id, username, firstName, lastName, profileImgUrl } = user;
-      const response = { id, username, firstName, lastName, profileImgUrl };
+      const { id, username, firstName, lastName, profileImgSmallUrl, profileImgLargeUrl } = user;
+      const response = { id, username, firstName, lastName, profileImgSmallUrl, profileImgLargeUrl };
 
       if (callingUserId === id) {
         // Add extra stuff if the user is requesting their own profile

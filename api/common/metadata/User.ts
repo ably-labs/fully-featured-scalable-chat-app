@@ -8,7 +8,8 @@ export interface IUser extends Entity {
   lastName: string;
   passwordHash: string;
   oauthSub: string;
-  profileImgUrl: string;
+  profileImgSmallUrl: string;
+  profileImgLargeUrl: string;
   roleName: string;
   email: string;
 }
@@ -22,7 +23,8 @@ export class User implements IUser, Entity {
   public lastName: string;
   public passwordHash: string;
   public oauthSub: string;
-  public profileImgUrl: string;
+  public profileImgSmallUrl: string;
+  public profileImgLargeUrl: string;
   public roleName: string;
   public email: string;
 
