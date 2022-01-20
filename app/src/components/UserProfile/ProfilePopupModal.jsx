@@ -8,7 +8,7 @@ export default function ProfilePopupModal(props) {
       <div className="modal">
         <div onClick={props.toggleModal} className="overlay"></div>
         <div className="modal-content">
-          <img className="profile-img" src={props.profileImgUrl} alt={props.username} />
+          <img className="profile-img" src={props.profileImgLargeUrl} alt={props.username} />
           <h2 className="popup-title"> {props.username}</h2>
           <p className="popup-subtitle">
             {props.firstName} {props.lastName}

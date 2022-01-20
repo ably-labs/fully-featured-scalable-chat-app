@@ -16,7 +16,7 @@ export const ChatList = ({ history }) => {
     (profiles) => {
       const renderedMessages = history.map((item) => {
         const userId = item.clientId;
-        const { username, profileImgUrl } = profiles[userId];
+        const { username, profileImgSmallUrl } = profiles[userId];
         const messageTime = new Date(item.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
         const showProfile = (e) => {
@@ -28,7 +28,7 @@ export const ChatList = ({ history }) => {
         return (
           <li key={item.id} className="message">
             <button type="button" onClick={showProfile} className="message-button">
-              <img className="message-thumbnail" src={profileImgUrl} alt={username} />
+              <img className="message-thumbnail" src={profileImgSmallUrl} alt={username} />
             </button>
             <button className="sender message-button" type="button" onClick={showProfile}>
               {username}

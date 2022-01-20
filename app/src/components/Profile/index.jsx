@@ -24,7 +24,7 @@ const Profile = (props) => {
         <h2 className="profile-header">{userProfileDetails.username}</h2>
       </header>
       <div className="profile" style={cssOverride}>
-        <img className="profile-img" src={userProfileDetails.profileImgUrl} alt={userProfileDetails.username} />
+        <img className="profile-img" src={userProfileDetails.profileImgLargeUrl} alt={userProfileDetails.username} />
         <h2 className="profile-title">{userProfileDetails.username}</h2>
         <p className="profile-subtitle">
           {userProfileDetails.firstName} {userProfileDetails.lastName}
