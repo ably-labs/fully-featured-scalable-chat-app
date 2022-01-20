@@ -81,10 +81,12 @@ export class UserService {
   }
 
   public async createUser(request: UserCreationRequest): Promise<User> {
-    const userProfileImageUrl = await this.getProfileImage(request.email, request.oauthPicture);
+    const userProfileImageSmallUrl = await this.getProfileImage(request.email, 80, request.oauthPicture);
+    const userProfileImageLargeUrl = await this.getProfileImage(request.email, 600, request.oauthPicture);
     const requestWithProfileImg = {
       ...request,
-      profileImgUrl: userProfileImageUrl,
+      profileImgSmallUrl: userProfileImageSmallUrl,
+      profileImgLargeUrl: userProfileImageLargeUrl,
       roleName: "normal"
     };
     const user = User.fromJSON(requestWithProfileImg);
@@ -101,20 +103,26 @@ export class UserService {
       username: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
-      profileImgUrl: user.profileImgUrl
+      profileImgSmallUrl: user.profileImgSmallUrl,
+      profileImgLargeUrl: user.profileImgLargeUrl
     };
     return { token, userDetails };
   }
 
-  private async getProfileImage(email: string, oauthPicture?: string) {
+  public async getProfileImage(email: string, size: number, oauthPicture?: string) {
     let userProfileImageUrl: string;
     const defaultUserProfileImageUrl = await getAzureProfileImgBlobByUrl();
     if (oauthPicture) {
-      userProfileImageUrl = oauthPicture;
+      const googleSizeDelimiter = oauthPicture.indexOf("=s");
+      if (googleSizeDelimiter !== -1) {
+        userProfileImageUrl = `${oauthPicture.substring(0, googleSizeDelimiter)}=s${size}`;
+      } else {
+        userProfileImageUrl = oauthPicture;
+      }
     } else {
       userProfileImageUrl = `https://www.gravatar.com/avatar/${this.getEmailHash(email)}?d=${encodeURIComponent(
         defaultUserProfileImageUrl
-      )}`;
+      )}&s=${size}`;
     }
     return userProfileImageUrl;
   }
