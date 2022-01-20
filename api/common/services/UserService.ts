@@ -18,6 +18,7 @@ export type UserCreationRequest = {
   email: string;
   password?: string;
   oauthSub?: string;
+  oauthPicture?: string;
 };
 
 export class UserService {
@@ -80,10 +81,7 @@ export class UserService {
   }
 
   public async createUser(request: UserCreationRequest): Promise<User> {
-    const defaultUserProfileImageUrl = await getAzureProfileImgBlobByUrl();
-    const userProfileImageUrl = `https://www.gravatar.com/avatar/${this.getEmailHash(request.email)}?d=${encodeURIComponent(
-      defaultUserProfileImageUrl
-    )}`;
+    const userProfileImageUrl = await this.getProfileImage(request.email, request.oauthPicture);
     const requestWithProfileImg = {
       ...request,
       profileImgUrl: userProfileImageUrl,
@@ -106,6 +104,19 @@ export class UserService {
       profileImgUrl: user.profileImgUrl
     };
     return { token, userDetails };
+  }
+
+  private async getProfileImage(email: string, oauthPicture?: string) {
+    let userProfileImageUrl: string;
+    const defaultUserProfileImageUrl = await getAzureProfileImgBlobByUrl();
+    if (oauthPicture) {
+      userProfileImageUrl = oauthPicture;
+    } else {
+      userProfileImageUrl = `https://www.gravatar.com/avatar/${this.getEmailHash(email)}?d=${encodeURIComponent(
+        defaultUserProfileImageUrl
+      )}`;
+    }
+    return userProfileImageUrl;
   }
 
   private getEmailHash(email: string): string {
