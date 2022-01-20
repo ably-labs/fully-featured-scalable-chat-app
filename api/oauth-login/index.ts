@@ -28,8 +28,9 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
       username: data.email,
       firstName: data.given_name,
       lastName: data.family_name,
+      email: data.email,
       oauthSub: data.sub,
-      email: data.email
+      oauthPicture: data.picture
     });
 
     const metadata = userService.generateLoginMetadataFor(newUser);
