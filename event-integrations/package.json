@@ -1,0 +1,40 @@
+{
+  "name": "event-integrations",
+  "version": "",
+  "scripts": {
+    "build": "tsc",
+    "build:production": "npm run prestart && npm prune --production",
+    "watch": "tsc --w",
+    "prestart": "npm run build && func extensions install",
+    "start:host": "func start --port 7072",
+    "start": "npm-run-all --parallel start:host watch",
+    "test": "echo \"No tests yet...\""
+  },
+  "description": "",
+  "dependencies": {
+    "@azure/storage-blob": "^12.8.0",
+    "ably": "^1.2.14",
+    "cheerio": "^1.0.0-rc.10",
+    "dotenv": "^10.0.0",
+    "node-fetch": "^2.6.7"
+  },
+  "devDependencies": {
+    "@azure/functions": "^1.2.3",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^4.4.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": false,
+    "testPathIgnorePatterns": [
+      "/node_modules",
+      "/dist"
+    ],
+    "extensionsToTreatAsEsm": [
+      ".ts"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
+  }
+}

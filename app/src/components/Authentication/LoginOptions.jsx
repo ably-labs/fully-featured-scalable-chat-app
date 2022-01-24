@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FeatureToggle } from "../../feature-toggle/Feature";
 import { loginWithRedirect } from "../../sdk/Auth0Client";
 import "./auth.css";
 
@@ -9,8 +10,13 @@ const LoginOptions = () => {
       <Link to="/register">Create Account</Link>
       <span className="hr">or</span>
       <Link to="/login">Sign In</Link>
-      <span className="hr">or</span>
-      <button onClick={loginWithRedirect}>Sign In or Register via Auth0</button>
+
+      <FeatureToggle name="LoginWithAuth0">
+        <span className="hr">or</span>
+        <button className="login-register-button" onClick={loginWithRedirect}>
+          Sign In or Register via Auth0
+        </button>
+      </FeatureToggle>
     </main>
   );
 };

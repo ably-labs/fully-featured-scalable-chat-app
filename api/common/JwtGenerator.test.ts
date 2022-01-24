@@ -12,7 +12,7 @@ describe("Generator", () => {
   it("Can validate a token it generated", () => {
     const result = sut.generate("1");
 
-    let { success, token } = sut.validate(result);
+    const { success, token } = sut.validate(result);
 
     expect(success).toBe(true);
     expect(token).not.toBeNull();

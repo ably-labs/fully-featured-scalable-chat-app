@@ -10,13 +10,13 @@ export class ApiRequestContext {
 
   public reason: string;
 
-  constructor(isAuthenicatedUser: boolean = false, user: IUser = null, reason: string = null) {
-    this.isAuthenticatedUser = isAuthenicatedUser;
+  constructor(isAuthenticatedUser = false, user: IUser = null, reason: string = null) {
+    this.isAuthenticatedUser = isAuthenticatedUser;
     this.user = user;
     this.reason = reason;
   }
 
-  public static async fromRequest(req: any, includeUser: boolean = false): Promise<ApiRequestContext> {
+  public static async fromRequest(req: any, includeUser = false): Promise<ApiRequestContext> {
     const jwtValidator = JwtGenerator.fromEnvironment();
 
     const packedJwt = req.headers.jwt || "";
@@ -45,8 +45,8 @@ export const authorized: AzureFunction = async function (
   context: Context,
   req: HttpRequest,
   wrappedFunction,
-  permission: string = "any",
-  includeUser: boolean = false
+  permission = "any",
+  includeUser = false
 ): Promise<void> {
   const ctx = await ApiRequestContext.fromRequest(req, includeUser);
 

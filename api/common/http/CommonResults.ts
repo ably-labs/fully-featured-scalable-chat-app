@@ -1,12 +1,12 @@
-import * as Validator from "validatorjs";
+import { Validator } from "validatorjs";
 import * as crypto from "crypto";
 
-export function ok(reason: string = "", responseObject: any = {}, headers = {}) {
+export function ok(reason = "", responseObject: any = {}, headers = {}) {
   const bodyObj = { success: true, reason, ...responseObject };
   return { status: 200, body: JSON.stringify(bodyObj), headers: headers };
 }
 
-export function badRequest(validation: Validator) {
+export function badRequest<T>(validation: Validator<T>) {
   return { status: 400, body: JSON.stringify(validation.errors.all()) };
 }
 
@@ -14,7 +14,7 @@ export function badRequestFor(responseObject: any) {
   return { status: 400, body: JSON.stringify(responseObject) };
 }
 
-export function forbidden(reason: string = "") {
+export function forbidden(reason = "") {
   return { status: 403, body: JSON.stringify({ success: false, reason }) };
 }
 
@@ -22,7 +22,7 @@ export function notModified() {
   return { status: 304, body: "Not Modified" };
 }
 
-export function notFound(reason: string = "") {
+export function notFound(reason = "") {
   return { status: 404, body: reason };
 }
 

@@ -1,12 +1,14 @@
 {
   "bindings": [
     {
-      "route": "channels/{channelId}",
+      "route": "archive/{channelName}",
       "authLevel": "function",
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": ["get"]
+      "methods": [
+        "get"
+      ]
     },
     {
       "type": "http",
@@ -14,5 +16,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/channels-get/index.js"
+  "scriptFile": "../dist/archive-get/index.js"
 }

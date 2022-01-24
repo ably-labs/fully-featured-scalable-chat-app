@@ -1,38 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useChannel } from "@ably-labs/react-hooks";
-import { useAuth } from "../../AppProviders";
 import { ChatList } from "./ChatList";
 import { ChatInput } from "./ChatInput";
+import useArchive from "./../../hooks/useArchive";
+import ScrollPoint from "./ScrollPoint";
 import "./chat.css";
 
-const ChatContainer = ({ currentChannelName, currentChannelId, onChatExit }) => {
-  let messageEnd = null;
-
-  const { api } = useAuth();
-  const rewindParameters = "[?rewind=100]";
-  const channelSubscription = rewindParameters + currentChannelName;
-
+const ChatContainer = ({ currentChannel, onChatExit }) => {
+  const endOfChatLog = useRef(null);
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
     setHistory([]); // Reset history on channel change
-  }, [currentChannelName]);
+  }, [currentChannel]);
 
-  useEffect(() => {
-    messageEnd.scrollIntoView({ behaviour: "smooth" }); // scroll page to bottom
-  }, [history]);
-
-  const [channel, ably] = useChannel(channelSubscription, (message) => {
+  const [channel] = useChannel(currentChannel, (message) => {
     setHistory((prev) => [...prev.slice(-199), message]);
   });
 
+  const [archive, rewind] = useArchive(currentChannel);
+
   const sendMessage = (messageText) => {
     channel.publish("message", { text: messageText });
-  };
-
-  const displayChannelMetadata = async () => {
-    const response = await api.getChannelMetadata(currentChannelId);
-    console.log(response);
   };
 
   return (
@@ -42,21 +31,19 @@ const ChatContainer = ({ currentChannelName, currentChannelId, onChatExit }) => 
           Back
         </button>
         <h2>
-          <span onClick={displayChannelMetadata}> {currentChannelName}</span>
+          {currentChannel}
           <span className="members">1 member</span>
         </h2>
       </header>
       <ul className="messages">
+        <ChatList history={archive} />
         <ChatList history={history} />
-        <li
-          className="end-message"
-          ref={(element) => {
-            messageEnd = element;
-          }}
-        />
+        <li className="end-message" ref={endOfChatLog} />
+        <ScrollPoint watch={archive} />
       </ul>
       <ChatInput sendMessage={sendMessage} />
-    </section>
+    </section >
   );
 };
+
 export default ChatContainer;

@@ -12,7 +12,7 @@ describe("Registration API", () => {
   it("when any mandatory property is missing, fails", async () => {
     const requiredProperties = ["username", "firstName", "lastName", "password"];
 
-    for (let prop of requiredProperties) {
+    for (const prop of requiredProperties) {
       const body = {
         username: "user",
         firstName: "first",

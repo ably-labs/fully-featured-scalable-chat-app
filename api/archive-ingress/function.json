@@ -1,0 +1,20 @@
+{
+  "bindings": [
+    {
+      "route": "archive/ingress",
+      "authLevel": "function",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "post"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    }
+  ],
+  "scriptFile": "../dist/archive-ingress/index.js"
+}

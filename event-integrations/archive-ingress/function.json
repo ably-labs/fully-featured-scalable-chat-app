@@ -1,12 +1,14 @@
 {
   "bindings": [
     {
-      "route": "channels/get-metadata",
       "authLevel": "function",
       "type": "httpTrigger",
       "direction": "in",
       "name": "req",
-      "methods": ["post"]
+      "methods": [
+        "get",
+        "post"
+      ]
     },
     {
       "type": "http",
@@ -14,5 +16,5 @@
       "name": "res"
     }
   ],
-  "scriptFile": "../dist/get-channel-metadata/index.js"
+  "scriptFile": "../dist/archive-ingress/index.js"
 }

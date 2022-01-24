@@ -19,7 +19,7 @@ export class JwtGenerator {
   }
 
   public static withRandomSigningKey() {
-    var signingKey = secureRandom(256, { type: "Buffer" });
+    const signingKey = secureRandom(256, { type: "Buffer" });
     return new JwtGenerator(signingKey);
   }
 

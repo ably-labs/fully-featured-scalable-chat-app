@@ -15,19 +15,64 @@ If you have any questions, ideas or want to contribute, please raise an issue or
 3. an `.env` file in ./api:
 
 ```[text]
+JWT_SIGNING_KEY=key used to sign tokens for users. Can be anything you decide it to be
+
+# Ably
+ABLY_API_KEY=YOURKEY:HERE
+APP_ID=[YOUR ABLY APP ID](https://faqs.ably.com/how-do-i-find-my-app-id)
+CONTROL_KEY=[YOUR ABLY CONTROL KEY](https://ably.com/documentation/control-api#authentication)
+
+# Azure
 COSMOS_ENDPOINT=https://yourcosomsdb.documents.azure.com
 COSMOS_KEY=ASK FOR THIS OR MAKE YOUR OWN
 COSMOS_DATABASE_ID=metadata
-JWT_SIGNING_KEY=ASK FOR THIS OR MAKE YOUR OWN
-ABLY_API_KEY=YOURKEY:HERE
+AZURE_STORAGE_CONNECTION_STRING=your string here
+AZURE_STORAGE_CONTAINER_NAME=container name here
+
+# Auth0
 AUTH0_DOMAIN=yourdomain.auth0.com
 AUTH0_CLIENTID=yourclientid
 AUTH0_REDIRECT_URI=http://localhost:8080/auth0-landing
-AZURE_STORAGE_CONNECTION_STRING=your string here
-AZURE_STORAGE_CONTAINER_NAME=container name here
 ```
 
 4. `npm run start` in the root.
+
+# Services setup
+
+As seen in the .env file, there are a few services you'll need to sign up with to use the project in its current form.
+* Ably
+* CosmosDB
+* Azure Blob Storage
+* Auth0
+
+## Ably credentials
+
+In order to obtain the Ably credentials, you will first need to sign up for a free [Ably Account](https://ably.com/signup). Once you have an Ably account, you can go to the [default app](https://ably.com/accounts/any/apps/any) generated and get the [Root API key](https://ably.com/accounts/any/apps/any/app_keys) for it. This will be used for the `ABLY_API_KEY` environment. The `APP_ID` env variable should be set to the first part of your API key, before the fullstop. If your API key is `12345.jh40fj23jkd0-,32c3-j-`, you should set it to `12345`.
+
+For the `CONTROL_KEY`, which is used for controlling the creation of API keys, apps and more programatically, you will need to go to the [Access Token](https://ably.com/users/access_tokens) as a logged in user, and click 'Create new access token'. Give it a name, from the 'Account' dropdown select the Account which has the app you have an API key for, and make sure to select the `read:key` and `write:key` permissions. Create the token, and use its value as the `CONTROL_KEY`.
+
+## CosmosDB
+
+CosmosDB is used for storing data for this app. To get an Azure account and create a CosmosDB resource, follow the steps in [Azure's setup tutorial](https://docs.microsoft.com/en-us/azure/cosmos-db/sql/create-cosmosdb-resources-portal). You should set the `COSMOS_ENDPOINT` to be the URI provided in your new subaccount. The `COSMOS_KEY` is the primary key for the CosmosDB account, which you can [access as described by Azure](https://docs.microsoft.com/en-us/azure/cosmos-db/secure-access-to-data?tabs=using-primary-key).
+
+`COSMOS_DATABASE_ID` is the [name of the container](https://docs.microsoft.com/en-us/azure/cosmos-db/sql/how-to-create-container) you will be using within your CosmosDB account.
+
+## Azure Blob Storage
+
+Using the same Azure account created for CosmosDB, create a [new Data Storage Container](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal). Once you have that setup, go to the 'Access Keys' section in the sidebar to obtain a `connection string` for `AZURE_STORAGE_CONNECTION_STRING`, and then set `AZURE_STORAGE_CONTAINER_NAME` to whatever you named the container.
+
+## Auth0
+
+If you want to include Auth0 as an authentication method, you will need to [create an Auth0 account](https://auth0.com/signup). Once you have an Auth0 account, [create an Application](https://auth0.com/docs/get-started/auth0-overview/create-applications) with 'Regular Web Applications' selected as the application type. In that app you can then copy the domain for `AUTH0_DOMAIN`, and the clientID for the `AUTH0_CLIENTID`. The `AUTH0_REDIRECT_URI` should point to the appropriate URI that Auth0, after authenticating a user, should redirect to. The default value should work for running locally.
+
+### Further Auth0 setup
+
+On the settings tab of your Auth0 app, scroll down to the section called ‘Application URIs.’ In it, you should see a field for ‘Allowed Callback URLs’ and ‘Allowed Logout URLs.’ For context, the flow of a webpage using Auth0 is:
+
+Your site links a user to your Auth0 app’s login page, where they sign in The Auth0 page redirects the user back to your website’s ‘callback’ page
+When the user wants to log out, they are directed to the Auth0 app’s logout page and then redirected back to the page specified in the ‘returnTo’ query passed to the logout page
+
+To avoid potential misuse and abuse, you need to specify what URLs Auth0 can redirect to. When hosting this chat app locally, it is hosted on localhost:8080, so set the Allowed Callback URLs to ‘http://localhost:8080/auth0-landing’. When a user logs out, we’ll have the user redirected back to our main page, so set the Allowed Logout URLs to ‘http://localhost:8080/’.
 
 # Design
 
