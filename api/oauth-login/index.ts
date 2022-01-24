@@ -11,8 +11,6 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     redirect_uri: process.env.AUTH0_REDIRECT_URI
   } as any);
 
-  // Type hinting seems to suggest the above object is wrong, but it works?!
-
   const userService = new UserService();
 
   try {

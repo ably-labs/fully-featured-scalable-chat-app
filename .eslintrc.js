@@ -22,10 +22,7 @@ module.exports = {
         namedComponents: "arrow-function"
       }
     ],
-    "react/prop-types": [0],
-    "arrow-body-style": "off",
-    "no-underscore-dangle": "off",
-    "no-plusplus": "off"
+    "react/prop-types": [0]
   },
   settings: {
     react: {
