@@ -3,7 +3,7 @@ import { useChannel } from "@ably-labs/react-hooks";
 import { ChatList } from "./ChatList";
 import { ChatInput } from "./ChatInput";
 import useArchive from "./../../hooks/useArchive";
-import ScrollPoint from "./ScrollPoint";
+import autoScrollHistory from "./autoScrollHistory";
 import "./chat.css";
 
 const ChatContainer = ({ currentChannel, onChatExit }) => {
@@ -39,7 +39,7 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
         <ChatList history={archive} />
         <ChatList history={history} />
         <li className="end-message" ref={endOfChatLog} />
-        <ScrollPoint watch={archive} />
+        { autoScrollHistory(archive, endOfChatLog) }
       </ul>
       <ChatInput sendMessage={sendMessage} />
     </section >
