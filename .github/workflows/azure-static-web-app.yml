@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - '**/*.md'
+      - 'event-integrations/**'
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:

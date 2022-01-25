@@ -1,6 +1,8 @@
 {
   "name": "Snowpack and Azure Functions",
-  "runArgs": ["--init"],
+  "runArgs": [
+    "--init"
+  ],
   "build": {
     "dockerfile": "Dockerfile",
     "args": {
@@ -10,7 +12,11 @@
       "VARIANT": "16"
     }
   },
-  "forwardPorts": [8080, 7071],
+  "forwardPorts": [
+    8080,
+    7071,
+    7072
+  ],
   "portsAttributes": {
     "8080": {
       "label": "Website",
@@ -22,7 +28,11 @@
     }
   },
   "settings": {},
-  "extensions": ["ms-azuretools.vscode-azurefunctions", "ms-azuretools.vscode-azurestaticwebapps", "dbaeumer.vscode-eslint"],
+  "extensions": [
+    "ms-azuretools.vscode-azurefunctions",
+    "ms-azuretools.vscode-azurestaticwebapps",
+    "dbaeumer.vscode-eslint"
+  ],
   "postCreateCommand": "npm run init",
   "remoteUser": "node"
 }

@@ -9,7 +9,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     domain: process.env.AUTH0_DOMAIN,
     client_id: process.env.AUTH0_CLIENTID,
     redirect_uri: process.env.AUTH0_REDIRECT_URI
-  });
+  } as any);
 
   const userService = new UserService();
 

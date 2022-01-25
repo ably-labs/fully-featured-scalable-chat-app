@@ -6,7 +6,8 @@ import { useAuth0 } from "./sdk/Auth0Client";
 
 const AuthContext = createContext();
 
-var AppProviders = ({ children }) => {
+const AppProviders = (props) => {
+  const { children } = props;
   return <AuthProvider>{children}</AuthProvider>;
 };
 

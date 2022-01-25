@@ -4,12 +4,7 @@ module.exports = {
     browser: true,
     es2021: true
   },
-  extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended"
-  ],
+  extends: [],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
@@ -27,10 +22,7 @@ module.exports = {
         namedComponents: "arrow-function"
       }
     ],
-    "react/prop-types": [0],
-    "arrow-body-style": "off",
-    "no-underscore-dangle": "off",
-    "no-plusplus": "off"
+    "react/prop-types": [0]
   },
   settings: {
     react: {

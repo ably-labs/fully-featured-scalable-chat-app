@@ -1,29 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useChannel } from "@ably-labs/react-hooks";
 import { ChatList } from "./ChatList";
 import { ChatInput } from "./ChatInput";
-import Profile from "../Profile";
+import useArchive from "./../../hooks/useArchive";
+import ScrollPoint from "./ScrollPoint";
 import "./chat.css";
 
 const ChatContainer = ({ currentChannel, onChatExit }) => {
-  let messageEnd = null;
-
-  const rewindParameters = "[?rewind=100]";
-  const channelSubscription = rewindParameters + currentChannel;
-
+  const endOfChatLog = useRef(null);
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
     setHistory([]); // Reset history on channel change
   }, [currentChannel]);
 
-  useEffect(() => {
-    messageEnd.scrollIntoView({ behaviour: "smooth" }); // scroll page to bottom
-  }, [history]);
-
-  const [channel, ably] = useChannel(channelSubscription, (message) => {
+  const [channel] = useChannel(currentChannel, (message) => {
     setHistory((prev) => [...prev.slice(-199), message]);
   });
+
+  const [archive, rewind] = useArchive(currentChannel);
 
   const sendMessage = (messageText) => {
     channel.publish("message", { text: messageText });
@@ -41,16 +36,14 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
         </h2>
       </header>
       <ul className="messages">
+        <ChatList history={archive} />
         <ChatList history={history} />
-        <li
-          className="end-message"
-          ref={(element) => {
-            messageEnd = element;
-          }}
-        />
+        <li className="end-message" ref={endOfChatLog} />
+        <ScrollPoint watch={archive} />
       </ul>
       <ChatInput sendMessage={sendMessage} />
-    </section>
+    </section >
   );
 };
+
 export default ChatContainer;

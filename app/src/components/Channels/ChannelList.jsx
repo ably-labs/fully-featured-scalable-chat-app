@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import Header from "../Header/AuthHeader";
 import "./channellist.css";
 
@@ -23,11 +24,13 @@ const ChannelList = ({ channels, onChannelSelected }) => {
   ));
 
   return (
-    <section className="channellist">
-      <Header />
-      <h2>Channels</h2>
-      <ul>{channelListItems}</ul>
-    </section>
+    <>
+      <section className="channellist">
+        <Header />
+        <h2>Channels</h2>
+        <ul>{channelListItems}</ul>
+      </section>
+    </>
   );
 };
 

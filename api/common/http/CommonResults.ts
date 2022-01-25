@@ -1,4 +1,4 @@
-import * as Validator from "validatorjs";
+import { Validator } from "validatorjs";
 import * as crypto from "crypto";
 
 export function ok(reason = "", responseObject: any = {}, headers = {}) {
@@ -6,7 +6,7 @@ export function ok(reason = "", responseObject: any = {}, headers = {}) {
   return { status: 200, body: JSON.stringify(bodyObj), headers: headers };
 }
 
-export function badRequest(validation: Validator) {
+export function badRequest<T>(validation: Validator<T>) {
   return { status: 400, body: JSON.stringify(validation.errors.all()) };
 }
 

@@ -79,6 +79,10 @@ export class BffApiClient {
   async getUserDetails(userId) {
     return this._profileCache.get(userId, async () => {
       const result = await this.get(`/api/users/${userId}`);
+      if (result.status !== 200) {
+        return { id: -1, username: "", firstName: "", lastName: "" };
+      }
+
       return result.json();
     });
   }
@@ -90,6 +94,11 @@ export class BffApiClient {
       next[id] = { id, ...profile };
     }
     return next;
+  }
+
+  async getArchive(channelName, offset = 0) {
+    const result = await this.get(`/api/archive/${channelName}?offset=${offset}`);
+    return await result.json();
   }
 }
 

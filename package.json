@@ -4,12 +4,13 @@
   "description": "a fully featured scalable chat app",
   "main": "index.js",
   "scripts": {
-    "init": "npm clean-install && cd api && npm clean-install",
-    "start": "run-p dev:api dev:server",
+    "init": "npm clean-install && cd api && npm clean-install && cd .. && cd event-integrations && npm clean-install",
+    "start": "run-p dev:api dev:server dev:event-integrations",
     "build": "npx vite build",
+    "test": "jest --runInBand && npm run test:api",
     "dev:server": "npx vite serve",
-    "test": "jest",
     "dev:api": "npm run start --prefix api",
+    "dev:event-integrations": "npm run start --prefix event-integrations",
     "test:api": "npm run test --prefix api",
     "lint": "npx eslint . --ext .js,.jsx,.ts"
   },
@@ -24,17 +25,10 @@
   },
   "homepage": "https://github.com/ably-labs/fully-featured-scalable-chat-app#readme",
   "devDependencies": {
-    "@babel/core": "^7.16.7",
-    "@babel/preset-env": "^7.16.8",
-    "@babel/preset-typescript": "^7.16.7",
-    "@types/auth0": "^2.34.10",
-    "@types/jest": "^27.0.2",
-    "@types/secure-random": "^1.1.0",
-    "@types/validatorjs": "^3.15.0",
+    "@types/jest": "^27.4.0",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vitejs/plugin-react": "^1.0.7",
-    "babel-jest": "^27.4.6",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.0",
     "eslint-config-prettier": "^8.3.0",
@@ -44,13 +38,13 @@
     "eslint-plugin-react": "^7.27.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "http2-proxy": "^5.0.53",
-    "jest": "^27.3.0",
+    "jest": "^27.4.7",
     "jest-cli": "^27.3.0",
     "jsesc": "^3.0.2",
     "npm-run-all": "^4.1.5",
     "prettier": "2.5.1",
     "to-fast-properties": "^4.0.0",
-    "ts-jest": "^27.0.7",
+    "ts-jest": "^27.1.3",
     "typescript": "^4.4.4",
     "vite": "^2.6.4"
   },
@@ -63,21 +57,5 @@
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.3.0",
     "tslib": "^2.3.1"
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "verbose": false,
-    "testPathIgnorePatterns": [
-      "/node_modules",
-      "/dist",
-      "api/node_modules",
-      "api/dist"
-    ],
-    "extensionsToTreatAsEsm": [
-      ".ts"
-    ],
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "ts-jest"
-    }
   }
 }
