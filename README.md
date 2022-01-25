@@ -35,7 +35,12 @@ AUTH0_CLIENTID=yourclientid
 AUTH0_REDIRECT_URI=http://localhost:8080/auth0-landing
 ```
 
-4. `npm run start` in the root.
+4. Setup the node modules and run the app
+```bash
+# from root folder
+npm run init # installs node modules for api & integrations
+npm run start # runs the dev server
+```
 
 # Services setup
 
