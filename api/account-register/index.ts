@@ -30,6 +30,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
 
 export type RegistrationForm = {
   username: string;
+  email: string;
   firstName: string;
   lastName: string;
   password: string;
@@ -37,6 +38,7 @@ export type RegistrationForm = {
 
 const registrationFormRules = {
   username: "required|min:1",
+  email: "required|min:1",
   firstName: "required|min:1",
   lastName: "required|min:1",
   password: "required|min:1"

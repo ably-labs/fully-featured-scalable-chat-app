@@ -10,11 +10,12 @@ describe("Registration API", () => {
   });
 
   it("when any mandatory property is missing, fails", async () => {
-    const requiredProperties = ["username", "firstName", "lastName", "password"];
+    const requiredProperties = ["username", "email", "firstName", "lastName", "password"];
 
     for (const prop of requiredProperties) {
       const body = {
         username: "user",
+        email: "email",
         firstName: "first",
         lastName: "last",
         password: "password"
@@ -34,10 +35,12 @@ describe("Registration API", () => {
       username: "user",
       firstName: "first",
       lastName: "last",
-      password: "password"
+      password: "password",
+      email: "email"
     });
     const body = {
       username: "user",
+      email: "email",
       firstName: "first",
       lastName: "last",
       password: "password"
@@ -53,6 +56,7 @@ describe("Registration API", () => {
   it("no existing users, returns 200 created for new user created", async () => {
     const body = {
       username: "user",
+      email: "email",
       firstName: "first",
       lastName: "last",
       password: "password"

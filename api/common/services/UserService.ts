@@ -4,6 +4,7 @@ import { User } from "../metadata/User";
 import { getAzureProfileImgBlobByUrl } from "../dataaccess/AzureBlobStorageClient";
 import { Role } from "../metadata/Role";
 import { RoleService } from "./RoleService";
+import * as md5 from "md5";
 
 export type LoginMetadata = {
   username: string;
@@ -14,8 +15,10 @@ export type UserCreationRequest = {
   username: string;
   firstName: string;
   lastName: string;
+  email: string;
   password?: string;
   oauthSub?: string;
+  oauthPicture?: string;
 };
 
 export class UserService {
@@ -78,10 +81,12 @@ export class UserService {
   }
 
   public async createUser(request: UserCreationRequest): Promise<User> {
-    const userProfileImageUrl = await getAzureProfileImgBlobByUrl();
+    const userProfileImageSmallUrl = await this.getProfileImage(request.email, 80, request.oauthPicture);
+    const userProfileImageLargeUrl = await this.getProfileImage(request.email, 600, request.oauthPicture);
     const requestWithProfileImg = {
       ...request,
-      profileImgUrl: userProfileImageUrl,
+      profileImgSmallUrl: userProfileImageSmallUrl,
+      profileImgLargeUrl: userProfileImageLargeUrl,
       roleName: "normal"
     };
     const user = User.fromJSON(requestWithProfileImg);
@@ -98,8 +103,28 @@ export class UserService {
       username: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
-      profileImgUrl: user.profileImgUrl
+      profileImgSmallUrl: user.profileImgSmallUrl,
+      profileImgLargeUrl: user.profileImgLargeUrl
     };
     return { token, userDetails };
+  }
+
+  public async getProfileImage(email: string, size: number, oauthPicture?: string) {
+    let userProfileImageUrl: string;
+    const defaultUserProfileImageUrl = await getAzureProfileImgBlobByUrl();
+    if (oauthPicture) {
+      const googleSizeDelimiter = oauthPicture.indexOf("=s");
+      userProfileImageUrl =
+        googleSizeDelimiter !== -1 ? `${oauthPicture.substring(0, googleSizeDelimiter)}=s${size}` : oauthPicture;
+    } else {
+      userProfileImageUrl = `https://www.gravatar.com/avatar/${this.getEmailHash(email)}?d=${encodeURIComponent(
+        defaultUserProfileImageUrl
+      )}&s=${size}`;
+    }
+    return userProfileImageUrl;
+  }
+
+  private getEmailHash(email: string): string {
+    return md5(email.toLowerCase().trim());
   }
 }
