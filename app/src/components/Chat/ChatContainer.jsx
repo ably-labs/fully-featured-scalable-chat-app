@@ -24,6 +24,8 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
     channel.publish("message", { text: messageText });
   };
 
+  autoScrollHistory(archive, endOfChatLog);
+
   return (
     <section className="chat">
       <header className="authed">
@@ -39,7 +41,6 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
         <ChatList history={archive} />
         <ChatList history={history} />
         <li className="end-message" ref={endOfChatLog} />
-        { autoScrollHistory(archive, endOfChatLog) }
       </ul>
       <ChatInput sendMessage={sendMessage} />
     </section >
