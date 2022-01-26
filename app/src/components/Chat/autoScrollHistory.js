@@ -1,6 +1,6 @@
 export default (historyElements, ref) => {
   const { length } = historyElements || [];
-  const pause = length * 5; // miliseconds to pause while DOM updates
+  const pause = length * 5; // milliseconds to pause while DOM updates
 
   if (!length || !ref) return null;
 
