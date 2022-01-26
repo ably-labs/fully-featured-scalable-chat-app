@@ -114,11 +114,8 @@ export class UserService {
     const defaultUserProfileImageUrl = await getAzureProfileImgBlobByUrl();
     if (oauthPicture) {
       const googleSizeDelimiter = oauthPicture.indexOf("=s");
-      if (googleSizeDelimiter !== -1) {
-        userProfileImageUrl = `${oauthPicture.substring(0, googleSizeDelimiter)}=s${size}`;
-      } else {
-        userProfileImageUrl = oauthPicture;
-      }
+      userProfileImageUrl =
+        googleSizeDelimiter !== -1 ? `${oauthPicture.substring(0, googleSizeDelimiter)}=s${size}` : oauthPicture;
     } else {
       userProfileImageUrl = `https://www.gravatar.com/avatar/${this.getEmailHash(email)}?d=${encodeURIComponent(
         defaultUserProfileImageUrl
