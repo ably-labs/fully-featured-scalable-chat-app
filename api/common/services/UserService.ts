@@ -85,7 +85,8 @@ export class UserService {
     const userProfileImageLargeUrl = await this.getProfileImage(request.email, 600, request.oauthPicture);
     const requestWithProfileImg = {
       ...request,
-      profileImgUrl: userProfileImageUrl,
+      profileImgSmallUrl: userProfileImageSmallUrl,
+      profileImgLargeUrl: userProfileImageLargeUrl,
       roleName: "normal"
     };
     const user = User.fromJSON(requestWithProfileImg);
