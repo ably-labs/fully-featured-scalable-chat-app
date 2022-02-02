@@ -23,12 +23,13 @@ export class JwtGenerator {
     return new JwtGenerator(signingKey);
   }
 
-  generate(userId: string, extraClaims?: any) {
+  generate(userId: string, roleName: string, extraClaims?: any) {
     const claims = {
       iss: "http://ffschat.ably.dev/", // The URL of your service
       sub: `users/${userId}`, // The UID of the user in your system
       scope: "self, users",
       userId,
+      roleName,
       ...(extraClaims || {})
     };
 

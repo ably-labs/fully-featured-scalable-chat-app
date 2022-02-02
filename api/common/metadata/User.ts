@@ -30,6 +30,7 @@ export class User implements IUser, Entity {
 
   constructor() {
     this.type = "User";
+    this.roleName = "default";
   }
 
   public async passwordMatches(suppliedClearTextPassword: string): Promise<boolean> {

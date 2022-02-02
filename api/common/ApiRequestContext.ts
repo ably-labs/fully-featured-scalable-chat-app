@@ -2,15 +2,15 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { CosmosDbMetadataRepository } from "./dataaccess/CosmosDbMetadataRepository";
 import { JwtGenerator } from "./JwtGenerator";
 import { IUser, User } from "./metadata/User";
-import { UserService } from "./services/UserService";
 
 export class ApiRequestContext {
   public isAuthenticatedUser: boolean;
   public user: IUser;
+  public roleName: string;
 
   public reason: string;
 
-  constructor(isAuthenticatedUser = false, user: IUser = null, reason: string = null) {
+  constructor(isAuthenticatedUser = false, user: IUser = null, reason: string = null, roleName: string = null) {
     this.isAuthenticatedUser = isAuthenticatedUser;
     this.user = user;
     this.reason = reason;
@@ -29,15 +29,17 @@ export class ApiRequestContext {
       return new ApiRequestContext(false, null, "Token failed to validate");
     }
 
+    const roleName = token.body["roleName"];
+
     if (includeUser) {
       const userId = token.body["userId"];
 
       const repository = new CosmosDbMetadataRepository();
       const existing = await repository.getByProperty<User>("User", "id", userId);
-      return new ApiRequestContext(true, existing[0], "Valid");
+      return new ApiRequestContext(true, existing[0], "Valid", roleName);
     }
 
-    return new ApiRequestContext(true, null, "Valid");
+    return new ApiRequestContext(true, null, "Valid", roleName);
   }
 }
 
@@ -58,12 +60,14 @@ export const authorized: AzureFunction = async function (
     return;
   }
 
-  if (
-    permission !== "any" &&
-    ctx.user != null &&
-    ctx.user.username != null &&
-    !(await hasPermission(ctx.user.username, context, permission))
-  ) {
+  if (permission !== "any" && !(ctx.roleName == permission)) {
+    context.res = {
+      status: 403,
+      body: JSON.stringify({
+        success: false,
+        reason: "Authorized, but missing permission for action"
+      })
+    };
     return;
   }
 
@@ -78,26 +82,3 @@ export const authorized: AzureFunction = async function (
 
   await wrappedFunction(ctx);
 };
-
-async function hasPermission(username: string, context: Context, permission: string): Promise<boolean> {
-  const userService = new UserService();
-  const { exists, role } = await userService.getRoleByUsername(username);
-
-  if (!exists) {
-    context.res = {
-      status: 401,
-      body: JSON.stringify({ success: false, reason: "User does not exist" })
-    };
-    return false;
-  }
-
-  if (!role.permissions.includes(permission)) {
-    context.res = {
-      status: 401,
-      body: JSON.stringify({ success: false, reason: "User does not have permission to access resource" })
-    };
-    return false;
-  }
-
-  return true;
-}

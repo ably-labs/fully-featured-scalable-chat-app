@@ -60,7 +60,7 @@ export class UserService {
 
     const roleService = new RoleService();
     const result = await roleService.getRoleByName(user.roleName);
-    console.log(result);
+
     const { exists: roleExists, role } = result;
 
     if (!roleExists) {
@@ -98,7 +98,7 @@ export class UserService {
     token: string;
     userDetails: LoginMetadata;
   } {
-    const token = this._jwtValidator.generate(user.id);
+    const token = this._jwtValidator.generate(user.id, user.roleName);
     const userDetails = {
       username: user.username,
       firstName: user.firstName,
