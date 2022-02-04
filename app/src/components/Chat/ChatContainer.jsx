@@ -6,22 +6,57 @@ import useArchive from "./../../hooks/useArchive";
 import autoScrollHistory from "./autoScrollHistory";
 import "./chat.css";
 
+const ChatInputStatus = ({ message }) => {
+  return <>{message}</>;
+};
+
+const formatMessage = (eventObject) => {
+  // coerse String to Object
+  return typeof eventObject === "string" //
+    ? { text: `${eventObject || ""}`.trim() }
+    : eventObject;
+};
+
 const ChatContainer = ({ currentChannel, onChatExit }) => {
   const endOfChatLog = useRef(null);
   const [history, setHistory] = useState([]);
 
-  useEffect(() => {
-    setHistory([]); // Reset history on channel change
-  }, [currentChannel]);
+  // Reset history on channel change
+  useEffect(() => setHistory([]), [currentChannel]);
 
   const [channel] = useChannel(currentChannel, (message) => {
     setHistory((prev) => [...prev.slice(-199), message]);
   });
 
+  const [activity] = useChannel(`${currentChannel}_activity`, (message) => {
+    // this sibling channel is non-persisted chatter, eg. typing indicator
+    const { data } = message;
+    const { text } = data;
+
+    console.log("activity", text);
+    switch (text) {
+      case "done":
+        setStatusMessage(null);
+        break;
+
+      default:
+        setStatusMessage("Typing ...");
+        break;
+    }
+  });
+
   const [archive, rewind] = useArchive(currentChannel);
 
-  const sendMessage = (messageText) => {
-    channel.publish("message", { text: messageText });
+  const [statusMessage, setStatusMessage] = React.useState(null);
+
+  const sendMessage = (eventObject = null) => {
+    channel.publish("message", formatMessage(eventObject));
+    setStatusMessage(null);
+  };
+
+  const sendStatus = (eventObject = null) => {
+    activity.publish("util_message", formatMessage(eventObject));
+    setStatusMessage("typing ...", eventObject);
   };
 
   autoScrollHistory(archive, endOfChatLog);
@@ -42,8 +77,9 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
         <ChatList history={history} />
         <li className="end-message" ref={endOfChatLog} />
       </ul>
-      <ChatInput sendMessage={sendMessage} />
-    </section >
+      <ChatInput sendMessage={sendMessage} sendStatus={sendStatus} />
+      <ChatInputStatus message={statusMessage} />
+    </section>
   );
 };
 
