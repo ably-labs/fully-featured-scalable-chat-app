@@ -1,4 +1,5 @@
 import { CosmosDbMetadataRepository } from "../dataaccess/CosmosDbMetadataRepository";
+import { IMetadataRepository } from "../dataaccess/IMetadataRepository";
 import { ChannelPresence } from "../metadata/ChannelPresence";
 import { PresenceStatus } from "../metadata/PresenceStatus";
 
@@ -22,7 +23,7 @@ export type ChannelPresenceUpdateRequest = {
 };
 
 export class ChannelPresenceService {
-  private _repo: CosmosDbMetadataRepository;
+  private _repo: IMetadataRepository;
   private _containerName: string = "ChannelPresence";
 
   public constructor() {

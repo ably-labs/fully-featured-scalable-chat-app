@@ -1,8 +1,13 @@
 import { Types } from "ably";
 import { useChannel } from "@ably-labs/react-hooks";
-import { UserPresenceMessage, PresenceStatus } from "../../../api/common/metadata/Presence";
+import { PresenceStatus } from "../../../api/common/metadata/PresenceStatus";
 
 export const UserPresenceMessageName = "user-presence";
+
+export type UserPresenceMessage = {
+  userId: string;
+  presence: PresenceStatus;
+};
 
 export class UserPresenceService {
   private userChannelPrefix: string = "user-presence-";
