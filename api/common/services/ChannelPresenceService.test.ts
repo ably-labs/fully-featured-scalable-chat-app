@@ -27,7 +27,7 @@ describe("ChannelPresenceService", () => {
     addItemToDb("ChannelPresence", item2);
     const result = await sut.getPresenceByChannelName(channelName);
 
-    expect(result).toHaveLength(2);
+    expect(result.channelPresence).toHaveLength(2);
   });
 
   it("Can retrieve an existing ChannelPresence item by username.", async () => {
@@ -49,6 +49,6 @@ describe("ChannelPresenceService", () => {
 
     const result = await sut.getPresenceByUsername(username);
 
-    expect(result).toHaveLength(2);
+    expect(result.channelPresence.username).toEqual(username);
   });
 });
