@@ -7,7 +7,7 @@ import autoScrollHistory from "./autoScrollHistory";
 import "./chat.css";
 
 const ChatInputStatus = ({ message }) => {
-  return <>{message}</>;
+  return <div className="send-status">{message}</div>;
 };
 
 const formatMessage = (eventObject) => {
@@ -19,35 +19,19 @@ const formatMessage = (eventObject) => {
 
 const ChatContainer = ({ currentChannel, onChatExit }) => {
   const endOfChatLog = useRef(null);
+  const [archive, rewind] = useArchive(currentChannel);
+
   const [history, setHistory] = useState([]);
+  const [status, setStatus] = useState([]);
+  const [activity, setActivity] = useState();
 
   // Reset history on channel change
   useEffect(() => setHistory([]), [currentChannel]);
+  useEffect(() => setStatus(activity), [activity]);
 
   const [channel] = useChannel(currentChannel, (message) => {
     setHistory((prev) => [...prev.slice(-199), message]);
   });
-
-  const [activity] = useChannel(`${currentChannel}_activity`, (message) => {
-    // this sibling channel is non-persisted chatter, eg. typing indicator
-    const { data } = message;
-    const { text } = data;
-
-    console.log("activity", text);
-    switch (text) {
-      case "done":
-        setStatusMessage(null);
-        break;
-
-      default:
-        setStatusMessage("Typing ...");
-        break;
-    }
-  });
-
-  const [archive, rewind] = useArchive(currentChannel);
-
-  const [statusMessage, setStatusMessage] = React.useState(null);
 
   const sendMessage = (eventObject = null) => {
     channel.publish("message", formatMessage(eventObject));
@@ -55,9 +39,42 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
   };
 
   const sendStatus = (eventObject = null) => {
-    activity.publish("util_message", formatMessage(eventObject));
-    setStatusMessage("typing ...", eventObject);
+    channel.presence.update(formatMessage(eventObject));
+    // setStatusMessage("Typing ...");
+    // console.log({ eventObject });
   };
+
+  /* Subscribe to presence update events */
+  channel.presence.subscribe("update", function (member) {
+    const { data, clientId, connectionId } = member;
+    const { text } = data;
+
+    if (text === activity) return;
+
+    // clients on channel excluding the author as shallow copy Object
+    let clients = [];
+
+    channel.presence.get((_, members) => {
+      const typing = clientId === member.clientId;
+      clients = members.map((client) => ({ ...client, typing }));
+      // console.log(clientId, member.clientId);
+    });
+
+    switch (text) {
+      case "start":
+        console.log(text);
+        setActivity("Typing ...");
+        break;
+
+      case "done":
+        console.log(text);
+        setActivity("");
+        break;
+
+      default:
+        break;
+    }
+  });
 
   autoScrollHistory(archive, endOfChatLog);
 
@@ -78,7 +95,7 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
         <li className="end-message" ref={endOfChatLog} />
       </ul>
       <ChatInput sendMessage={sendMessage} sendStatus={sendStatus} />
-      <ChatInputStatus message={statusMessage} />
+      <ChatInputStatus message={status} />
     </section>
   );
 };

@@ -1,43 +1,50 @@
 import React from "react";
 
-let timer = null;
+let timer = -1;
 
 export const ChatInput = ({ sendMessage, sendStatus }) => {
   const [message, setMessage] = React.useState("");
-  const [statusMessage, setStatusMessage] = React.useState(null);
   const clearStatusAfter = 5 * 1000; // miliseconds
 
   React.useEffect(() => {
-    if (timer === null) {
-      sendStatus("start");
-    }
+    if (!message) return;
+    if (timer < 0) sendStatus("start");
+
+    const callback = () => {
+      sendStatus("done");
+      console.log({ timer });
+      timer = -1;
+    };
 
     clearTimeout(timer);
-    timer = setTimeout(() => {
-      setStatusMessage(null);
-      sendStatus("done");
-      timer = null;
-    }, clearStatusAfter);
-  }, [statusMessage]);
+    timer = setTimeout(callback, clearStatusAfter);
+  }, [message]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!`${message}`.trim()) return;
+
     sendMessage(message);
-    setMessage(null);
+    setMessage("");
+    clearTimeout(timer);
+    timer = -1;
+    sendStatus("done");
   };
 
-  const handleChange = ({ target }) => setMessage(target.value);
+  const handleChange = ({ target }) => setMessage(target.value || "");
 
   const handleKeydown = (e) => {
+    const passive = /^(control|arrow|shift|alt|meta|page|insert|home)/i;
+    if (passive.test(e.code)) return;
+
     switch (e.code) {
       case "Enter":
         handleSubmit(e);
         break;
 
       default:
-        // tar-pit for keystrokes
-        setStatusMessage("typing...");
+        // tarpit for keypress
+        break;
     }
   };
   return (
