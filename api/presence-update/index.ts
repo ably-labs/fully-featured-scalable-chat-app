@@ -1,5 +1,5 @@
 import "../startup";
-import { Realtime } from "ably";
+import { Types, Realtime } from "ably/promises";
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { UserService } from "../common/services/UserService";
 import { ChannelService } from "../common/services/ChannelService";
@@ -16,6 +16,12 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     req,
     async () => {
       // TODO Create Ably connection
+      const options: Types.ClientOptions = { authUrl: "/api/ably/token-request" };
+      const realtime = new Realtime.Promise(options);
+      realtime.connect();
+      const globalPresenceChannelName = "global-presence-channel";
+      const globalPresenceChannel = realtime.channels.get(globalPresenceChannelName);
+
       const data = { ...req.body } as UserPresenceMessage;
       const userService = new UserService();
       const channelService = new ChannelService();
@@ -37,7 +43,7 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
             channelId: channel.id,
             membersOnlineCount: channel.onlineCount
           };
-          // TODO: publish to global-presence channel
+          await globalPresenceChannel.publish("channel-presence", channelPresenceMessage);
         }
       });
     },
