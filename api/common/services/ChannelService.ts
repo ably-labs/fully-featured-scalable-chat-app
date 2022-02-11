@@ -23,11 +23,6 @@ export type RemoveChannelMemberRequest = {
   channelId: string;
 };
 
-export type UpdateOnlineCountRequest = {
-  channelId: string;
-  delta: number; // Either 1 or -1
-};
-
 export class ChannelService {
   private _type = "channel";
   private _repo: IMetadataRepository;
@@ -91,10 +86,7 @@ export class ChannelService {
     return channel;
   }
 
-  public async updateOnlineCount(request: UpdateOnlineCountRequest): Promise<Channel> {
-    const channel = await this._repo.getById<Channel>(this._type, request.channelId);
-    channel.onlineCount += request.delta;
-    // Can we do partial updates on the members array?
+  public async updateChannel(channel: Channel): Promise<Channel> {
     await this._repo.saveOrUpdate<Channel>(channel);
 
     return channel;

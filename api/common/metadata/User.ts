@@ -13,6 +13,7 @@ export interface IUser extends Entity {
   profileImgLargeUrl: string;
   roleName: string;
   email: string;
+  presenceStatus: PresenceStatus;
   lastOnlineTimeStampUTC: Date;
 }
 
@@ -29,6 +30,7 @@ export class User implements IUser, Entity {
   public profileImgLargeUrl: string;
   public roleName: string;
   public email: string;
+  public presenceStatus: PresenceStatus;
   public lastOnlineTimeStampUTC: Date;
 
   constructor() {

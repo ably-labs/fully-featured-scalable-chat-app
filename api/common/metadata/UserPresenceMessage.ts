@@ -2,5 +2,6 @@ import { PresenceStatus } from "./PresenceStatus";
 
 export type UserPresenceMessage = {
   userId: string;
-  presence: PresenceStatus;
+  lastOnlineTimeStampUTC: Date;
+  presenceStatus: PresenceStatus;
 };

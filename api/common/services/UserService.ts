@@ -5,6 +5,7 @@ import { getAzureProfileImgBlobByUrl } from "../dataaccess/AzureBlobStorageClien
 import { Role } from "../metadata/Role";
 import { RoleService } from "./RoleService";
 import * as md5 from "md5";
+import { PresenceStatus } from "../metadata/PresenceStatus";
 
 export type LoginMetadata = {
   username: string;
@@ -122,6 +123,17 @@ export class UserService {
       )}&s=${size}`;
     }
     return userProfileImageUrl;
+  }
+
+  public async updatePresenceStatus(userId: string, presenceStatus: PresenceStatus, lastOnlineTimeStampUTC: Date): Promise<User> {
+    const { exists, user } = await this.getUserById(userId);
+    if (exists) {
+      user.presenceStatus = presenceStatus;
+      user.lastOnlineTimeStampUTC = lastOnlineTimeStampUTC;
+      await this._repo.saveOrUpdate<User>(user);
+    }
+
+    return user;
   }
 
   private getEmailHash(email: string): string {

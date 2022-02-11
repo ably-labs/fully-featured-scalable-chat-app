@@ -10,6 +10,7 @@ export interface IChannel extends Entity {
   name: string;
   members: string[];
   description: string;
+  isDefault: boolean;
   createdBy: string;
   visibility: ChannelVisibility;
   onlineCount: number;
@@ -21,6 +22,7 @@ export class Channel implements IChannel, Entity {
   public name: string;
   public members: string[];
   public description: string;
+  public isDefault: boolean;
   public createdBy: string;
   public visibility: ChannelVisibility;
   public onlineCount: number;
@@ -36,6 +38,22 @@ export class Channel implements IChannel, Entity {
     }
 
     return Object.assign(new Channel(), json);
+  }
+
+  public isMember(userId: string): boolean {
+    return this.members.includes(userId);
+  }
+
+  public incrementOnlineCount(): number {
+    this.onlineCount += 1;
+
+    return this.onlineCount;
+  }
+
+  public decrementOnlineCount(): number {
+    this.onlineCount -= 1;
+
+    return this.onlineCount;
   }
 
   private static createId(): string {
