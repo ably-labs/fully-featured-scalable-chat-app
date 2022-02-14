@@ -47,6 +47,7 @@ export const ChatInput = ({ sendMessage, sendStatus }) => {
         break;
     }
   };
+
   return (
     <form className="send" onSubmit={handleSubmit}>
       <textarea autoFocus className="send-input" onChange={handleChange} onKeyDown={handleKeydown} value={message}></textarea>

@@ -26,8 +26,6 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
   const [activity, setActivity] = useState();
 
   // Reset history on channel change
-  useEffect(() => setHistory([]), [currentChannel]);
-  useEffect(() => setStatus(activity), [activity]);
 
   const [channel] = useChannel(currentChannel, (message) => {
     setHistory((prev) => [...prev.slice(-199), message]);
@@ -40,12 +38,9 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
 
   const sendStatus = (eventObject = null) => {
     channel.presence.update(formatMessage(eventObject));
-    // setStatusMessage("Typing ...");
-    // console.log({ eventObject });
   };
 
-  /* Subscribe to presence update events */
-  channel.presence.subscribe("update", function (member) {
+  const handlePresenceUpdate = (member) => {
     const { data, clientId, connectionId } = member;
     const { text } = data;
 
@@ -57,7 +52,7 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
     channel.presence.get((_, members) => {
       const typing = clientId === member.clientId;
       clients = members.map((client) => ({ ...client, typing }));
-      // console.log(clientId, member.clientId);
+      console.log(typing, clientId, member.clientId);
     });
 
     switch (text) {
@@ -74,7 +69,11 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
       default:
         break;
     }
-  });
+  };
+
+  useEffect(() => setHistory([]), [currentChannel]);
+  useEffect(() => setStatus(activity), [activity]);
+  useEffect(() => channel.presence.subscribe("update", handlePresenceUpdate), []);
 
   autoScrollHistory(archive, endOfChatLog);
 
