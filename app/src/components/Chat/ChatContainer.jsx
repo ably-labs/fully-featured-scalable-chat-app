@@ -37,6 +37,7 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
   };
 
   const sendStatus = (eventObject = null) => {
+    channel.presence.enter();
     channel.presence.update(formatMessage(eventObject));
   };
 
@@ -73,7 +74,7 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
 
   useEffect(() => setHistory([]), [currentChannel]);
   useEffect(() => setStatus(activity), [activity]);
-  useEffect(() => channel.presence.subscribe("update", handlePresenceUpdate), []);
+  useEffect(() => channel.presence.subscribe(handlePresenceUpdate));
 
   autoScrollHistory(archive, endOfChatLog);
 
