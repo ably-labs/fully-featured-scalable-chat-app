@@ -1,4 +1,5 @@
 import React from "react";
+import ContentEditable from "react-contenteditable";
 
 let timer = -1;
 
@@ -50,7 +51,7 @@ export const ChatInput = ({ sendMessage, sendStatus }) => {
 
   return (
     <form className="send" onSubmit={handleSubmit}>
-      <textarea autoFocus className="send-input" onChange={handleChange} onKeyDown={handleKeydown} value={message}></textarea>
+      <ContentEditable className="send-message" html={ message } onChange={handleChange} onKeyDown={handleKeydown} />
       <button className="send-button">Send</button>
     </form>
   );
