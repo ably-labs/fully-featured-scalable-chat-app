@@ -28,13 +28,15 @@ export class CosmosDbMetadataRepository implements IMetadataRepository {
     return results.resources as TEntityType[];
   }
 
-  public async saveOrUpdate<TEntityType extends Entity>(entity: TEntityType): Promise<void> {
+  public async saveOrUpdate<TEntityType extends Entity>(entity: TEntityType): Promise<TEntityType> {
     const container = await this.getContainer(entity.type);
-    const result = await container.items.upsert(entity);
+    const result = await container.items.upsert<TEntityType>(entity);
 
     if (result.statusCode !== 201) {
       throw new Error(`Error saving or updating entity ${entity.id}`);
     }
+
+    return result.resource as TEntityType;
   }
 
   public async delete<TEntityType extends Entity>(entity: TEntityType): Promise<boolean> {
