@@ -1,4 +1,5 @@
 import React from "react";
+import ContentEditable from "react-contenteditable";
 
 export const ChatInput = ({ sendMessage }) => {
   const [message, setMessage] = React.useState("");
@@ -12,22 +13,14 @@ export const ChatInput = ({ sendMessage }) => {
     setMessage("");
   };
 
+  const handleKeydown = (e) => {
+    // implimentation placeholder
+    return;
+  };
+
   return (
     <form className="send" onSubmit={handleSubmit}>
-      <textarea
-        autoFocus
-        className="send-input"
-        onChange={(e) => {
-          setMessage(e.target.value);
-        }}
-        onKeyDown={(e) => {
-          if (e.code == "Enter") {
-            e.preventDefault();
-            handleSubmit(e);
-          }
-        }}
-        value={message}
-      ></textarea>
+      <ContentEditable className="send-message" html={message} onChange={handleChange} onKeyDown={handleKeydown} />
       <button className="send-button">Send</button>
     </form>
   );
