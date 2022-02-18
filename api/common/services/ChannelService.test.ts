@@ -1,5 +1,6 @@
 import { addItemToDb, clearDbItems } from "../../test-helpers/FakeCosmosDbMetadataRepository";
-import { ChannelService } from "./ChannelService";
+import { Channel, ChannelVisibility } from "../metadata/Channel";
+import { ChannelDeletionRequest, ChannelCreationRequest, ChannelService } from "./ChannelService";
 
 describe("ChannelService", () => {
   let sut: ChannelService;
@@ -28,7 +29,6 @@ describe("ChannelService", () => {
   });
 
   it("Can retrieve all channels.", async () => {
-    const username: string = "testUser1";
     const item1 = {
       id: "123",
       name: "testChannel1",
@@ -47,7 +47,28 @@ describe("ChannelService", () => {
     expect(result.channels).toHaveLength(2);
   });
 
-  it("Can add a member.", async () => {
+  it("Can create a channel.", async () => {
+    const channelName = "testChannel1";
+    const item = {
+      id: "123",
+      name: channelName,
+      type: "Channel"
+    };
+    addItemToDb("Channel", item);
+
+    const channelRequest: ChannelCreationRequest = {
+      channelName: channelName,
+      description: "Test Channel 1 description",
+      createdBy: "testUser1",
+      visibility: ChannelVisibility.Public
+    };
+
+    const result = await sut.createChannel(channelRequest);
+
+    expect(result.name).toBe(channelRequest.channelName);
+  });
+
+  it("Can delete a channel.", async () => {
     // TODO
   });
 

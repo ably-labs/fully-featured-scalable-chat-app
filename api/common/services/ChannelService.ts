@@ -52,13 +52,19 @@ export class ChannelService {
   }
 
   public async createChannel(request: ChannelCreationRequest): Promise<Channel> {
-    const channel = Channel.fromJSON(request);
-    await this._repo.saveOrUpdate<Channel>(channel);
-    return channel;
+    const channel = Channel.fromJSON({
+      name: request.channelName,
+      description: request.description,
+      createdBy: request.createdBy,
+      visibility: request.visibility
+    });
+    return await this._repo.saveOrUpdate<Channel>(channel);
   }
 
   public async deleteChannel(request: ChannelDeletionRequest): Promise<Channel> {
-    const channel = Channel.fromJSON(request);
+    const channel = Channel.fromJSON({
+      id: request.id
+    });
     await this._repo.delete<Channel>(channel);
     return channel;
   }
