@@ -24,16 +24,15 @@ export type RemoveChannelMemberRequest = {
 };
 
 export class ChannelService {
-  private _type = "channel";
+  private _type = "Channel";
   private _repo: IMetadataRepository;
-  private _containerName: string = "channels";
 
   public constructor() {
     this._repo = new CosmosDbMetadataRepository();
   }
 
   public async getChannelByName(channelName: string): Promise<{ exists: boolean; channel?: Channel }> {
-    const channels = await this._repo.getByProperty<Channel>(this._containerName, "name", channelName);
+    const channels = await this._repo.getByProperty<Channel>(this._type, "name", channelName);
 
     if (channels.length > 0) {
       return { exists: true, channel: channels[0] };

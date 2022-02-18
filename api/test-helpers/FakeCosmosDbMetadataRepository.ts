@@ -24,6 +24,11 @@ class FakeCosmosDbMetadataRepository {
     saveOrUpdateCalls.push(entity);
     return Promise.resolve();
   }
+
+  getAll<TEntityType extends Entity>(typeName: string): Promise<TEntityType[]> {
+    const items = inMemoryDb.get(typeName) || [];
+    return items as any;
+  }
 }
 
 const mock = { CosmosDbMetadataRepository: FakeCosmosDbMetadataRepository };
