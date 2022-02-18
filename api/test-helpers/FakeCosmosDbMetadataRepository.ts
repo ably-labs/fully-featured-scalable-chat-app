@@ -25,6 +25,15 @@ class FakeCosmosDbMetadataRepository {
     return Promise.resolve();
   }
 
+  delete<TEntityType extends Entity>(entity: TEntityType): Promise<void> {
+    const index = saveOrUpdateCalls.indexOf(entity);
+    if (index > -1) {
+      saveOrUpdateCalls.splice(index, 1);
+    }
+
+    return Promise.resolve();
+  }
+
   getAll<TEntityType extends Entity>(typeName: string): Promise<TEntityType[]> {
     const items = inMemoryDb.get(typeName) || [];
     return items as any;
