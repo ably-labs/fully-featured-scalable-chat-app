@@ -7,9 +7,10 @@
   "azureFunctions.preDeployTask": "npm prune (functions)",
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "prettier.printWidth": 180,
-  "editor.codeActionsOnSave": { "source.fixAll.eslint": true }, 
-  "editor.formatOnSave": true, 
-  "eslint.alwaysShowStatus": true, 
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": true },
+  "editor.formatOnSave": true,
+  "eslint.alwaysShowStatus": true,
   "files.autoSave": "onFocusChange",
-  "cSpell.words": ["vite"]
+  "cSpell.words": ["vite"],
+  "azureFunctions.projectSubpath": "api"
 }
