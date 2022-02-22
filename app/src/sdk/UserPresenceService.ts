@@ -18,7 +18,8 @@ export class UserPresenceService {
   public setPresenceToOnline() {
     let message: UserPresenceMessage = {
       userId: this.userId,
-      presence: PresenceStatus.Online
+      lastOnlineTimeStampUTC: new Date(),
+      presenceStatus: PresenceStatus.Online
     };
     this.userChannel.publish(UserPresenceMessageName, message);
   }
@@ -26,7 +27,8 @@ export class UserPresenceService {
   public setPresenceToOffline() {
     let message: UserPresenceMessage = {
       userId: this.userId,
-      presence: PresenceStatus.Offline
+      lastOnlineTimeStampUTC: new Date(),
+      presenceStatus: PresenceStatus.Offline
     };
     this.userChannel.publish(UserPresenceMessageName, message);
   }
