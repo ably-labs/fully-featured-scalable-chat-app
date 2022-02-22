@@ -14,15 +14,20 @@ export function clearDbItems() {
 }
 
 class FakeCosmosDbMetadataRepository {
+  getById<TEntityType extends Entity>(typeName: string, id: string): Promise<TEntityType> {
+    const items = inMemoryDb.get(typeName) || [];
+    const itemsToReturn = items?.filter((item) => item.id === id);
+    return Promise.resolve(itemsToReturn[0] as TEntityType);
+  }
   getByProperty<TEntityType extends Entity>(typeName: string, propertyName: string, value: any): Promise<TEntityType[]> {
     const items = inMemoryDb.get(typeName) || [];
     const itemsToReturn = items?.filter((item) => item[propertyName] === value);
     return itemsToReturn as any;
   }
 
-  saveOrUpdate<TEntityType extends Entity>(entity: TEntityType): Promise<void> {
+  saveOrUpdate<TEntityType extends Entity>(entity: TEntityType): Promise<TEntityType> {
     saveOrUpdateCalls.push(entity);
-    return Promise.resolve();
+    return Promise.resolve(entity);
   }
 
   delete<TEntityType extends Entity>(entity: TEntityType): Promise<void> {

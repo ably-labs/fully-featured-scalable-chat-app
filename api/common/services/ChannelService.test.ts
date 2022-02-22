@@ -1,6 +1,12 @@
 import { addItemToDb, clearDbItems } from "../../test-helpers/FakeCosmosDbMetadataRepository";
 import { Channel, ChannelVisibility } from "../metadata/Channel";
-import { ChannelDeletionRequest, ChannelCreationRequest, ChannelService } from "./ChannelService";
+import {
+  ChannelDeletionRequest,
+  ChannelCreationRequest,
+  ChannelService,
+  RemoveChannelMemberRequest,
+  AddChannelMemberRequest
+} from "./ChannelService";
 
 describe("ChannelService", () => {
   let sut: ChannelService;
@@ -69,14 +75,62 @@ describe("ChannelService", () => {
   });
 
   it("Can delete a channel.", async () => {
-    // TODO
+    const channelId = "123";
+    const item = {
+      id: channelId,
+      name: "testChannel1",
+      type: "Channel"
+    };
+    addItemToDb("Channel", item);
+
+    const channelRequest: ChannelDeletionRequest = {
+      id: channelId
+    };
+
+    const result = await sut.deleteChannel(channelRequest);
+
+    expect(result.id).toBe(channelId);
   });
 
   it("Can remove a member.", async () => {
-    // TODO
+    const channelId = "channel123";
+    const userId = "user123";
+    const item = {
+      id: channelId,
+      name: "testChannel1",
+      type: "Channel",
+      members: ["user456", userId]
+    };
+    addItemToDb("Channel", item);
+
+    const channelRequest: RemoveChannelMemberRequest = {
+      userId: userId,
+      channelId: channelId
+    };
+
+    const result = await sut.removeMember(channelRequest);
+
+    expect(result.members).not.toContain(userId);
   });
 
-  it("Can update online count.", async () => {
-    // TODO
+  it("Can add a member.", async () => {
+    const channelId = "channel123";
+    const userId = "user123";
+    const item = {
+      id: channelId,
+      name: "testChannel1",
+      type: "Channel",
+      members: ["user456"]
+    };
+    addItemToDb("Channel", item);
+
+    const channelRequest: AddChannelMemberRequest = {
+      userId: userId,
+      channelId: channelId
+    };
+
+    const result = await sut.addMember(channelRequest);
+
+    expect(result.members).toContain(userId);
   });
 });

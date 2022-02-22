@@ -83,8 +83,7 @@ export class ChannelService {
   public async removeMember(request: RemoveChannelMemberRequest): Promise<Channel> {
     const channel = await this._repo.getById<Channel>(this._type, request.channelId);
     if (channel.members.includes(request.userId)) {
-      channel.members.slice(channel.members.indexOf(request.userId), 1);
-      // Can we do partial updates on the members array?
+      channel.members.splice(channel.members.indexOf(request.userId), 1);
       await this._repo.saveOrUpdate<Channel>(channel);
     }
 
