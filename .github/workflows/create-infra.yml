@@ -1,4 +1,4 @@
-name: Create Ably App
+name: Create Infra
 
 on: 
   push:
@@ -45,7 +45,7 @@ jobs:
               --name ${{ env.RESOURCE_GROUP_NAME }} \
               --location ${{ env.LOCATION }} \
       - name: Create Storage Account
-        uses: azure/CLI@v1
+        uses: azure/CLI@v1.0.6
         with:
           inlineScript: |
             az storage account create \
@@ -56,7 +56,7 @@ jobs:
               --kind StorageV1 \
               --access-tier Hot
       - name: Create Function App
-        uses: azure/CLI@CLI@v1.0.6
+        uses: azure/CLI@v1.0.6
         with:
           inlineScript: |
             az functionapp create \
