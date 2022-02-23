@@ -53,7 +53,7 @@ jobs:
               --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
               --location ${{ env.LOCATION }} \
               --sku Standard_LRS \
-              --kind StorageV1 \
+              --kind Storage \
               --access-tier Hot
       - name: Create Function App
         uses: azure/CLI@v1.0.6
