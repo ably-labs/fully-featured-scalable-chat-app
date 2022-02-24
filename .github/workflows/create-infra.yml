@@ -31,12 +31,6 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CLI_CREDENTIALS }}
-      - name: Update SWA AppSettings
-        uses: azure/CLI@v1.0.6
-        with:
-          azcliversion: 2.32.0
-          inlineScript: |
-            az staticwebapp appsettings set --name ffschatapp --setting-names "ABLY_API_KEY=${{ steps.ablyapp.outputs.api-key-key }}"
       - name: Create Resource Group
         uses: azure/CLI@v1.0.6
         with:
@@ -44,6 +38,12 @@ jobs:
             az group create \
               --name ${{ env.RESOURCE_GROUP_NAME }} \
               --location ${{ env.LOCATION }} \
+      - name: Update SWA AppSettings
+        uses: azure/CLI@v1.0.6
+        with:
+          azcliversion: 2.32.0
+          inlineScript: |
+            az staticwebapp appsettings set --name ffschatapp --setting-names "ABLY_API_KEY=${{ steps.ablyapp.outputs.api-key-key }}"
       - name: Create Storage Account
         uses: azure/CLI@v1.0.6
         with:
