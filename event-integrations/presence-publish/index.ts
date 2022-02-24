@@ -3,7 +3,7 @@ import { Types, Realtime } from "ably/promises";
 import { ChannelPresenceMessage } from "../common/metadata/ChannelPresenceMessage";
 import { ChannelService } from "../common/services/ChannelService";
 
-// This function is triggered on an interval and publishes channel presence for all channels.
+// This function is triggered on an interval and publishes a custom channel presence message for all channels.
 const timerTrigger: AzureFunction = async function (context: Context, myTimer: any): Promise<void> {
   const options: Types.ClientOptions = { authUrl: "/api/ably/token-request" };
   const realtime = new Realtime.Promise(options);
