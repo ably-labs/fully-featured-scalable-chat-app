@@ -12,6 +12,7 @@
   },
   "description": "",
   "dependencies": {
+    "@azure/cosmos": "^3.15.1",
     "@azure/storage-blob": "^12.8.0",
     "ably": "^1.2.14",
     "cheerio": "^1.0.0-rc.10",
