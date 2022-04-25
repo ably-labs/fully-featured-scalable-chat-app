@@ -10,7 +10,8 @@ const ChannelList = ({ channels, onChannelSelected }) => {
     onChannelSelected(channel.name);
   };
 
-  const channelListItems = channels.map((channel) => (
+  const publicChannels = channels.filter((el) => el.type === "public");
+  const channelListItems = publicChannels.map((channel) => (
     <li key={channel.name}>
       <Link
         to={`/channel/${channel.name}`}
