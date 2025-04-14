@@ -1,5 +1,6 @@
 import * as bcrypt from "bcrypt";
 import { Entity } from "../dataaccess/IMetadataRepository";
+import { PresenceStatus } from "./PresenceStatus";
 
 export interface IUser extends Entity {
   id: string;
@@ -12,6 +13,8 @@ export interface IUser extends Entity {
   profileImgLargeUrl: string;
   roleName: string;
   email: string;
+  presenceStatus: PresenceStatus;
+  lastOnlineTimeStampUTC: Date;
 }
 
 export class User implements IUser, Entity {
@@ -27,6 +30,8 @@ export class User implements IUser, Entity {
   public profileImgLargeUrl: string;
   public roleName: string;
   public email: string;
+  public presenceStatus: PresenceStatus;
+  public lastOnlineTimeStampUTC: Date;
 
   constructor() {
     this.type = "User";
@@ -56,6 +61,12 @@ export class User implements IUser, Entity {
     }
 
     return Object.assign(new User(), json);
+  }
+
+  public getOnlineStatus(currentDateTime?: Date): PresenceStatus {
+    const threshold = 1000 * 60 * 5; // 5 minutes
+    const current = currentDateTime !== undefined ? currentDateTime.valueOf() : Date.now();
+    return current - this.lastOnlineTimeStampUTC.valueOf() < threshold ? PresenceStatus.Online : PresenceStatus.Offline;
   }
 
   private static createId(): string {
