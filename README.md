@@ -1,6 +1,9 @@
 # FULLY FEATURED SCALABLE CHAT APP
 
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://github.com/ably-labs/fully-featured-scalable-chat-app)
+[![Project Status: Archived.](https://www.repostatus.org/badges/latest/unsupported.svg)](https://github.com/ably-labs/fully-featured-scalable-chat-app)
+
+> [!IMPORTANT]
+> This repository uses the Ably Pub/Sub approach for building chat apps. We now offer Ably Chat—a new family of SDKs and APIs that streamline development and manage realtime chat complexity for you. For a modern, easier way to create chat experiences, visit our [Ably Chat documentation](https://ably.com/docs/chat).
 
 The goal is to build a chat app with a complete feature set using [Ably Realtime](https://ably.com/) in combination with other services to store, manipulate and share data.
 
