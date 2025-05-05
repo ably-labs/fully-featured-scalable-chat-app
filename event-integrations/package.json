@@ -12,7 +12,7 @@
   },
   "description": "",
   "dependencies": {
-    "@azure/storage-blob": "^12.8.0",
+    "@azure/storage-blob": "^12.13.0",
     "ably": "^1.2.14",
     "cheerio": "^1.0.0-rc.10",
     "dotenv": "^10.0.0",
