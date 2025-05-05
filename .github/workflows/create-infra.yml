@@ -1,10 +1,16 @@
-name: Create Ably App
+name: Create Infra
 
 on: 
   push:
     paths:
       - '.github/workflows/create-infra.yml'
   workflow_dispatch:
+
+env:
+  FUNCTION_APP_NAME: FFSFunctionsApp
+  LOCATION: westeurope
+  RESOURCE_GROUP_NAME: FFSChat
+  STORAGE_ACCOUNT_NAME: storageaccountffsch90c8
 
 jobs:
   create_infra:
@@ -25,9 +31,39 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CLI_CREDENTIALS }}
-      - name: Azure CLI script
+      - name: Create Resource Group
+        uses: azure/CLI@v1.0.6
+        with:
+          inlineScript: |
+            az group create \
+              --name ${{ env.RESOURCE_GROUP_NAME }} \
+              --location ${{ env.LOCATION }} \
+      - name: Update SWA AppSettings
         uses: azure/CLI@v1.0.6
         with:
           azcliversion: 2.32.0
           inlineScript: |
             az staticwebapp appsettings set --name ffschatapp --setting-names "ABLY_API_KEY=${{ steps.ablyapp.outputs.api-key-key }}"
+      - name: Create Storage Account
+        uses: azure/CLI@v1.0.6
+        with:
+          inlineScript: |
+            az storage account create \
+              --name ${{ env.STORAGE_ACCOUNT_NAME }} \
+              --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
+              --location ${{ env.LOCATION }} \
+              --sku Standard_LRS \
+              --kind Storage \
+      - name: Create Function App
+        uses: azure/CLI@v1.0.6
+        with:
+          inlineScript: |
+            az functionapp create \
+              --name ${{ env.FUNCTION_APP_NAME }} \
+              --resource-group ${{ env.RESOURCE_GROUP_NAME }} \
+              --consumption-plan-location ${{ env.LOCATION }} \
+              --storage-account ${{ env.STORAGE_ACCOUNT_NAME }} \
+              --runtime node \
+              --runtime-version 16 \
+              --os-type Windows \
+              --functions-version 4
