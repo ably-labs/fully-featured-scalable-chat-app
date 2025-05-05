@@ -7,22 +7,31 @@
 
 .send {
   display: flex;
-  margin: 0 1rem 1rem;
+  flex-direction: row;
+  margin: 0 0.5rem;
+  font-size: 1rem;
 }
 
-.send-input {
+.send-status {
+  color: #777777;
+  font-size: 0.8rem;
+  height: 1.5rem;
+  margin: 0.25rem 0.5rem 0;
+}
+
+.send-input,
+.send-message {
   width: 100%;
   padding: var(--spacer);
-  font-size: 1rem;
   font-family: inherit;
+  border: 1px solid black;
+  border-radius: 0;
 }
-
 .send-button {
-  padding: 1rem 2rem;
+  padding: 0.5rem 1rem;
   border: 0;
-  font-family: inherit;
-  font-size: 1rem;
   font-weight: bold;
+  font-family: inherit;
   background-color: var(--primary);
   color: var(--primary-text);
   cursor: pointer;

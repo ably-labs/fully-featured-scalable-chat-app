@@ -6,23 +6,75 @@ import useArchive from "./../../hooks/useArchive";
 import autoScrollHistory from "./autoScrollHistory";
 import "./chat.css";
 
+const ChatInputStatus = ({ message }) => {
+  return <div className="send-status">{message}</div>;
+};
+
+const formatMessage = (eventObject) => {
+  // coerse String to Object
+  return typeof eventObject === "string" //
+    ? { text: `${eventObject || ""}`.trim() }
+    : eventObject;
+};
+
 const ChatContainer = ({ currentChannel, onChatExit }) => {
   const endOfChatLog = useRef(null);
-  const [history, setHistory] = useState([]);
+  const [archive, rewind] = useArchive(currentChannel);
 
-  useEffect(() => {
-    setHistory([]); // Reset history on channel change
-  }, [currentChannel]);
+  const [history, setHistory] = useState([]);
+  const [status, setStatus] = useState([]);
+  const [activity, setActivity] = useState();
+
+  // Reset history on channel change
 
   const [channel] = useChannel(currentChannel, (message) => {
     setHistory((prev) => [...prev.slice(-199), message]);
   });
 
-  const [archive, rewind] = useArchive(currentChannel);
-
-  const sendMessage = (messageText) => {
-    channel.publish("message", { text: messageText });
+  const sendMessage = (eventObject = null) => {
+    channel.publish("message", formatMessage(eventObject));
+    setStatusMessage(null);
   };
+
+  const sendStatus = (eventObject = null) => {
+    channel.presence.enter();
+    channel.presence.update(formatMessage(eventObject));
+  };
+
+  const handlePresenceUpdate = (member) => {
+    const { data, clientId, connectionId } = member;
+    const { text } = data;
+
+    if (text === activity) return;
+
+    // clients on channel excluding the author as shallow copy Object
+    let clients = [];
+
+    channel.presence.get((_, members) => {
+      const typing = clientId === member.clientId;
+      clients = members.map((client) => ({ ...client, typing }));
+      console.log(typing, clientId, member.clientId);
+    });
+
+    switch (text) {
+      case "start":
+        console.log(text);
+        setActivity("Typing ...");
+        break;
+
+      case "done":
+        console.log(text);
+        setActivity("");
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => setHistory([]), [currentChannel]);
+  useEffect(() => setStatus(activity), [activity]);
+  useEffect(() => channel.presence.subscribe(handlePresenceUpdate));
 
   autoScrollHistory(archive, endOfChatLog);
 
@@ -42,8 +94,9 @@ const ChatContainer = ({ currentChannel, onChatExit }) => {
         <ChatList history={history} />
         <li className="end-message" ref={endOfChatLog} />
       </ul>
-      <ChatInput sendMessage={sendMessage} />
-    </section >
+      <ChatInput sendMessage={sendMessage} sendStatus={sendStatus} />
+      <ChatInputStatus message={status} />
+    </section>
   );
 };
 
